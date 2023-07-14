@@ -1,8 +1,6 @@
 # Create parent npm project
 This project will hold the scripts needed for Render to build and run both the server and client apps
 `npm init -y`
-# Test workflow
-Remove this later - Mike E
 # Create server npm project and node skeleton code.
 `mkdir server && cd server && npm init -y`
 create basic express server:
