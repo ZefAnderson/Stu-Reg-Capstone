@@ -1,6 +1,8 @@
 # Create parent npm project
 This project will hold the scripts needed for Render to build and run both the server and client apps
 `npm init -y`
+# Test workflow
+Remove this later - Mike E
 # Create server npm project and node skeleton code.
 `mkdir server && cd server && npm init -y`
 create basic express server:
@@ -38,7 +40,7 @@ server: {
 cd server && npm start
 cd client && npm run dev
 ```
-Open your browser and navigate to localhost:port  
+Open your browser and navigate to localhost:port
 You should see the Vite and React logos
 # Use fetch API in App.jsx to make a request to server
 ```
