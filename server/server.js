@@ -7,7 +7,7 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
 
 app.get("/api", (req, res) => {
-  res.json({ message: "Hello there from /api on express server!" })
+  res.json({ message: "Hello there!" })
 })
 
 app.listen(PORT, () => {
