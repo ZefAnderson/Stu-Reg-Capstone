@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-// import { HomePage } from './Pages/HomePage';
-// import {Routes, Route } from 'react-router-dom';
-// import { AdminPage } from './Pages/AdminPage';
-// import { CoursesPage }  from './Pages/CoursesPage';
-// import { RegistrationPage } from './Pages/RegistrationPage';
-// import { UserProfilePage } from './Pages/UserProfilePage';
+import {Routes, Route } from 'react-router-dom';
+import { HomePage } from './Pages/HomePage';
+import { AdminPage } from './Pages/AdminPage';
+import { CoursesPage }  from './Pages/CoursesPage';
+import { RegistrationPage } from './Pages/RegistrationPage';
+import { UserProfilePage } from './Pages/UserProfilePage';
 import React from 'react';
 import ReactLoading from 'react-loading';
 import './App.css'
@@ -21,7 +21,6 @@ export default function App() {
   }, []);
   
   return (
-    <RegistrationContext.Provider value={registration}>
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='admin' element={<AdminPage />} />
@@ -29,6 +28,5 @@ export default function App() {
         <Route path='registration' element={<RegistrationPage />} />
         <Route path='userprofile' element={<UserProfilePage />} />
       </Routes>
-    </RegistrationContext.Provider>
   );
 };
