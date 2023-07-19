@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { AdminPage } from './Pages/AdminPage';
-import { CoursesPage }  from './Pages/CoursesPage';
-import { RegistrationPage } from './Pages/RegistrationPage';
-import { UserProfilePage } from './Pages/UserProfilePage';
-import './App.css'
+// import { AdminPage } from './Pages/AdminPage';
+// import { CoursesPage }  from './Pages/CoursesPage';
+// import { RegistrationPage } from './Pages/RegistrationPage';
+// import { UserProfilePage } from './Pages/UserProfilePage';
+// import './App.css'
 
 function App() {
   const [count, setCount] = useState(0);
