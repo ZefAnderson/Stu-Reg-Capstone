@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react'
-// import { AdminPage } from './Pages/AdminPage';
-// import { CoursesPage }  from './Pages/CoursesPage';
-// import { RegistrationPage } from './Pages/RegistrationPage';
-// import { UserProfilePage } from './Pages/UserProfilePage';
-// import './App.css'
+import {Routes, Route } from 'react-router-dom';
+import { HomePage } from './Pages/HomePage';
+import { AdminPage } from './Pages/AdminPage';
+import { CoursesPage }  from './Pages/CoursesPage';
+import { RegistrationPage } from './Pages/RegistrationPage';
+import { UserProfilePage } from './Pages/UserProfilePage';
+import React from 'react';
+import ReactLoading from 'react-loading';
+import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0);
+export default function App() {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState([]);
+  const [error, setError] = useState(true);
 
   useEffect(() => {
     fetch("/api")
@@ -16,19 +21,12 @@ function App() {
   }, []);
   
   return (
-    <>
-      <div>
-      </div>
-      <h1>Log in or create a new user</h1>
-      <button>
-          Create New User
-      </button>
-      <div className="card">
-        <p>
-          <h1>{!data ? "Loading..." : data}</h1>
-        </p>
-      </div>
-    </>
-  )
-}
-export default App
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='admin' element={<AdminPage />} />
+        <Route path='courses' element={<CoursesPage />} />
+        <Route path='registration' element={<RegistrationPage />} />
+        <Route path='userprofile' element={<UserProfilePage />} />
+      </Routes>
+  );
+};
