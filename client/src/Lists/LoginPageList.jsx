@@ -6,7 +6,7 @@ export default function LoginPageList() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('/api', {
+        fetch('/api/login', {
             method: 'POST',
             body: JSON.stringify({ username: username, password: password }),
             headers: {
