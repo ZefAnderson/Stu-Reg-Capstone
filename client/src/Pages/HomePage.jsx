@@ -8,13 +8,13 @@ export function HomePage() {
           .then((res) => res.json())
           .then((data) => setData(data.message));
       }, []);
-    
+
     return (
         <div>
             <header>
                 Login
             </header>
-            <HomePageList />
+            <LoginPageList />
         </div>
     )
 }
