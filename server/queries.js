@@ -1,14 +1,14 @@
 const { Pool } = require('pg');
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: process.env.DATABASE_URL
 });
 
-pool.connect();
 
-const addUser = (req, res) => {
+module.exports = {
+    addUser: (req, res) => {
     const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
     const values = [
-        req.body.username, req.body.email, req.body.hash, req.body.isadmin, req.body.firstname, req.body.lastname, req.body.telephone, req.body.address, req.body.createdate
+        req.body.username, req.body.email, req.body.hash, req.body.isadmin, req.body.firstname, req.body.lastname, req.body.telephone, req.body.address, Date.now()
     ]
     pool.query(text, values, (err, res) => {
         if (err) {
@@ -17,9 +17,9 @@ const addUser = (req, res) => {
             console.log(res.rows[0])
         }
     });
-};
+    },
 
-const updateUser = (req, res) => {
+    updateUser: (req, res) => {
     let username  = req.body.username;
     let firstname = req.body.firstName;
     pool.query('update user set first_name = $1 where username = $2 returning *', 
@@ -30,9 +30,9 @@ const updateUser = (req, res) => {
         }
         res.status(200).json(results.rows);
     })
-}
+    },
 
-const getCourse = (req, res) => {
+    getCourse: (req, res) => {
     console.log(`db getCourse`);
     pool.query('select courseid', (err, results) => {
         if (err) {
@@ -40,6 +40,5 @@ const getCourse = (req, res) => {
         }
         res.status(200).json(results.rows)
     })
+    }
 }
-
-module.exports = {addUser, updateUser, getCourse};
