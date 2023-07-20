@@ -8,7 +8,7 @@ module.exports = {
     addUser: (req, res) => {
     const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
     const values = [
-        req.body.username, req.body.email, req.body.hash, req.body.isadmin, req.body.firstname, req.body.lastname, req.body.telephone, req.body.address, Date.now()
+        req.body.username, req.body.email, req.body.password, false, req.body.fname, req.body.lname, req.body.phone, req.body.address, Date.now()
     ]
     pool.query(text, values, (err, res) => {
         if (err) {
