@@ -5,6 +5,7 @@ const app = express();
 const query = require("./queries")
 
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
+app.use(express.json());
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello there!" })

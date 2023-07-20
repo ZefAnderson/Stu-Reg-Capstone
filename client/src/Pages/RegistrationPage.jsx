@@ -36,7 +36,7 @@ export function RegistrationPage() {
                 <br />
                 <label>Email: 
                     <input 
-                        type="text" 
+                        type="email" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
@@ -68,7 +68,8 @@ export function RegistrationPage() {
                 <br />
                 <label>Phone Number: 
                     <input 
-                        type="number" 
+                        type="tel"
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
@@ -81,8 +82,9 @@ export function RegistrationPage() {
                         onChange={(e) => setAddress(e.target.value)}
                     />
                 </label>
+                <br />
+                <button type="submit">Register</button>
             </form>
-            <button type="submit">Register</button>
         </div>
     )
 }
