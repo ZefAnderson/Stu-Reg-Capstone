@@ -1,4 +1,3 @@
-import CoursesPageList from "../Lists/RegistrationPageList"
 
 export function CoursesPage() {
     return (
@@ -6,7 +5,6 @@ export function CoursesPage() {
             <header>
                 Courses
             </header>
-            <CoursesPageList />
         </div>
     )
 }

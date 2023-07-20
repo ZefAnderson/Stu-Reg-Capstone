@@ -1,4 +1,3 @@
-import AdminPageList from "../Lists/RegistrationPageList"
 
 export function AdminPage() {
     return (
@@ -6,7 +5,6 @@ export function AdminPage() {
             <header>
                 Admin Page
             </header>
-            <AdminPageList />
         </div>
     )
 }

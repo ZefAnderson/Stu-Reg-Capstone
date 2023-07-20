@@ -10,15 +10,8 @@ import ReactLoading from 'react-loading';
 import './App.css'
 
 export default function App() {
-  const [data, setData] = useState(null);
   const [loading, setLoading] = useState([]);
   const [error, setError] = useState(true);
-
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
   
   return (
       <Routes>

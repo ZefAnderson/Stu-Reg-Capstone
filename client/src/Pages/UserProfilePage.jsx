@@ -1,4 +1,3 @@
-import UserProfilePageList from "../Lists/RegistrationPageList"
 
 export function UserProfilePage() {
     return (
@@ -6,7 +5,6 @@ export function UserProfilePage() {
             <header>
                 User Profile Page
             </header>
-            <UserProfilePageList />
         </div>
     )
 }
