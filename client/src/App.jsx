@@ -12,7 +12,7 @@ import './App.css'
 export default function App() {
   const [loading, setLoading] = useState([]);
   const [error, setError] = useState(true);
-  
+
   return (
       <Routes>
         <Route path='/' element={<HomePage />} />

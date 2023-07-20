@@ -1,20 +1,20 @@
-// import { useState, useEffect } from "react";
-import LoginPageList from "../Lists/LoginPageList"
-
 export function HomePage() {
-    const [data, setData] = useState(null);
-    useEffect(() => {
-        fetch("/api")
-          .then((res) => res.json())
-          .then((data) => setData(data.message));
-      }, []);
-
     return (
         <div>
             <header>
                 Login
             </header>
-            <LoginPageList />
+            <form>
+                <label>Username:</label>
+                <input type="text" id="username"></input><br />
+                <label>Password:</label>
+                <input type="password" id="password"></input><br />
+                <button type="submit">Login</button>
+                <button type="button" onClick={() => {
+                    window.location.href = '/registration';
+                }} >Register a new User
+                </button>
+            </form>
         </div>
     )
 }
