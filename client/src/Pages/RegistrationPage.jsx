@@ -20,8 +20,6 @@ export function RegistrationPage() {
                 <input type="text" id="email"></input><br></br>
                 <label for="password">Password: </label>
                 <input type="text" id="password"></input><br></br>
-                <label for="admin">Admin? </label>
-                <input type="checkbox" id="admin"></input><br></br>
                 <label for="fname">First Name: </label>
                 <input type="text" id="fname"></input><br></br>
                 <label for="lname">Last Name: </label>

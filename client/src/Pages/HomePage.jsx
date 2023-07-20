@@ -1,20 +1,44 @@
-// import { useState, useEffect } from "react";
-import LoginPageList from "../Lists/LoginPageList"
-
+import { useState, useEffect } from "react";
 export function HomePage() {
-    const [data, setData] = useState(null);
-    useEffect(() => {
-        fetch("/api")
-          .then((res) => res.json())
-          .then((data) => setData(data.message));
-      }, []);
-    
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch('/api/login', {
+            method: 'POST',
+            body: JSON.stringify({ username: username, password: password }),
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+    }
+
     return (
         <div>
             <header>
                 Login
             </header>
-            <HomePageList />
+            <form onSubmit={handleSubmit}>
+                <label>Username:
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Password:
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </label>
+                <br />
+                <button type='submit'>Login</button>
+            </form>
+            <button type='submit'>Register New User</button>
         </div>
     )
 }
