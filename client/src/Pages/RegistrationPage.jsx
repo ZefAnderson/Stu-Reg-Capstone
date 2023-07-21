@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 export function RegistrationPage() {
     const [username, setUsername] = useState('');
@@ -68,8 +69,7 @@ export function RegistrationPage() {
                 <br />
                 <label>Phone Number: 
                     <input 
-                        type="tel"
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+                        type="text"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
@@ -85,6 +85,9 @@ export function RegistrationPage() {
                 <br />
                 <button type="submit">Register</button>
             </form>
+            <nav>
+                <NavLink to='/'>Return to Login Page</NavLink>
+            </nav>
         </div>
     )
 }
