@@ -1,37 +1,99 @@
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import RegistrationModal from "../Modals/registrationModal";
 
 export function RegistrationPage() {
-    const [data, setData] = useState(null);
-    useEffect(() => {
-        fetch("/api/registration")
-          .then((res) => res.json())
-          .then((data) => setData(data.message));
-      }, []);
+    const [modalData, setModalData] = useState(null);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [fname, setFname] = useState('');
+    const [lname, setLname] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch('/api/registration', {
+            method: 'POST',
+            body: JSON.stringify({ username: username, email: email, password: password, fname: fname, lname: lname, phone: phone, address: address }),
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+        setModalData(data);
+    }
 
     return (
         <div>
             <header>
                 Register New User
             </header>
-            <form>
-                <label for="username">Username: </label>
-                <input type="text" id="username"></input><br></br>
-                <label for="email">Email: </label>
-                <input type="text" id="email"></input><br></br>
-                <label for="password">Password: </label>
-                <input type="text" id="password"></input><br></br>
-                <label for="fname">First Name: </label>
-                <input type="text" id="fname"></input><br></br>
-                <label for="lname">Last Name: </label>
-                <input type="text" id="lname"></input><br></br>
-                <label for="phone">Phone Number: </label>
-                <input type="number" id="phone"></input><br></br>
-                <label for="address">Address: </label>
-                <input type="text" id="address"></input>
+            <form onSubmit={handleSubmit}>
+                <label>Username: 
+                    <input 
+                        type="text" 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Email: 
+                    <input 
+                        type="email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Password: 
+                    <input 
+                        type="password" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>First Name: 
+                    <input 
+                        type="text" 
+                        value={fname}
+                        onChange={(e) => setFname(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Last Name: 
+                    <input 
+                        type="text" 
+                        value={lname}
+                        onChange={(e) => setLname(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Phone Number: 
+                    <input 
+                        type="text"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Address: 
+                    <input 
+                        type="text" 
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                    />
+                </label>
+                <br />
+                <button type="submit">Register</button>
             </form>
-            <button>
-                Submit
-            </button>
+            {modalData &&
+                <RegistrationModal onClose={() => setModalData(null)} />
+            }
+            <nav>
+                <NavLink to='/'>Return to Login Page</NavLink>
+            </nav>
         </div>
     )
 }
