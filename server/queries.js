@@ -8,8 +8,6 @@ const pool = new Pool({
 pool.connect();
 
 const addUser = (req, res) => {
-    console.log(pool);
-    console.log("dburl ", process.env.DATABASE_URL);
     const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
 
     const values = [

@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import RegistrationModal from "../Modals/registrationModal";
 
 export function RegistrationPage() {
+    const [modalData, setModalData] = useState(null);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,7 +20,8 @@ export function RegistrationPage() {
             headers: {
                 'Content-type': 'application/json'
             }
-        })
+        });
+        setModalData(data);
     }
 
     return (
@@ -85,6 +88,9 @@ export function RegistrationPage() {
                 <br />
                 <button type="submit">Register</button>
             </form>
+            {modalData &&
+                <RegistrationModal onClose={() => setModalData(null)} />
+            }
             <nav>
                 <NavLink to='/'>Return to Login Page</NavLink>
             </nav>
