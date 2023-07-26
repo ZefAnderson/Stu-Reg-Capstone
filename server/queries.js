@@ -44,6 +44,20 @@ const addUser = (req, res) => {
     });
 }
 
+const getUser = (req, res) => {
+    const text = `select * from users where username = '$1'`;
+    const value = req.body.username;
+
+    pool.query(text, value, (err, results) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while adding the user.' });
+        } else {
+        res.status(200).json(results.rows)
+        }
+    });
+};
+
 const updateUser = (req, res) => {
     let username = req.body.username;
     let firstname = req.body.firstName;
@@ -71,9 +85,11 @@ const displayCourses = (req, res) => {
     console.log('display courses');
     pool.query('select * from course', (err, results) => {
         if (err) {
-            throw error;
-        }
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while adding the user.' });
+        } else {
         res.status(200).json(results.rows)
+        }
     })
 }
 

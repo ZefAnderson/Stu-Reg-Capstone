@@ -19,7 +19,7 @@ export default function App() {
         <Route path='admin' element={<AdminPage />} />
         <Route path='courses' element={<CoursesPage />} />
         <Route path='registration' element={<RegistrationPage />} />
-        <Route path='userprofile' element={<UserProfilePage />} />
+        <Route path='userprofilepage' element={<UserProfilePage />} />
       </Routes>
   );
 };
