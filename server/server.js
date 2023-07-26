@@ -12,11 +12,9 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello there!" })
 })
 
-app.post("/api/login", (req, res) => {
-  res.json({ message: "Login endpoint says Hello there!" })
-})
+app.post("/api/login", query.login);
 
-app.post("/api/registration", query.addUser); 
+app.post("/api/registration", query.addUser);
 
 app.get("/api/courses", query.displayCourses);
 

@@ -3,7 +3,7 @@ export function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         fetch('/api/login', {
             method: 'POST',
@@ -11,7 +11,8 @@ export function LoginPage() {
             headers: {
                 'Content-type': 'application/json'
             }
-        })
+        }).then(response => response.json())
+        .then(data => console.log(data))
     }
 
     return (
@@ -20,16 +21,28 @@ export function LoginPage() {
                 Login
             </header>
             <form>
-                <label>Username:</label>
-                <input type="text" id="username"></input><br />
-                <label>Password:</label>
-                <input type="password" id="password"></input><br />
-                <button type="submit">Login</button>
+                <label>Username:
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <br />
+                </label>
+                <label>Password:
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <br />
+                </label>
+                <button type="submit" onClick={handleLogin}>Login</button>
                 <button type="button" onClick={() => {
                     window.location.href = '/registration';
                 }} >Register a new User
                 </button>
             </form>
-        </div>
+        </div >
     )
 }
