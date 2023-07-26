@@ -7,6 +7,22 @@ const pool = new Pool({
 
 pool.connect();
 
+const login = (req, res) => {
+    const queryStr = `select * from users where username = '${req.body.username}'`
+
+    pool.query(queryStr, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'A server error occurred while logging in.' });
+        } else {
+            if (dbRes.rows[0].hash === req.body.password)
+            {
+                res.status(201).json(dbRes.rows[0]);
+            }
+        }
+    });
+}
+
 const addUser = (req, res) => {
     const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
 
@@ -25,16 +41,16 @@ const addUser = (req, res) => {
 }
 
 const updateUser = (req, res) => {
-    let username  = req.body.username;
+    let username = req.body.username;
     let firstname = req.body.firstName;
-    pool.query('update user set first_name = $1 where username = $2 returning *', 
-    [firstname, username], 
-    (error, results) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).json(results.rows);
-    })
+    pool.query('update user set first_name = $1 where username = $2 returning *',
+        [firstname, username],
+        (error, results) => {
+            if (error) {
+                throw error;
+            }
+            res.status(200).json(results.rows);
+        })
 }
 
 const getCourse = (req, res) => {
@@ -47,4 +63,4 @@ const getCourse = (req, res) => {
     })
 }
 
-module.exports = {addUser, getCourse, updateUser}
+module.exports = { login, addUser, getCourse, updateUser }
