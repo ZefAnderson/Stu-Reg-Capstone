@@ -47,4 +47,14 @@ const getCourse = (req, res) => {
     })
 }
 
-module.exports = {addUser, getCourse, updateUser}
+const displayCourses = (req, res) => {
+    console.log('display courses');
+    pool.query('select * from course', (err, results) => {
+        if (err) {
+            throw error;
+        }
+        res.status(200).json(results.rows)
+    })
+}
+
+module.exports = {addUser, getCourse, displayCourses, updateUser}

@@ -18,6 +18,8 @@ app.post("/api/login", (req, res) => {
 
 app.post("/api/registration", query.addUser); 
 
+app.get("/api/courses", query.displayCourses);
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
