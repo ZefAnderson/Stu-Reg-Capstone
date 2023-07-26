@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import {Routes, Route } from 'react-router-dom';
-import { HomePage } from './Pages/HomePage';
+import { LoginPage } from './Pages/LoginPage';
 import { AdminPage } from './Pages/AdminPage';
 import { CoursesPage }  from './Pages/CoursesPage';
 import { RegistrationPage } from './Pages/RegistrationPage';
@@ -15,7 +15,7 @@ export default function App() {
 
   return (
       <Routes>
-        <Route path='/' element={<HomePage />} />
+        <Route path='/' element={<LoginPage />} />
         <Route path='admin' element={<AdminPage />} />
         <Route path='courses' element={<CoursesPage />} />
         <Route path='registration' element={<RegistrationPage />} />

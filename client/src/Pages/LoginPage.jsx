@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-export function HomePage() {
+export function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
