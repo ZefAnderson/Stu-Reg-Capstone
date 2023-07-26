@@ -12,7 +12,7 @@ export function CoursesPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch('/api/courses')
+            const data = await fetch('/api/courses');
             let parsedData = await data.json();
             console.log(parsedData);
             setCourseData(parsedData);
