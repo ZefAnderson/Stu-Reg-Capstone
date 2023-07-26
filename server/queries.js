@@ -15,9 +15,13 @@ const login = (req, res) => {
             console.error(err.stack);
             res.status(500).json({ error: 'A server error occurred while logging in.' });
         } else {
+            console.log(dbRes.rows[0]);
             if (dbRes.rows[0].hash === req.body.password)
             {
-                res.status(201).json(dbRes.rows[0]);
+                //res.status(201).json(dbRes.rows[0]);
+                res.status(201).json({
+                    username: dbRes.rows[0].username,
+                    isadmin: dbRes.rows[0].isadmin});
             }
         }
     });
@@ -73,4 +77,4 @@ const displayCourses = (req, res) => {
     })
 }
 
-module.exports = {addUser, getCourse, updateUser}
+module.exports = {login, addUser, getCourse, displayCourses, updateUser}

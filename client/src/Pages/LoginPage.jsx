@@ -11,7 +11,8 @@ export function LoginPage() {
             headers: {
                 'Content-type': 'application/json'
             }
-        })
+        }).then(response => response.json())
+        .then(data => console.log(data))
     }
 
     return (
