@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 export function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -12,7 +12,9 @@ export function LoginPage() {
                 'Content-type': 'application/json'
             }
         }).then(response => response.json())
-        .then(data => console.log(data))
+            .then(data => {
+                window.location.href = (data.isadmin) ? "/adminpage" : "/userprofilepage";
+            })
     }
 
     return (
