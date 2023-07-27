@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import RegistrationModal from "../Modals/registrationModal";
 
 export function RegistrationPage() {
-    const [modalData, setModalData] = useState(null);
+    const [modalData, setModalData] = useState(false);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,7 +21,14 @@ export function RegistrationPage() {
                 'Content-type': 'application/json'
             }
         });
-        setModalData(data);
+        setModalData(true);
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setFname('');
+        setLname('');
+        setPhone('');
+        setAddress('');
     }
 
     return (
@@ -29,7 +36,7 @@ export function RegistrationPage() {
             <header>
                 Register New User
             </header>
-            <form onSubmit={handleSubmit}>
+            <form id="myForm" onSubmit={handleSubmit}>
                 <label>Username: 
                     <input 
                         type="text" 
@@ -89,7 +96,7 @@ export function RegistrationPage() {
                 <button type="submit">Register</button>
             </form>
             {modalData &&
-                <RegistrationModal onClose={() => setModalData(null)} />
+                <RegistrationModal onClose={() => setModalData(false)} />
             }
             <nav>
                 <NavLink to='/'>Return to Login Page</NavLink>
