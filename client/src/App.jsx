@@ -16,7 +16,7 @@ export default function App() {
   return (
       <Routes>
         <Route path='/' element={<LoginPage />} />
-        <Route path='admin' element={<AdminPage />} />
+        <Route path='adminpage' element={<AdminPage />} />
         <Route path='courses' element={<CoursesPage />} />
         <Route path='registration' element={<RegistrationPage />} />
         <Route path='userprofilepage' element={<UserProfilePage />} />
