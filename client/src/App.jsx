@@ -5,6 +5,7 @@ import { AdminPage } from './Pages/AdminPage';
 import { CoursesPage }  from './Pages/CoursesPage';
 import { RegistrationPage } from './Pages/RegistrationPage';
 import { UserProfilePage } from './Pages/UserProfilePage';
+import { UpdateUserPage } from './Pages/UpdateUserPage';
 import React from 'react';
 import ReactLoading from 'react-loading';
 import './App.css'
@@ -20,6 +21,7 @@ export default function App() {
         <Route path='courses' element={<CoursesPage />} />
         <Route path='registration' element={<RegistrationPage />} />
         <Route path='userprofilepage' element={<UserProfilePage />} />
+        <Route path='updateuserpage' element={<UpdateUserPage />} />
       </Routes>
   );
 };

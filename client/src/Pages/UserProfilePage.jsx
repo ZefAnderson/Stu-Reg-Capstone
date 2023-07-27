@@ -27,7 +27,9 @@ export function UserProfilePage() {
                     <li>{user.telephone} phone number</li>
                     <li>{user.address} address</li>
                 </ul>
-                <button>Update</button>
+                <button>
+                    <NavLink to='/updateuserpage'>Update Info</NavLink>
+                </button>
             </div>
             <div>
                 <h3>Simplified Schedule</h3>

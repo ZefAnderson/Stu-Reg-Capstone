@@ -1,12 +1,8 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import RegistrationModal from "../Modals/registrationModal";
+import { useState } from "react"
 
-export function RegistrationPage() {
-    const [modalData, setModalData] = useState(false);
+export function UpdateUserPage() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [fname, setFname] = useState('');
     const [lname, setLname] = useState('');
     const [phone, setPhone] = useState('');
@@ -21,20 +17,12 @@ export function RegistrationPage() {
                 'Content-type': 'application/json'
             }
         });
-        setModalData(true);
-        setUsername('');
-        setEmail('');
-        setPassword('');
-        setFname('');
-        setLname('');
-        setPhone('');
-        setAddress('');
     }
 
     return (
         <div>
             <header>
-                Register New User
+                Update User Info
             </header>
             <form id="myForm" onSubmit={handleSubmit}>
                 <label>Username: 
@@ -50,14 +38,6 @@ export function RegistrationPage() {
                         type="email" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Password: 
-                    <input 
-                        type="password" 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </label>
                 <br />
@@ -93,14 +73,8 @@ export function RegistrationPage() {
                     />
                 </label>
                 <br />
-                <button type="submit">Register</button>
+                <button type="submit">Update</button>
             </form>
-            {modalData &&
-                <RegistrationModal onClose={() => setModalData(false)} />
-            }
-            <nav>
-                <NavLink to='/'>Return to Login Page</NavLink>
-            </nav>
         </div>
     )
 }

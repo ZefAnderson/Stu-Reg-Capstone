@@ -59,16 +59,20 @@ const getUser = (req, res) => {
 };
 
 const updateUser = (req, res) => {
-    let username = req.body.username;
-    let firstname = req.body.firstName;
-    pool.query('update user set first_name = $1 where username = $2 returning *',
-        [firstname, username],
-        (error, results) => {
-            if (error) {
-                throw error;
-            }
-            res.status(200).json(results.rows);
-        })
+    const text = 'update users set username = $1, email = $2'
+    const values = [
+        req.body.username, req.body.email, req.body.fname, req.body.lname, req.body.phone, req.body.address, new Date()
+    ]
+
+    pool.query(text, values, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while adding the user.' });
+        } else {
+            console.log(dbRes.rows[0]);
+            res.status(201).json(dbRes.rows[0]);
+        }
+    });
 }
 
 const getCourse = (req, res) => {
