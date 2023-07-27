@@ -10,9 +10,9 @@ export function UpdateUserPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('/api/registration', {
+        fetch('/api/updateuser', {
             method: 'POST',
-            body: JSON.stringify({ username: username, email: email, password: password, fname: fname, lname: lname, phone: phone, address: address }),
+            body: JSON.stringify({ username: username, email: email, fname: fname, lname: lname, phone: phone, address: address }),
             headers: {
                 'Content-type': 'application/json'
             }
