@@ -19,7 +19,7 @@ export default function App() {
         <Route path='/' element={<LoginPage />} />
         <Route path='adminpage' element={<AdminPage />} />
         <Route path='courses' element={<CoursesPage />} />
-        <Route path='registration' element={<RegistrationPage />} />
+        <Route path='/registration' element={<RegistrationPage />} />
         <Route path='userprofilepage' element={<UserProfilePage />} />
         <Route path='updateuserpage' element={<UpdateUserPage />} />
       </Routes>
