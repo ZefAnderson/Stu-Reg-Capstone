@@ -20,6 +20,8 @@ app.get("/api/courses", query.displayCourses);
 
 app.get("/api/userprofile", query.getUser);
 
+app.post("/api/updateuser", query.updateUser);
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
