@@ -1,5 +1,6 @@
 const { Pool } = require('pg');
 const connectionString = process.env.DATABASE_URL;
+const { v4: uuidv4 } = require('uuid');
 const pool = new Pool({
     connectionString,
 });
@@ -28,10 +29,10 @@ const login = (req, res) => {
 }
 
 const addUser = (req, res) => {
-    const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
+    const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate, userid) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *';
 
     const values = [
-        req.body.username, req.body.email, req.body.password, false, req.body.fname, req.body.lname, req.body.phone, req.body.address, new Date()
+        req.body.username, req.body.email, req.body.password, false, req.body.fname, req.body.lname, req.body.phone, req.body.address, new Date(), uuidv4()
     ]
     pool.query(text, values, (err, dbRes) => {
         if (err) {
@@ -59,15 +60,15 @@ const getUser = (req, res) => {
 };
 
 const updateUser = (req, res) => {
-    const text = 'update users set username = $1, email = $2'
+    const text = 'update users set username = $1, email = $2, firstname = $3, lastname = $4, telephone = $5, address = $6 where userid = $7 returning *'
     const values = [
-        req.body.username, req.body.email, req.body.fname, req.body.lname, req.body.phone, req.body.address, new Date()
+        req.body.username, req.body.email, req.body.fname, req.body.lname, req.body.phone, req.body.address, req.body.userid
     ]
 
     pool.query(text, values, (err, dbRes) => {
         if (err) {
             console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while adding the user.' });
+            res.status(500).json({ error: 'An error occurred while updating the user.' });
         } else {
             console.log(dbRes.rows[0]);
             res.status(201).json(dbRes.rows[0]);
