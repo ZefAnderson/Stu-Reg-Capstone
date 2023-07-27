@@ -9,7 +9,7 @@ export function UserProfilePage() {
             const data = await fetch('/api/userprofile');
             let parsedData = await data.json();
             console.log(parsedData);
-            setCourseData(parsedData);
+            setUser(parsedData);
         }
         fetchData();
     }, []);
@@ -27,6 +27,7 @@ export function UserProfilePage() {
                     <li>{user.telephone} phone number</li>
                     <li>{user.address} address</li>
                 </ul>
+                <button>Update</button>
             </div>
             <div>
                 <h3>Simplified Schedule</h3>

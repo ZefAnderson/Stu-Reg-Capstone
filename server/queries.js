@@ -93,4 +93,4 @@ const displayCourses = (req, res) => {
     })
 }
 
-module.exports = {login, addUser, getCourse, displayCourses, updateUser}
+module.exports = {login, addUser, getUser, getCourse, displayCourses, updateUser}
