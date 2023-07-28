@@ -32,6 +32,11 @@ export function StudentPage() {
         )
     })
 
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.href = "/";
+    }
+
     return (
         <div>
             <header>
@@ -49,11 +54,15 @@ export function StudentPage() {
             <div>
                 <h3>tuition detail</h3>
             </div>
-            <nav>link to calendar</nav>
-            <nav>
-                <NavLink to='/courses'>Course lookup</NavLink>
-            </nav>
-
+            <div>
+                <button>link to calendar</button>
+                <button>
+                    <NavLink to='/courses'>Course lookup</NavLink>
+                </button>
+                <button onClick={handleLogout}>
+                    Log Out
+                </button>
+            </div>
         </div>
     )
 }

@@ -27,10 +27,10 @@ export function CoursesPage() {
                 <td>{data.title}</td>
                 <td>{data.description}</td>
                 <td>{data.schedule}</td>
-                <td>{data.classroom}</td>
-                <td>{data.capacity}</td>
-                <td>{data.credithours}</td>
-                <td>{data.tuition}</td>
+                <td>{data.classroom_number}</td>
+                <td>{data.maximum_capacity}</td>
+                <td>{data.credit_hours}</td>
+                <td>{data.tuition_cost}</td>
             </tr>
         )
     })    
@@ -63,9 +63,9 @@ export function CoursesPage() {
                 </tr>
                 {coursesTable}
             </table>
-            <nav>
+            <button>
                 <NavLink to='/studentpage'>Return to Profile</NavLink>
-            </nav>
+            </button>
         </div>
     );
 };

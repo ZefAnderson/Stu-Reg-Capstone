@@ -101,7 +101,6 @@ const getCourse = (req, res) => {
 }
 
 const displayCourses = (req, res) => {
-    console.log('display courses');
     pool.query('select * from course', (err, results) => {
         if (err) {
             console.error(err.stack);

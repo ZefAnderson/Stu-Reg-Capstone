@@ -32,6 +32,11 @@ export function AdminPage() {
         )
     })
 
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.href = "/";
+    }
+
     return (
         <div>
             <header>
@@ -48,6 +53,9 @@ export function AdminPage() {
                     <li>D</li>
                 </ul>
             </div>
+            <button onClick={handleLogout}>
+                    Log Out
+                </button>
         </div>
     )
 }

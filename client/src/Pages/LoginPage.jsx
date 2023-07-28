@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 export function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -42,9 +43,8 @@ export function LoginPage() {
                     <br />
                 </label>
                 <button type="submit" onClick={handleLogin}>Login</button>
-                <button type="button" onClick={() => {
-                    window.location.href = '/registration';
-                }} >Register a new User
+                <button>
+                    <NavLink to='/registration'>Register a New User</NavLink>
                 </button>
             </form>
         </div >

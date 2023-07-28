@@ -98,9 +98,9 @@ export function RegistrationPage() {
             {modalData &&
                 <RegistrationModal onClose={() => setModalData(false)} />
             }
-            <nav>
+            <button>
                 <NavLink to='/'>Return to Login Page</NavLink>
-            </nav>
+            </button>
         </div>
     )
 }
