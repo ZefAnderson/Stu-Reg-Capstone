@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { NavLink } from "react-router-dom";
 
 export function UpdateUserPage() {
     const [username, setUsername] = useState('');
@@ -7,17 +8,58 @@ export function UpdateUserPage() {
     const [lname, setLname] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
+    const [userid, setUserid] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        fetch('/api/updateuser', {
-            method: 'POST',
-            body: JSON.stringify({ username: username, email: email, fname: fname, lname: lname, phone: phone, address: address }),
-            headers: {
-                'Content-type': 'application/json'
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const tokenParts = token.split('.');
+                const encodedPayload = tokenParts[1];
+                const decodedPayload = atob(encodedPayload);
+                const payload = JSON.parse(decodedPayload);
+
+                const defaultUsername = payload.username;
+                const defaultEmail = payload.email;
+                const defaultFname = payload.firstname;
+                const defaultLname = payload.lastname;
+                const defaultPhone = payload.telephone;
+                const defaultAddress = payload.address;
+                const defaultUserid = payload.userId;
+
+                setUsername(defaultUsername);
+                setEmail(defaultEmail);
+                setFname(defaultFname);
+                setLname(defaultLname);
+                setPhone(defaultPhone);
+                setAddress(defaultAddress);
+                setUserid(defaultUserid);
+            } catch (error) {
+                console.error('Error decoding or parsing token:', error);
             }
-        });
-    }
+        }
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('/api/updateuser', {
+                method: 'POST',
+                body: JSON.stringify({ username: username, email: email, fname: fname, lname: lname, phone: phone, address: address }),
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: `Bearer ${window.localStorage.getItem('token')}`
+                }
+            });
+            if (!response.ok) {
+                console.error('Error updating user data:', response.statusText);
+                return;
+            }    
+        window.location.href = "/studentpage";
+    } catch (error) {
+        console.error('Error updating user data:', error);
+        }
+    };
 
     return (
         <div>
@@ -30,14 +72,6 @@ export function UpdateUserPage() {
                         type="text" 
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Email: 
-                    <input 
-                        type="email" 
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </label>
                 <br />
@@ -54,6 +88,14 @@ export function UpdateUserPage() {
                         type="text" 
                         value={lname}
                         onChange={(e) => setLname(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Email: 
+                    <input 
+                        type="email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </label>
                 <br />
@@ -74,6 +116,9 @@ export function UpdateUserPage() {
                 </label>
                 <br />
                 <button type="submit">Update</button>
+                <button>
+                    <NavLink to='/studentpage'>Go Back</NavLink>
+                </button>
             </form>
         </div>
     )
