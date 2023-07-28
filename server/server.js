@@ -25,7 +25,7 @@ app.get("/api/courses", query.displayCourses);
 
 app.get("/api/userprofile", auth, query.getUser);
 
-app.post("/api/updateuser", query.updateUser);
+app.post("/api/updateuser", auth, query.updateUser);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

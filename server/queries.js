@@ -22,9 +22,9 @@ const login = (req, res) => {
             console.log(dbRes.rows[0]);
             if (bcrypt.compareSync(req.body.password, dbRes.rows[0].hash)) {
                 console.log('user verified')
-                let {isadmin, userid} = dbRes.rows[0];
+                let {username, email, isadmin, firstname, lastname, telephone, address, userid} = dbRes.rows[0];
                 let token = jwt.sign({
-                    isadmin, userid
+                    username, email, isadmin, firstname, lastname, telephone, address, userid
                 },SECRET, {
                     algorithm: 'HS256',
                     expiresIn: '30d'
@@ -60,7 +60,7 @@ const addUser = (req, res) => {
 }
 
 const getUser = (req, res) => {
-    const text = 'select firstname, lastname, email, telephone, address, userid from users where userid = $1';
+    const text = 'select username, firstname, lastname, email, telephone, address, userid from users where userid = $1';
     const id = req.auth.userid;
 
     pool.query(text, [id], (err, results) => {
@@ -76,7 +76,7 @@ const getUser = (req, res) => {
 const updateUser = (req, res) => {
     const text = 'update users set username = $1, email = $2, firstname = $3, lastname = $4, telephone = $5, address = $6 where userid = $7 returning *'
     const values = [
-        req.body.username, req.body.email, req.body.fname, req.body.lname, req.body.phone, req.body.address, req.body.userid
+        req.body.username, req.body.email, req.body.fname, req.body.lname, req.body.phone, req.body.address, req.auth.userid
     ]
 
     pool.query(text, values, (err, dbRes) => {
