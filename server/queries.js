@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt')
 const { Pool } = require('pg');
 const connectionString = process.env.DATABASE_URL || 'postgres://dbuser:X7C6kBoE1skIa8Ent3Mc3akyuIDNj0bn@dpg-ciqkg8lgkuvrtoe6fel0-a.oregon-postgres.render.com/registration_mfyh?ssl=true';
-console.log(`connectionString: ${connectionString}`);
 const { v4: uuidv4 } = require('uuid');
 const pool = new Pool({
     connectionString,
