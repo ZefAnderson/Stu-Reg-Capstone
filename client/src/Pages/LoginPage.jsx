@@ -15,7 +15,7 @@ export function LoginPage() {
             .then(data => {
                 console.log(data)
                 window.localStorage.setItem('token', data.token)
-                window.location.href = (data.isadmin) ? "/adminpage" : "/userprofilepage";
+                window.location.href = (data.isadmin) ? "/adminpage" : "/studentpage";
             })
     }
 

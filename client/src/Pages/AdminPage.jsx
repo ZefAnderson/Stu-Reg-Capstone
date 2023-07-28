@@ -36,9 +36,6 @@ export function AdminPage() {
                     <li>D</li>
                 </ul>
             </div>
-            <nav>
-                <NavLink to='/userprofilepage'>go to userpage</NavLink>
-            </nav>
         </div>
     )
 }

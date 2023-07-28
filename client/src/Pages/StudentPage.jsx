@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom";
 
-export function UserProfilePage() {
+export function StudentPage() {
     const [user, setUser] = useState([]);
 
     useEffect(() => {

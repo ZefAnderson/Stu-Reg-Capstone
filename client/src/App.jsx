@@ -4,7 +4,7 @@ import { LoginPage } from './Pages/LoginPage';
 import { AdminPage } from './Pages/AdminPage';
 import { CoursesPage }  from './Pages/CoursesPage';
 import { RegistrationPage } from './Pages/RegistrationPage';
-import { UserProfilePage } from './Pages/UserProfilePage';
+import { StudentPage } from './Pages/StudentPage';
 import { UpdateUserPage } from './Pages/UpdateUserPage';
 import React from 'react';
 import ReactLoading from 'react-loading';
@@ -20,7 +20,7 @@ export default function App() {
         <Route path='adminpage' element={<AdminPage />} />
         <Route path='courses' element={<CoursesPage />} />
         <Route path='registration' element={<RegistrationPage />} />
-        <Route path='userprofilepage' element={<UserProfilePage />} />
+        <Route path='studentpage' element={<StudentPage />} />
         <Route path='updateuserpage' element={<UpdateUserPage />} />
       </Routes>
   );
