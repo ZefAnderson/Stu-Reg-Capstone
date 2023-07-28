@@ -11,7 +11,10 @@ app.use(express.json());
 // this route makes the client side routing work.
 // see https://sentry.io/answers/why-don-t-react-router-urls-work-when-refreshing-or-writing-manually/
 app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "dist/index.html"), function (err) {
+  const indexPath = path.join(__dirname, "index.html");
+  console.log(`indexPath: ${indexPath}`);
+  res.sendFile(indexPath, function (err) {
+    res.status(500).send(indexPath);
     if (err) {
       res.status(500).send(err);
     }
