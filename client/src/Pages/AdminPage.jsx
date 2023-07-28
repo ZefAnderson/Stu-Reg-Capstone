@@ -6,7 +6,13 @@ export function AdminPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch('/api/userprofile');
+            const data = await fetch('/api/userprofile', {
+                method: 'GET',
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${window.localStorage.getItem('token')}`
+                }
+            });
             let parsedData = await data.json();
             console.log(parsedData);
             setUser(parsedData);
@@ -14,19 +20,25 @@ export function AdminPage() {
         fetchData();
     }, []);
 
+    const userData = user?.map( (user) => {
+        return (
+        <ul key={user.userid}>User Summary
+            <li key={user.firstname}>{user.firstname}</li>
+            <li key={user.lastname}>{user.lastname}</li>
+            <li key={user.email}>{user.email}</li>
+            <li key={user.telephone}>{user.telephone}</li>
+            <li key={user.address}>{user.address}</li>
+        </ul>
+        )
+    })
+
     return (
         <div>
             <header>
-            Welcome, Firstname Lastname!
+            Welcome, {user[0]?.firstname}!
             </header>
             <div>
-                <ul>User Summary
-                    <li>{user.firstname} first name</li>
-                    <li>{user.lastname} last name</li>
-                    <li>{user.email} email</li>
-                    <li>{user.telephone} phone number</li>
-                    <li>{user.address} address</li>
-                </ul>
+                {userData}
             </div>
             <div>
                 <ul>Manage Users

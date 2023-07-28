@@ -15,7 +15,6 @@ export function StudentPage() {
             });
             let parsedData = await data.json();
             console.log(parsedData);
-            let newArray
             setUser(parsedData);
         }
         fetchData();
@@ -32,10 +31,11 @@ export function StudentPage() {
         </ul>
         )
     })
+
     return (
         <div>
             <header>
-                Welcome, Firstname Lastname!
+                Welcome, {user[0]?.firstname}!
             </header>
             <div>
                 {userData}
