@@ -1,29 +1,40 @@
 const bcrypt = require('bcrypt')
-const { Pool } = require('pg');
+const jwt = require('jsonwebtoken')
 const connectionString = process.env.DATABASE_URL || 'postgres://dbuser:X7C6kBoE1skIa8Ent3Mc3akyuIDNj0bn@dpg-ciqkg8lgkuvrtoe6fel0-a.oregon-postgres.render.com/registration_mfyh?ssl=true';
+const { Pool } = require('pg');
 const { v4: uuidv4 } = require('uuid');
 const pool = new Pool({
     connectionString,
 });
-
+const {SECRET} = process.env;
 
 pool.connect();
 
 const login = (req, res) => {
-    const queryStr = `select * from users where username = '${req.body.username}'`
+    const userName = [req.body.username];
+    const queryStr = 'select * from users where username = $1'
 
-    pool.query(queryStr, (err, dbRes) => {
+    pool.query(queryStr, userName, (err, dbRes) => {
         if (err) {
             console.error(err.stack);
             res.status(500).json({ error: 'A server error occurred while logging in.' });
         } else {
             console.log(dbRes.rows[0]);
-            if (dbRes.rows[0].hash === req.body.password) {
-                //res.status(201).json(dbRes.rows[0]);
-                res.status(201).json({
-                    username: dbRes.rows[0].username,
-                    isadmin: dbRes.rows[0].isadmin
-                });
+            if (bcrypt.compareSync(req.body.password, dbRes.rows[0].hash)) {
+                console.log('user verified')
+                let {isadmin, userid} = dbRes.rows[0];
+                let token = jwt.sign({
+                    isadmin, userid
+                },SECRET, {
+                    algorithm: 'HS256',
+                    expiresIn: '30d'
+                })
+                res.status(200).json({
+                    isadmin: isadmin,
+                    token: token
+                })
+            } else {
+                res.status(404).send('incorrect username or password');
             }
         }
     });
@@ -43,16 +54,16 @@ const addUser = (req, res) => {
             res.status(500).json({ error: 'An error occurred while adding the user.' });
         } else {
             console.log(dbRes.rows[0]);
-            res.status(201).json(dbRes.rows[0]);
+            res.status(200).json(dbRes.rows[0]);
         }
     });
 }
 
 const getUser = (req, res) => {
-    const text = `select * from users where username = '$1'`;
-    const value = req.body.username;
+    const text = 'select firstname, lastname, email, telephone, address from users where userid = $1';
+    const id = req.auth.userid;
 
-    pool.query(text, value, (err, results) => {
+    pool.query(text, [id], (err, results) => {
         if (err) {
             console.error(err.stack);
             res.status(500).json({ error: 'An error occurred while adding the user.' });
@@ -74,7 +85,7 @@ const updateUser = (req, res) => {
             res.status(500).json({ error: 'An error occurred while updating the user.' });
         } else {
             console.log(dbRes.rows[0]);
-            res.status(201).json(dbRes.rows[0]);
+            res.status(200).json(dbRes.rows[0]);
         }
     });
 }

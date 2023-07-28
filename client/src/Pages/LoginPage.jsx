@@ -9,10 +9,12 @@ export function LoginPage() {
             method: 'POST',
             body: JSON.stringify({ username: username, password: password }),
             headers: {
-                'Content-type': 'application/json'
+                "Content-type": "application/json"
             }
         }).then(response => response.json())
             .then(data => {
+                console.log(data)
+                window.localStorage.setItem('token', data.token)
                 window.location.href = (data.isadmin) ? "/adminpage" : "/userprofilepage";
             })
     }

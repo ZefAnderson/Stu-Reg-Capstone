@@ -6,7 +6,13 @@ export function UserProfilePage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch('/api/userprofile');
+            const data = await fetch('/api/userprofile', {
+                method: 'GET',
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${window.localStorage.getItem('token')}`
+                }
+            });
             let parsedData = await data.json();
             console.log(parsedData);
             setUser(parsedData);
@@ -14,19 +20,24 @@ export function UserProfilePage() {
         fetchData();
     }, []);
 
+    const userData = user.map( () => {
+        return (
+        <ul>User Summary
+            <li>{user.firstname} first name</li>
+            <li>{user.lastname} last name</li>
+            <li>{user.email} email</li>
+            <li>{user.telephone} phone number</li>
+            <li>{user.address} address</li>
+        </ul>
+        )
+    })
     return (
         <div>
             <header>
                 Welcome, Firstname Lastname!
             </header>
             <div>
-                <ul>User Summary
-                    <li>{user.firstname} first name</li>
-                    <li>{user.lastname} last name</li>
-                    <li>{user.email} email</li>
-                    <li>{user.telephone} phone number</li>
-                    <li>{user.address} address</li>
-                </ul>
+                {user.firstname? userData : <p>Loading</p>}
                 <button>
                     <NavLink to='/updateuserpage'>Update Info</NavLink>
                 </button>
