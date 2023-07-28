@@ -60,7 +60,7 @@ const addUser = (req, res) => {
 }
 
 const getUser = (req, res) => {
-    const text = 'select firstname, lastname, email, telephone, address from users where userid = $1';
+    const text = 'select firstname, lastname, email, telephone, address, userid from users where userid = $1';
     const id = req.auth.userid;
 
     pool.query(text, [id], (err, results) => {
