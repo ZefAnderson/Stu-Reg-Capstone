@@ -20,9 +20,18 @@ export function CoursesPage() {
         fetchData();
     }, []);
 
+    function register(courseid) {
+    //    alert(`Register button pressed for ${courseid}`);
+        // register the student for the course by creating an entry in the
+        // users_courses table
+
+        // get the userid
+    }
+
     let coursesTable = courseData.map((data) => {
         return (
             <tr>
+                <td><button onClick={() => register(data.courseid)}>Register</button></td>
                 <td>{data.courseid}</td>
                 <td>{data.title}</td>
                 <td>{data.description}</td>
@@ -33,7 +42,7 @@ export function CoursesPage() {
                 <td>{data.tuition_cost}</td>
             </tr>
         )
-    })    
+    })
 
     return (
         <div>
@@ -52,6 +61,7 @@ export function CoursesPage() {
             </form> */}
             <table>
                 <tr>
+                    <th>Action</th>
                     <th>Course ID</th>
                     <th>Title</th>
                     <th>Description</th>
@@ -69,4 +79,3 @@ export function CoursesPage() {
         </div>
     );
 };
-
