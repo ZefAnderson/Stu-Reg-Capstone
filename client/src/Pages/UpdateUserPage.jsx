@@ -65,8 +65,8 @@ export function UpdateUserPage() {
                 return;
             }
             window.location.href = isUserAdmin ? "/adminpage" : "/studentpage";
-    } catch (error) {
-        console.error('Error updating user data:', error);
+        } catch (error) {
+            console.error('Error updating user data:', error);
         }
     };
 

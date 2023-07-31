@@ -20,19 +20,24 @@ const login = (req, res) => {
             res.status(500).json({ error: 'A server error occurred while logging in.' });
         } else {
             console.log(dbRes.rows[0]);
-            if (bcrypt.compareSync(req.body.password, dbRes.rows[0].hash)) {
-                console.log('user verified')
-                let {username, email, isadmin, firstname, lastname, telephone, address, userid} = dbRes.rows[0];
-                let token = jwt.sign({
-                    username, email, isadmin, firstname, lastname, telephone, address, userid
-                },SECRET, {
-                    algorithm: 'HS256',
-                    expiresIn: '30d'
-                })
-                res.status(200).json({
-                    isadmin: isadmin,
-                    token: token
-                })
+            if (dbRes.rows.length) {
+                let validUser = bcrypt.compareSync(req.body.password, dbRes.rows[0].hash)
+                if (validUser) {
+                    console.log('user verified')
+                    let {username, email, isadmin, firstname, lastname, telephone, address, userid} = dbRes.rows[0];
+                    let token = jwt.sign({
+                        username, email, isadmin, firstname, lastname, telephone, address, userid
+                    },SECRET, {
+                        algorithm: 'HS256',
+                        expiresIn: '30d'
+                    })
+                    res.status(200).json({
+                        isadmin: isadmin,
+                        token: token
+                    })
+                } else {
+                    res.status(404).send('incorrect username or password');
+                }
             } else {
                 res.status(404).send('incorrect username or password');
             }
