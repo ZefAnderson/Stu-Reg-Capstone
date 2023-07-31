@@ -43,6 +43,15 @@ export function UpdateUserPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const token = window.localStorage.getItem('token');
+    
+            if (!token) {
+              console.error('No token found in local storage');
+              return;
+            }
+        
+            const isUserAdmin = isTokenAdmin(token);
+
             const response = await fetch('/api/updateuser', {
                 method: 'POST',
                 body: JSON.stringify({ username: username, email: email, fname: fname, lname: lname, phone: phone, address: address }),
@@ -54,12 +63,25 @@ export function UpdateUserPage() {
             if (!response.ok) {
                 console.error('Error updating user data:', response.statusText);
                 return;
-            }    
-        window.location.href = "/studentpage";
+            }
+            window.location.href = isUserAdmin ? "/adminpage" : "/studentpage";
     } catch (error) {
         console.error('Error updating user data:', error);
         }
     };
+
+    const isTokenAdmin = (token) => {
+        try {
+          const tokenPayloadBase64 = token.split('.')[1];
+          const tokenPayloadJSON = atob(tokenPayloadBase64);
+          const tokenPayload = JSON.parse(tokenPayloadJSON);
+          return tokenPayload?.isadmin || false;
+        } catch (error) {
+          console.error('Error parsing token:', error);
+          return false;
+        }
+      };
+      
 
     return (
         <div>

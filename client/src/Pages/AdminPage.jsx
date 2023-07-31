@@ -23,6 +23,7 @@ export function AdminPage() {
     const userData = user?.map( (user) => {
         return (
         <ul key={user.userid}>User Summary
+            <li key={user.username}>{user.username}</li>
             <li key={user.firstname}>{user.firstname}</li>
             <li key={user.lastname}>{user.lastname}</li>
             <li key={user.email}>{user.email}</li>
@@ -45,6 +46,9 @@ export function AdminPage() {
             <div>
                 {userData}
             </div>
+            <button>
+                    <NavLink to='/updateuserpage'>Update Info</NavLink>
+            </button>
             <div>
                 <ul>Manage Users
                     <li>C</li>
