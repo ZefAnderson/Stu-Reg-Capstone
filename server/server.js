@@ -27,6 +27,8 @@ app.get("/api/userprofile", auth, query.getUser);
 
 app.post("/api/updateuser", auth, query.updateUser);
 
+app.get("/api/userlist", query.getUserList);
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

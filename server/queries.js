@@ -78,6 +78,15 @@ const getUser = (req, res) => {
     });
 };
 
+const getUserList = (req, res) => {
+    pool.query('select * from users', (err, results) => {
+        if (err) {
+            throw error;
+        }
+        res.status(200).json(results.rows)
+    })
+}
+
 const updateUser = (req, res) => {
     const text = 'update users set username = $1, email = $2, firstname = $3, lastname = $4, telephone = $5, address = $6 where userid = $7 returning *'
     const values = [
@@ -116,4 +125,4 @@ const displayCourses = (req, res) => {
     })
 }
 
-module.exports = { login, addUser, getUser, getCourse, displayCourses, updateUser }
+module.exports = { login, addUser, getUser, getUserList, getCourse, displayCourses, updateUser }
