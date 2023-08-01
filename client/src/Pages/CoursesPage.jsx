@@ -35,7 +35,7 @@ export function CoursesPage() {
         const userId = payload.userid;
         console.log(`userId: ${userId}`);
 
-        const response = await fetch('/api/registerforCourse', {
+        const response = await fetch('/api/registerforourse', {
             method: 'POST',
             body: JSON.stringify({ userid: userId, courseid: courseid }),
             headers: {
