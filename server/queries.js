@@ -46,7 +46,7 @@ const login = (req, res) => {
 }
 
 const addUser = (req, res) => {
-    const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate, userid) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *';
+    const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate, userid';
 
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
@@ -116,4 +116,22 @@ const displayCourses = (req, res) => {
     })
 }
 
-module.exports = { login, addUser, getUser, getCourse, displayCourses, updateUser }
+const registerUserForCourse = (req, res) => {
+    const text = 'insert into users_courses(user_id, course_id) values ($1, $2) returning *'
+
+    const values = [
+        req.body.userid, req.body.courseid
+    ]
+    console.log(`values: ${values}`);
+    pool.query(text, values, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while adding the user.' });
+        } else {
+            console.log(dbRes.rows[0]);
+            res.status(200).json(dbRes.rows[0]);
+        }
+    });
+}
+
+module.exports = { login, addUser, getUser, getCourse, displayCourses, updateUser, registerUserForCourse }

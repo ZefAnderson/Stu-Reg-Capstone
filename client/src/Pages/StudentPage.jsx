@@ -53,6 +53,12 @@ export function StudentPage() {
                 <h3>Simplified Schedule</h3>
             </div>
             <div>
+                {/* {userData} */}
+                <button>
+                    <NavLink to='/courseregistration'>Add/Drop Classes</NavLink>
+                </button>
+            </div>
+            <div>
                 <h3>tuition detail</h3>
             </div>
             <div>
