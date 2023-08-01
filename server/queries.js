@@ -177,6 +177,7 @@ module.exports = {
     getCourse,
     displayCourses,
     updateUser,
+    deleteUser,
     registerUserForCourse,
     getUserCourses
 }
