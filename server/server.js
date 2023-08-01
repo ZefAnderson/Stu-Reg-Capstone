@@ -29,6 +29,8 @@ app.post("/api/updateuser", auth, query.updateUser);
 
 app.get("/api/userlist", query.getUserList);
 
+app.post("/api/delete", query.deleteUser);
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

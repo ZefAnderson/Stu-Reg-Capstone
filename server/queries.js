@@ -104,6 +104,18 @@ const updateUser = (req, res) => {
     });
 }
 
+const deleteUser = (req, res) => {
+    const text = 'delete from users where userid = $1';
+    const value = [req.body.userid]
+
+    pool.query(text, value, (err, dbRes) => {
+        if (err) {
+            res.status(500).json({ error: 'An error occurred while deleting the user.' });
+        } else
+        res.status(200).json(dbRes.rows[0]);
+    })
+}
+
 const getCourse = (req, res) => {
     console.log(`db getCourse`);
     pool.query('select courseid from course', (err, results) => {
@@ -125,4 +137,4 @@ const displayCourses = (req, res) => {
     })
 }
 
-module.exports = { login, addUser, getUser, getUserList, getCourse, displayCourses, updateUser }
+module.exports = { login, addUser, getUser, getUserList, getCourse, displayCourses, updateUser, deleteUser }
