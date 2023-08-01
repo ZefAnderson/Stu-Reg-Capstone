@@ -20,18 +20,41 @@ export function CoursesPage() {
         fetchData();
     }, []);
 
-    function register(courseid) {
+    async function handleRegister(courseid) {
     //    alert(`Register button pressed for ${courseid}`);
         // register the student for the course by creating an entry in the
         // users_courses table
 
         // get the userid
+        const token = localStorage.getItem('token');
+        const tokenParts = token.split('.');
+        const encodedPayload = tokenParts[1];
+        const decodedPayload = atob(encodedPayload);
+        const payload = JSON.parse(decodedPayload);
+
+        const userId = payload.userid;
+        console.log(`userId: ${userId}`);
+
+        const response = await fetch('/api/registerforCourse', {
+            method: 'POST',
+            body: JSON.stringify({ userid: userId, courseid: courseid }),
+            headers: {
+                'Content-type': 'application/json'//,
+                //  Authorization: `Bearer ${window.localStorage.getItem('token')}`
+            }
+        });
+        if (!response.ok) {
+            console.error('Error updating user data:', response.statusText);
+            return;
+        }
+        window.location.href = "/courses";
+
     }
 
     let coursesTable = courseData.map((data) => {
         return (
             <tr>
-                <td><button onClick={() => register(data.courseid)}>Register</button></td>
+                <td><button onClick={() => handleRegister(data.courseid)}>Register</button></td>
                 <td>{data.courseid}</td>
                 <td>{data.title}</td>
                 <td>{data.description}</td>
