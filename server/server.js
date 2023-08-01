@@ -35,6 +35,8 @@ app.get("/api/userlist", query.getUserList);
 
 app.post("/api/delete", query.deleteUser);
 
+app.delete("/api/dropcourse", auth, query.dropUserCourse);
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
