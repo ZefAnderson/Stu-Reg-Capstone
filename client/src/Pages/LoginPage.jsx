@@ -20,7 +20,7 @@ export function LoginPage() {
             if (response.status === 200){
                 const data = await response.json();
                 window.localStorage.setItem('token', data.token)
-                window.location.href = (data.isadmin) ? "/admin" : "/studentpage";
+                window.location.href = (data.isadmin) ? "/admin" : "/student";
             } else {
                 setModalData(true);
             }
@@ -59,7 +59,7 @@ export function LoginPage() {
                 {modalData &&
                     <LoginModal onClose={() => setModalData(false)} />
                 }
-                
+
             </form>
         </div >
     )
