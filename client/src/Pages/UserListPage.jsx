@@ -22,6 +22,11 @@ export function UserListPage() {
                     'Content-type': 'application/json',
                 }
             })
+            if (response.ok) {
+                setUserList(prevUserList => prevUserList.filter(user => user.userid !== userid));
+            } else {
+                console.error('Error deleting user data:', response);
+            }
         } catch (error) {
             console.error('Error deleting user data:');
         }
