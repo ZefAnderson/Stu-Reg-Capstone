@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import RegistrationModal from "../Modals/registrationModal";
+import RegistrationModal from "../Modals/RegistrationModal";
 
 export function RegistrationPage() {
     const [modalData, setModalData] = useState(false);

@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
+import UserListModal from "../Modals/UserListModal";
 
 export function UserListPage() {
-    const[userList, setUserList] = useState([]);
+    const [userList, setUserList] = useState([]);
+    const [modalData, setModalData] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -12,7 +16,7 @@ export function UserListPage() {
         }
         fetchData();
     }, []);
-    
+
     const handleDelete = async (userid) => {
         try {
             const response = await fetch('/api/delete', {
@@ -31,6 +35,12 @@ export function UserListPage() {
             console.error('Error deleting user data:');
         }
     }
+
+    const handleEdit = (user) => {
+        setSelectedUser(user);
+        setModalData(true);
+    }
+
     let usersTable = userList.map((data) => {
         let userid = data.userid;
         let createDate = new Date(data.createdate);
@@ -38,10 +48,11 @@ export function UserListPage() {
         let day = String(createDate.getDate()).padStart(2, '0');
         let year = String(createDate.getFullYear()); 
         let mmddyyyy = month + '/' + day + '/' + year;  
+
         return (
             <tr key={userid}>
                 <td>
-                    <button>Edit</button>
+                    <button onClick={() => handleEdit(data)}>Edit</button>
                 </td>
                 <td>{data.username}</td>
                 <td>{data.firstname}</td>
@@ -86,7 +97,11 @@ export function UserListPage() {
             <button>
                 <NavLink to='/admin'>Return to Profile</NavLink>
             </button>
-
+            {modalData &&
+                <UserListModal 
+                user = {selectedUser}
+                onClose={() => setModalData(false)} />
+            }
         </div>
     )
 }
