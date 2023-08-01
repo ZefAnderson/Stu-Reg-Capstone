@@ -46,7 +46,7 @@ const login = (req, res) => {
 }
 
 const addUser = (req, res) => {
-    const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate, userid';
+    const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate, userid) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *';
 
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
