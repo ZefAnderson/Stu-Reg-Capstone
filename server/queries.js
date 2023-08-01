@@ -156,18 +156,32 @@ const registerUserForCourse = (req, res) => {
 }
 
 const getUserCourses = (req, res) => {
-    console.log(`getUserCourses for ${req.auth.userid}`);
+    // console.log(`getUserCourses for ${req.auth.userid}`);
     const text = `select course_id from users_courses where user_id = '${req.auth.userid}'`;
     pool.query(text, (err, dbRes) => {
         if (err) {
             console.error(err.stack);
             res.status(500).json({ error: `An error occurred while getting the user's course list.` });
         } else {
-            console.log(dbRes.rows);
+            // console.log(dbRes.rows);
             res.status(200).json(dbRes.rows);
         }
     });
+}
 
+const dropUserCourse = (req, res) => {
+    // console.log(`dropping course ${req.body.course_id} for user ${req.auth.userid} `);
+    const text = `delete from users_courses where user_id = '${req.auth.userid}' and course_id = '${req.body.course_id}'`;
+    pool.query(text, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: `An error occurred while dropping a course.` });
+        } else {
+            // console.log(dbRes.rows);
+            getUserCourses(req, res);
+//            res.status(200).json(dbRes.rows);
+        }
+    });
 }
 
 module.exports = {
@@ -180,5 +194,6 @@ module.exports = {
     deleteUser,
     registerUserForCourse,
     getUserCourses,
+    dropUserCourse,
     getUserList
 }
