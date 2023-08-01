@@ -31,6 +31,10 @@ app.post("/api/registerforcourse", query.registerUserForCourse);
 
 app.post("/api/usercourses", auth, query.getUserCourses);
 
+app.get("/api/userlist", query.getUserList);
+
+app.post("/api/delete", query.deleteUser);
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

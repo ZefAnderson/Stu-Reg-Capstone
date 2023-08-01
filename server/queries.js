@@ -78,6 +78,15 @@ const getUser = (req, res) => {
     });
 };
 
+const getUserList = (req, res) => {
+    pool.query('select * from users', (err, results) => {
+        if (err) {
+            throw error;
+        }
+        res.status(200).json(results.rows)
+    })
+}
+
 const updateUser = (req, res) => {
     const text = 'update users set username = $1, email = $2, firstname = $3, lastname = $4, telephone = $5, address = $6 where userid = $7 returning *'
     const values = [
@@ -93,6 +102,18 @@ const updateUser = (req, res) => {
             res.status(200).json(dbRes.rows[0]);
         }
     });
+}
+
+const deleteUser = (req, res) => {
+    const text = 'delete from users where userid = $1';
+    const value = [req.body.userid]
+
+    pool.query(text, value, (err, dbRes) => {
+        if (err) {
+            res.status(500).json({ error: 'An error occurred while deleting the user.' });
+        } else
+        res.status(200).json(dbRes.rows[0]);
+    })
 }
 
 const getCourse = (req, res) => {

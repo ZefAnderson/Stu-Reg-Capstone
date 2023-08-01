@@ -64,7 +64,7 @@ export function UpdateUserPage() {
                 console.error('Error updating user data:', response.statusText);
                 return;
             }
-            window.location.href = isUserAdmin ? "/adminpage" : "/studentpage";
+            window.location.href = isUserAdmin ? "/admin" : "/student";
         } catch (error) {
             console.error('Error updating user data:', error);
         }
@@ -139,7 +139,7 @@ export function UpdateUserPage() {
                 <br />
                 <button type="submit">Update</button>
                 <button>
-                    <NavLink to='/studentpage'>Go Back</NavLink>
+                    <NavLink to='/student'>Go Back</NavLink>
                 </button>
             </form>
         </div>

@@ -97,7 +97,7 @@ export function CoursesPage() {
                 {coursesTable}
             </table>
             <button>
-                <NavLink to='/studentpage'>Return to Profile</NavLink>
+                <NavLink to='/student'>Return to Profile</NavLink>
             </button>
         </div>
     );

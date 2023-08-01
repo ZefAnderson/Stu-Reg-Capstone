@@ -47,16 +47,12 @@ export function AdminPage() {
                 {userData}
             </div>
             <button>
-                    <NavLink to='/updateuserpage'>Update Info</NavLink>
+                <NavLink to='/updateuser'>Update Profile</NavLink>
             </button>
-            <div>
-                <ul>Manage Users
-                    <li>C</li>
-                    <li>R</li>
-                    <li>U</li>
-                    <li>D</li>
-                </ul>
-            </div>
+            <button>
+                <NavLink to='/userlist'>Manage Users</NavLink>
+            </button>
+            
             <button onClick={handleLogout}>
                     Log Out
                 </button>
