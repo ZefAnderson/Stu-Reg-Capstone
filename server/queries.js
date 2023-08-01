@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const pool = new Pool({
     connectionString,
 });
-const {SECRET} = process.env;
+const { SECRET } = process.env;
 
 pool.connect();
 
@@ -24,10 +24,10 @@ const login = (req, res) => {
                 let validUser = bcrypt.compareSync(req.body.password, dbRes.rows[0].hash)
                 if (validUser) {
                     console.log('user verified')
-                    let {username, email, isadmin, firstname, lastname, telephone, address, userid} = dbRes.rows[0];
+                    let { username, email, isadmin, firstname, lastname, telephone, address, userid } = dbRes.rows[0];
                     let token = jwt.sign({
                         username, email, isadmin, firstname, lastname, telephone, address, userid
-                    },SECRET, {
+                    }, SECRET, {
                         algorithm: 'HS256',
                         expiresIn: '30d'
                     })
@@ -134,4 +134,28 @@ const registerUserForCourse = (req, res) => {
     });
 }
 
-module.exports = { login, addUser, getUser, getCourse, displayCourses, updateUser, registerUserForCourse }
+const getUserCourses = (req, res) => {
+    console.log(`getUserCourses for ${req.auth.userid}`);
+    const text = `select course_id from users_courses where user_id = '${req.auth.userid}'`;
+    pool.query(text, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: `An error occurred while getting the user's course list.` });
+        } else {
+            console.log(dbRes.rows);
+            res.status(200).json(dbRes.rows);
+        }
+    });
+
+}
+
+module.exports = {
+    login,
+    addUser,
+    getUser,
+    getCourse,
+    displayCourses,
+    updateUser,
+    registerUserForCourse,
+    getUserCourses
+}

@@ -46,16 +46,18 @@ export function StudentPage() {
             <div>
                 {userData}
                 <button>
-                    <NavLink to='/updateuserpage'>Update Info</NavLink>
+                    <NavLink to='/updateuserpage'>Edit Profile</NavLink>
                 </button>
             </div>
             <div>
-                <h3>Simplified Schedule</h3>
+                <button>
+                    <NavLink to='/usercourses'>My Courses</NavLink>
+                </button>
             </div>
             <div>
                 {/* {userData} */}
                 <button>
-                    <NavLink to='/courseregistration'>Add/Drop Classes</NavLink>
+                    <NavLink to='/courses'>Choose Courses</NavLink>
                 </button>
             </div>
             <div>
