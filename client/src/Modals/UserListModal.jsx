@@ -8,6 +8,8 @@ export default function UserListModal ({onClose, user}) {
     const [lname, setLname] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
+    const [userid, setUserid] = useState('');
+    const [isadmin, setIsadmin] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -17,17 +19,27 @@ export default function UserListModal ({onClose, user}) {
             setLname(user.lastname);
             setPhone(user.telephone);
             setAddress(user.address);
+            setUserid(user.userid);
+            setIsadmin(user.isadmin);
         }
     }, [user]);
 
     const handleSubmit = async (user) => {
         try {
-            const response = await fetch('/api/updateuser', {
+            const response = await fetch('/api/adminupdate', {
                 method: 'POST',
-                body: JSON.stringify({ username: username, email: email, fname: fname, lname: lname, phone: phone, address: address, userid: user.userid }),
+                body: JSON.stringify({ 
+                    username: username, 
+                    email: email, 
+                    fname: fname, 
+                    lname: lname, 
+                    phone: phone, 
+                    address: address, 
+                    isadmin: isadmin, 
+                    userid: userid 
+                }),
                 headers: {
                     'Content-type': 'application/json',
-                    Authorization: `Bearer ${window.localStorage.getItem('token')}`
                 }
             });
             if (!response.ok) {
@@ -77,6 +89,14 @@ export default function UserListModal ({onClose, user}) {
                             type="email" 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </label>
+                    <br />
+                    <label>Admin? 
+                        <input 
+                            type="checkbox" 
+                            checked={isadmin}
+                            onChange={(e) => setIsadmin(e.target.checked)}
                         />
                     </label>
                     <br />

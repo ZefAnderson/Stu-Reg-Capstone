@@ -104,6 +104,23 @@ const updateUser = (req, res) => {
     });
 }
 
+const updatePerAdmin = (req, res) => {
+    const text = 'update users set username = $1, firstname = $2, lastname = $3, email = $4, isadmin = $5, telephone = $6, address = $7 where userid = $8 returning *';
+    const values = [
+        req.body.username, req.body.fname, req.body.lname, req.body.email, req.body.isadmin, req.body.phone, req.body.address, req.body.userid
+    ]
+
+    pool.query(text, values, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while updating the user.' });
+        } else {
+            console.log(dbRes.rows[0]);
+            res.status(200).json(dbRes.rows[0]);
+        }
+    })
+}
+
 const deleteUser = (req, res) => {
     const text = 'delete from users where userid = $1';
     const value = [req.body.userid]
@@ -177,6 +194,7 @@ module.exports = {
     getCourse,
     displayCourses,
     updateUser,
+    updatePerAdmin,
     deleteUser,
     registerUserForCourse,
     getUserCourses,

@@ -27,6 +27,8 @@ app.get("/api/userprofile", auth, query.getUser);
 
 app.post("/api/updateuser", auth, query.updateUser);
 
+app.post("/api/adminupdate", query.updatePerAdmin);
+
 app.post("/api/registerforcourse", query.registerUserForCourse);
 
 app.post("/api/usercourses", auth, query.getUserCourses);
