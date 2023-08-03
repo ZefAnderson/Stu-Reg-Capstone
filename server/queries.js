@@ -174,9 +174,27 @@ const registerUserForCourse = (req, res) => {
 
 const getUserCourses = (req, res) => {
     // console.log(`getUserCourses for ${req.auth.userid}`);
-    const text = `select course_id from users_courses where user_id = '${req.auth.userid}'`;
+    const text =
+        'SELECT ' +
+            'courseid, ' +
+            'title, ' +
+            'description, ' +
+            'schedule, ' +
+            'classroom_number, ' +
+            'maximum_capacity, ' +
+            'credit_hours, ' +
+            'tuition_cost ' +
+        'FROM course ' +
+        'WHERE course.courseid in (SELECT course_id ' +
+            'FROM users_courses ' +
+            `WHERE user_id = '${req.auth.userid}');`
+
+    // console.log(`query: ${text}`);
+
+//    const text = `select course_id from users_courses where user_id = '${req.auth.userid}'`;
     pool.query(text, (err, dbRes) => {
         if (err) {
+            // console.log(dbRes);
             console.error(err.stack);
             res.status(500).json({ error: `An error occurred while getting the user's course list.` });
         } else {
