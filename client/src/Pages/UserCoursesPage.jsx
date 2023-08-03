@@ -50,7 +50,14 @@ export function UserCoursesPage() {
                         Drop
                     </button>
                 </td>
-                <td>{data.course_id}</td>
+                <td>{data.courseid}</td>
+                <td>{data.title}</td>
+                <td>{data.description}</td>
+                <td>{data.schedule}</td>
+                <td>{data.classroom_number}</td>
+                <td>{data.maximum_capacity}</td>
+                <td>{data.credit_hours}</td>
+                <td>{data.tuition_cost}</td>
             </tr>
         )
     })
@@ -63,6 +70,13 @@ export function UserCoursesPage() {
                     <tr>
                         <th>Action</th>
                         <th>Course ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Schedule</th>
+                        <th>Room Number</th>
+                        <th>Capacity</th>
+                        <th>Credits</th>
+                        <th>Tuition</th>
                     </tr>
                     {courseRows}
                 </tbody>
