@@ -7,8 +7,9 @@ const {expressjwt} = require('express-jwt')
 const morgan = require('morgan');
 const winston = require('winston');
 
+console.log(`jwt-secret: ${process.env.SECRET}`)
 const auth = expressjwt({
-  secret:process.env.SECRET,
+  secret: process.env.SECRET,
   algorithms: ['HS256']
 });
 
