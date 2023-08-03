@@ -9,7 +9,7 @@ export default function UserListModal ({onClose, user}) {
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [userid, setUserid] = useState('');
-    const [isadmin, setIsadmin] = useState(false);
+    const [isadmin, setIsadmin] = useState(null);
 
     useEffect(() => {
         if (user) {

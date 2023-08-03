@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import LoginModal from "../Modals/LoginModal";
 
-export function LoginPage() {
+export function LoginPage({ setIsLoggedIn }) {
+    console.log("setIsLoggedIn prop value:", setIsLoggedIn)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [modalData, setModalData] = useState(false);
 
+
+    const navigate = useNavigate()
+    
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -19,12 +23,13 @@ export function LoginPage() {
             })
             if (response.status === 200){
                 const data = await response.json();
-                window.localStorage.setItem('token', data.token)
-                window.location.href = (data.isadmin) ? "/admin" : "/student";
+                window.localStorage.setItem('token', data.token);
+                const route = data.isadmin ? "/admin" : "/student";
+                navigate(route);            
             } else {
                 setModalData(true);
             }
-        }catch (error) {
+        } catch (error) {
             console.log("Error during login:", error);
         }
     }
