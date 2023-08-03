@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export function StudentPage() {
     const [user, setUser] = useState([]);
@@ -33,9 +33,11 @@ export function StudentPage() {
         )
     })
 
+    const navigate = useNavigate();
+
     const handleLogout = () => {
         localStorage.clear();
-        window.location.href = "/";
+        navigate("/");
     }
 
     return (

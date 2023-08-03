@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export function UpdateUserPage() {
     const [username, setUsername] = useState('');
@@ -40,6 +40,8 @@ export function UpdateUserPage() {
         }
     }, []);
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -64,11 +66,19 @@ export function UpdateUserPage() {
                 console.error('Error updating user data:', response.statusText);
                 return;
             }
-            window.location.href = isUserAdmin ? "/admin" : "/student";
-        } catch (error) {
+            const route = isUserAdmin ? "/admin" : "/student";
+            navigate(route);            
+    } catch (error) {
             console.error('Error updating user data:', error);
         }
     };
+
+    const handleReturn = () => {
+        const token = window.localStorage.getItem('token');
+        const isUserAdmin = isTokenAdmin(token);
+        const route = isUserAdmin ? "/admin" : "/student";
+        navigate(route);            
+    }
 
     const isTokenAdmin = (token) => {
         try {
@@ -138,8 +148,8 @@ export function UpdateUserPage() {
                 </label>
                 <br />
                 <button type="submit">Update</button>
-                <button>
-                    <NavLink to='/student'>Go Back</NavLink>
+                <button onClick={handleReturn}>
+                    Go Back
                 </button>
             </form>
         </div>

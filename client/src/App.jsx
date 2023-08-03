@@ -23,7 +23,7 @@ export default function App() {
     const token = localStorage.getItem('token');
     return !!token;
   }
-  
+
   useEffect(() => {
     const isAuthenticated = checkUserAuthentication(); 
     setIsLoggedIn(isAuthenticated);
@@ -37,17 +37,33 @@ export default function App() {
   return (
       <Routes>
         <Route path='/' element={<LoginPage />} />
-        <Route path='admin' element={<AdminPage />} />
+        <Route path='admin' element={
+          <Protected isLoggedIn={isLoggedIn}>
+            <AdminPage />
+          </Protected>
+        } />
         <Route path='courses' element={<CoursesPage />} />
-        <Route path='usercourses' element={<UserCoursesPage />} />
+        <Route path='usercourses' element={
+          <Protected isLoggedIn={isLoggedIn}>
+            <UserCoursesPage />
+          </Protected>
+        } />
         <Route path='registration' element={<RegistrationPage />} />
         <Route path='student' element={
           <Protected isLoggedIn={isLoggedIn}>
             <StudentPage />
           </Protected>
         } />
-        <Route path='updateuser' element={<UpdateUserPage />} />
-        <Route path='userlist' element={<UserListPage />} />
+        <Route path='updateuser' element={
+          <Protected isLoggedIn={isLoggedIn}>
+            <UpdateUserPage />
+          </Protected>
+        } />
+        <Route path='userlist' element={
+          <Protected isLoggedIn={isLoggedIn}>
+            <UserListPage />
+          </Protected>
+        } />
       </Routes>
   );
 };

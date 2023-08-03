@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export function CoursesPage() {
     const [courseData, setCourseData] = useState([]);
@@ -19,6 +19,8 @@ export function CoursesPage() {
         }
         fetchData();
     }, []);
+
+    const navigate = useNavigate();
 
     async function handleRegister(courseid) {
     //    alert(`Register button pressed for ${courseid}`);
@@ -47,7 +49,7 @@ export function CoursesPage() {
             console.error('Error updating user data:', response.statusText);
             return;
         }
-        window.location.href = "/courses";
+        navigate("/courses");
 
     }
 

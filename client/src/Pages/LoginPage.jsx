@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import LoginModal from "../Modals/LoginModal";
 
 export function LoginPage({ setIsLoggedIn }) {
-    console.log("setIsLoggedIn prop value:", setIsLoggedIn)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [modalData, setModalData] = useState(false);
