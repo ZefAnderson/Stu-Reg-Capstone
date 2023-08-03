@@ -67,9 +67,6 @@ export function StudentPage() {
             </div>
             <div>
                 <button>link to calendar</button>
-                <button>
-                    <NavLink to='/courses'>Course lookup</NavLink>
-                </button>
                 <button onClick={handleLogout}>
                     Log Out
                 </button>
