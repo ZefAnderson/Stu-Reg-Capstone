@@ -25,7 +25,7 @@ app.use(express.static(path.resolve(__dirname, "../client/dist")));
 
 app.use(express.json());
 
-app.use(morgan('combined'));
+app.use(morgan('tiny'));
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello there!" })
