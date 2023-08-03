@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import UserListModal from "../Modals/UserListModal";
 
 export function UserListPage() {
     const [userList, setUserList] = useState([]);
     const [modalData, setModalData] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('')
 
 
     useEffect(() => {
@@ -16,6 +17,8 @@ export function UserListPage() {
         }
         fetchData();
     }, []);
+
+    const navigate = useNavigate();
 
     const handleDelete = async (userid) => {
         try {
@@ -39,6 +42,10 @@ export function UserListPage() {
     const handleEdit = (user) => {
         setSelectedUser(user);
         setModalData(true);
+    }
+
+    const handleReturn = () => {
+        navigate('/admin');
     }
 
     let usersTable = userList.map((data) => {
@@ -69,6 +76,38 @@ export function UserListPage() {
         )
     })
 
+    if (searchTerm) {
+        usersTable = userList
+            .filter(user => user.username.toLowerCase().includes(searchTerm.toLowerCase()))
+            .map((data) => {
+                let userid = data.userid;
+                let createDate = new Date(data.createdate);
+                let month = String(createDate.getMonth() + 1).padStart(2, '0');
+                let day = String(createDate.getDate()).padStart(2, '0');
+                let year = String(createDate.getFullYear()); 
+                let mmddyyyy = month + '/' + day + '/' + year;  
+        
+                return (
+                    <tr key={userid}>
+                        <td>
+                            <button onClick={() => handleEdit(data)}>Edit</button>
+                        </td>
+                        <td>{data.username}</td>
+                        <td>{data.firstname}</td>
+                        <td>{data.lastname}</td>
+                        <td>{data.email}</td>
+                        <td>{data.isadmin? 'Yes' : 'No'}</td>
+                        <td>{data.telephone}</td>
+                        <td>{data.address}</td>
+                        <td>{mmddyyyy}</td>
+                        <td>
+                            <button onClick={() => handleDelete(userid)}>Delete</button>
+                        </td>
+                    </tr>
+                )
+            })
+    }
+
 
     return (
         <div>
@@ -94,8 +133,17 @@ export function UserListPage() {
                     {usersTable}
                 </tbody>
             </table>
-            <button>
-                <NavLink to='/admin'>Return to Profile</NavLink>
+            <form>
+                <label> Search by Username
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </label>
+            </form>
+            <button onClick={handleReturn}>
+                Return to Profile
             </button>
             {modalData &&
                 <UserListModal 
