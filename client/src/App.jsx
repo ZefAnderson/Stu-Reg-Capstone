@@ -4,6 +4,7 @@ import { LoginPage } from './Pages/LoginPage';
 import { AdminPage } from './Pages/AdminPage';
 import { CoursesPage } from './Pages/CoursesPage';
 import { UserCoursesPage } from './Pages/UserCoursesPage';
+import { AdminCoursesPage } from './Pages/AdminCoursesPage';
 import { RegistrationPage } from './Pages/RegistrationPage';
 import { StudentPage } from './Pages/StudentPage';
 import { UpdateUserPage } from './Pages/UpdateUserPage';
@@ -46,6 +47,11 @@ export default function App() {
         <Route path='usercourses' element={
           <Protected isLoggedIn={isLoggedIn}>
             <UserCoursesPage />
+          </Protected>
+        } />
+                <Route path='admincourses' element={
+          <Protected isLoggedIn={isLoggedIn}>
+            <AdminCoursesPage />
           </Protected>
         } />
         <Route path='registration' element={<RegistrationPage />} />
