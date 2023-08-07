@@ -64,6 +64,23 @@ const addUser = (req, res) => {
     });
 }
 
+const addCourse = (req, res) => {
+    const text = 'insert into course(courseid, title, description, schedule, classroom_number, maximum_capacity, credit_hours, tuition_cost) values ($1, $2, $3, $4, $5, $6, $7, $8)';
+    const values = [
+        req.body.courseid, req.body.title, req.body.description, req.body.schedule, req.body.classroom, req.body.capacity, req.body.creditHours, req.body.tuition
+    ]
+
+    pool.query(text, values, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while adding the course.' });
+        } else {
+            console.log(dbRes.rows);
+            res.status(200).json(dbRes.rows);
+        }
+    });
+}
+
 const getUser = (req, res) => {
     const text = 'select username, firstname, lastname, email, telephone, address, userid from users where userid = $1';
     const id = req.auth.userid;
@@ -104,6 +121,23 @@ const updateUser = (req, res) => {
     });
 }
 
+const updateCourse = (req, res) => {
+    const text = 'update course set courseid = $1, title = $2, description = $3, schedule = $4, classroom_number = $5, maximum_capacity = $6, credit_hours = $7, tuition_cost = $8 where courseid = $9'
+    const values = [
+        req.body.courseid, req.body.title, req.body.description, req.body.schedule, req.body.classroom, req.body.capacity, req.body.creditHours, req.body.tuition, req.body.currid
+    ]
+
+    pool.query(text, values, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while updating the course.' });
+        } else {
+            console.log(dbRes.rows);
+            res.status(200).json(dbRes.rows);
+        }
+    });
+}
+
 const updatePerAdmin = (req, res) => {
     const text = 'update users set username = $1, firstname = $2, lastname = $3, email = $4, isadmin = $5, telephone = $6, address = $7 where userid = $8 returning *';
     const values = [
@@ -130,6 +164,18 @@ const deleteUser = (req, res) => {
             res.status(500).json({ error: 'An error occurred while deleting the user.' });
         } else
         res.status(200).json(dbRes.rows[0]);
+    })
+}
+
+const deleteCourse = (req, res) => {
+    const text = 'delete from course where courseid = $1';
+    const value = [req.body.courseid];
+
+    pool.query(text, value, (err, dbRes) => {
+        if (err) {
+            res.status(500).json({ error: 'An error occurred while deleting the course.' });
+        } else
+        res.status(200).json(dbRes.rows);
     })
 }
 
@@ -204,6 +250,18 @@ const getUserCourses = (req, res) => {
     });
 }
 
+const getAdminCourses = (req, res) => {
+    pool.query('select * from users_courses', (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred' });
+        } else {
+            console.log(dbRes.rows);
+            res.status(200).json(dbRes.rows);
+        }
+    })
+}
+
 const dropUserCourse = (req, res) => {
     // console.log(`dropping course ${req.body.course_id} for user ${req.auth.userid} `);
     const text = `delete from users_courses where user_id = '${req.auth.userid}' and course_id = '${req.body.course_id}'`;
@@ -222,14 +280,18 @@ const dropUserCourse = (req, res) => {
 module.exports = {
     login,
     addUser,
+    addCourse,
     getUser,
     getCourse,
     displayCourses,
     updateUser,
+    updateCourse,
     updatePerAdmin,
     deleteUser,
+    deleteCourse,
     registerUserForCourse,
     getUserCourses,
+    getAdminCourses,
     dropUserCourse,
     getUserList
 }

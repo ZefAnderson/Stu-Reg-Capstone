@@ -35,11 +35,15 @@ app.post("/api/login", query.login);
 
 app.post("/api/registration", query.addUser);
 
+app.post("/api/addcourse", query.addCourse);
+
 app.get("/api/courses", query.displayCourses);
 
 app.get("/api/userprofile", auth, query.getUser);
 
 app.post("/api/updateuser", auth, query.updateUser);
+
+app.post("/api/courseupdate", query.updateCourse);
 
 app.post("/api/adminupdate", query.updatePerAdmin);
 
@@ -47,9 +51,13 @@ app.post("/api/registerforcourse", query.registerUserForCourse);
 
 app.post("/api/usercourses", auth, query.getUserCourses);
 
+app.get("/api/coursesadmin", query.getAdminCourses);
+
 app.get("/api/userlist", query.getUserList);
 
 app.post("/api/delete", query.deleteUser);
+
+app.post("/api/coursedelete", query.deleteCourse);
 
 app.delete("/api/dropcourse", auth, query.dropUserCourse);
 

@@ -55,7 +55,7 @@ export function AdminPage() {
                 <NavLink to='/userlist'>Manage Users</NavLink>
             </button>
             <button>
-                <NavLink to='/courses'>Manage Courses</NavLink>
+                <NavLink to='/admincourses'>Manage Courses</NavLink>
             </button>
             <button onClick={handleLogout}>
                     Log Out
