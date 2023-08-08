@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 
 export function UserCoursesPage() {
     const [courseData, setCourseData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     useEffect(() => {
         const fetchUserCourses = async () => {
@@ -61,9 +63,42 @@ export function UserCoursesPage() {
         )
     })
 
+    if(searchTerm) {
+        courseRows = courseData
+        .filter(data => data.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        .map((data) => {
+            let courseid = data.courseid;
+
+            return (
+                <tr key={courseid}>
+                    <td>
+                        <button onClick={() => handleEdit(data)}>Edit</button>
+                    </td>
+                    <td>{data.title}</td>
+                    <td>{data.description}</td>
+                    <td>{data.schedule}</td>
+                    <td>{data.maximum_capacity}</td>
+                    <td>{data.tuition_cost}</td>
+                    <td>
+                    <button onClick={() => handleDelete(courseid)}>Delete</button>
+                    </td>
+                </tr>
+            )
+        })
+    }
+
     return (
         <>
             <header>User Courses</header>
+            <form>
+                <label> Search by Course Title
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </label>
+            </form>
             <table>
                 <tbody>
                     <tr>

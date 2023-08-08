@@ -114,6 +114,15 @@ export function UserListPage() {
             <header>
                 Users
             </header>
+            <form>
+                <label> Search by Username
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </label>
+            </form>
             <table>
                 <thead>
                     <tr>
@@ -133,15 +142,6 @@ export function UserListPage() {
                     {usersTable}
                 </tbody>
             </table>
-            <form>
-                <label> Search by Username
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </label>
-            </form>
             <button onClick={handleReturn}>
                 Return to Profile
             </button>

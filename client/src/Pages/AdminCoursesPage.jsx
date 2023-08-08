@@ -116,6 +116,15 @@ export function AdminCoursesPage() {
             <header>
                 Courses
             </header>
+            <form>
+                <label> Search by Course Title
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </label>
+            </form>
             <table>
                 <thead>
                     <tr>
@@ -132,15 +141,6 @@ export function AdminCoursesPage() {
                     {courseTable}
                 </tbody>
             </table>
-            <form>
-                <label> Search by Course Title
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </label>
-            </form>
             <div>
                 <button onClick={handleAdd}>
                     Add New Course
