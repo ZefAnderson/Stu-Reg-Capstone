@@ -84,16 +84,17 @@ export function UserCoursesPage() {
             return (
                 <tr key={courseid}>
                     <td>
-                        <button onClick={() => handleEdit(data)}>Edit</button>
+                        <button onClick={() => handleDrop(data.courseid, data.credit_hours, data.tuition_cost)}>
+                            Drop
+                        </button>
                     </td>
+                    <td>{data.courseid}</td>
                     <td>{data.title}</td>
                     <td>{data.description}</td>
                     <td>{data.schedule}</td>
-                    <td>{data.maximum_capacity}</td>
+                    <td>{data.classroom_number}</td>
+                    <td>{data.credit_hours}</td>
                     <td>{data.tuition_cost}</td>
-                    <td>
-                    <button onClick={() => handleDelete(courseid)}>Delete</button>
-                    </td>
                 </tr>
             )
         })

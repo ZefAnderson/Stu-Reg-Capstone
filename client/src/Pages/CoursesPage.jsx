@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react"
 import { NavLink, useNavigate } from "react-router-dom";
+import RegisterCourseModal from "../Modals/RegisterCourseModal";
+import CourseRegisterErrorModal from "../Modals/CourseRegisterErrorModal";
 
 export function CoursesPage() {
     const [courseData, setCourseData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [modalData, setModalData] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
 
 
     useEffect(() => {
@@ -19,11 +23,6 @@ export function CoursesPage() {
     const navigate = useNavigate();
 
     async function handleRegister(courseid) {
-    //    alert(`Register button pressed for ${courseid}`);
-        // register the student for the course by creating an entry in the
-        // users_courses table
-
-        // get the userid
         const token = localStorage.getItem('token');
         const tokenParts = token.split('.');
         const encodedPayload = tokenParts[1];
@@ -37,14 +36,15 @@ export function CoursesPage() {
             method: 'POST',
             body: JSON.stringify({ userid: userId, courseid: courseid }),
             headers: {
-                'Content-type': 'application/json'//,
-                //  Authorization: `Bearer ${window.localStorage.getItem('token')}`
+                'Content-type': 'application/json'
             }
         });
         if (!response.ok) {
             console.error('Error updating user data:', response.statusText);
+            setErrorModal(true);
             return;
         }
+        setModalData(true);
         navigate("/courses");
 
     }
@@ -52,7 +52,11 @@ export function CoursesPage() {
     let coursesTable = courseData.map((data) => {
         return (
             <tr key={data.courseid}>
-                <td><button onClick={() => handleRegister(data.courseid)}>Register</button></td>
+                <td>
+                    <button onClick={() => handleRegister(data.courseid)}>
+                        Register
+                    </button>
+                </td>
                 <td>{data.courseid}</td>
                 <td>{data.title}</td>
                 <td>{data.description}</td>
@@ -74,16 +78,18 @@ export function CoursesPage() {
             return (
                 <tr key={courseid}>
                     <td>
-                        <button onClick={() => handleEdit(data)}>Edit</button>
+                        <button onClick={() => handleRegister(data.courseid)}>
+                            Register
+                        </button>
                     </td>
+                    <td>{data.courseid}</td>
                     <td>{data.title}</td>
                     <td>{data.description}</td>
                     <td>{data.schedule}</td>
+                    <td>{data.classroom_number}</td>
                     <td>{data.maximum_capacity}</td>
+                    <td>{data.credit_hours}</td>
                     <td>{data.tuition_cost}</td>
-                    <td>
-                    <button onClick={() => handleDelete(courseid)}>Delete</button>
-                    </td>
                 </tr>
             )
         })
@@ -121,6 +127,13 @@ export function CoursesPage() {
                     {coursesTable}
                 </tbody>
             </table>
+            {modalData &&
+                <RegisterCourseModal onClose={() => setModalData(false)} />
+            }
+            {errorModal &&
+                <CourseRegisterErrorModal onClose={() => setErrorModal(false)} />
+            }
+
             <button>
                 <NavLink to='/student'>Return to Profile</NavLink>
             </button>
