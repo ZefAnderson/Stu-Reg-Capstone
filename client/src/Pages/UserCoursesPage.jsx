@@ -24,7 +24,7 @@ export function UserCoursesPage() {
         fetchUserCourses();
     }, []);
 
-    const handleDrop = async (course_id) => {
+    const handleDrop = async (courseid) => {
         const response = await fetch('/api/dropcourse', {
             method: 'DELETE',
             headers: {
@@ -32,7 +32,7 @@ export function UserCoursesPage() {
                 Authorization: `Bearer ${window.localStorage.getItem('token')}`
             },
             body:
-                JSON.stringify({course_id: course_id})
+                JSON.stringify({course_id: courseid})
         });
         if (!response.ok) {
             console.error('Error dropping course:', response.statusText);
@@ -46,7 +46,7 @@ export function UserCoursesPage() {
         return (
             <tr key={data.courseid}>
                 <td>
-                    <button onClick={() => handleDrop(data.course_id)}>
+                    <button onClick={() => handleDrop(data.courseid)}>
                         Drop
                     </button>
                 </td>

@@ -5,10 +5,6 @@ export function CoursesPage() {
     const [courseData, setCourseData] = useState([]);
     const [searchTerm, setSearchTerm] = useState([]);
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-
-    // }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,7 +51,7 @@ export function CoursesPage() {
 
     let coursesTable = courseData.map((data) => {
         return (
-            <tr>
+            <tr key={data.courseid}>
                 <td><button onClick={() => handleRegister(data.courseid)}>Register</button></td>
                 <td>{data.courseid}</td>
                 <td>{data.title}</td>
@@ -74,29 +70,23 @@ export function CoursesPage() {
             <header>
                 Courses
             </header>
-            {/* <form on Submit={handleSubmit}>
-                <label>Find course by name:
-                    <input
-                        type="text"
-                        value={searchKey}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                </label>
-                <button type="submit">Find</button>
-            </form> */}
             <table>
-                <tr>
-                    <th>Action</th>
-                    <th>Course ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Schedule</th>
-                    <th>Classroom</th>
-                    <th>Capacity</th>
-                    <th>Credit Hours</th>
-                    <th>Tuition</th>
-                </tr>
-                {coursesTable}
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Course ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Schedule</th>
+                        <th>Classroom</th>
+                        <th>Capacity</th>
+                        <th>Credit Hours</th>
+                        <th>Tuition</th>
+                    </tr>
+                </thead>
+                <tbody>                    
+                    {coursesTable}
+                </tbody>
             </table>
             <button>
                 <NavLink to='/student'>Return to Profile</NavLink>
