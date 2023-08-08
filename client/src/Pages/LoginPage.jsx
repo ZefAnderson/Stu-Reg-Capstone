@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import LoginModal from "../Modals/LoginModal";
 
-export function LoginPage({ setIsLoggedIn }) {
+export function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [modalData, setModalData] = useState(false);
@@ -23,6 +23,9 @@ export function LoginPage({ setIsLoggedIn }) {
             if (response.status === 200){
                 const data = await response.json();
                 window.localStorage.setItem('token', data.token);
+                if(data.isadmin) {
+                    window.localStorage.setItem('role', 'admin')
+                }
                 const route = data.isadmin ? "/admin" : "/student";
                 navigate(route);            
             } else {

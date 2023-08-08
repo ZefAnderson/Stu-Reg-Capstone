@@ -10,8 +10,9 @@ import { StudentPage } from './Pages/StudentPage';
 import { UpdateUserPage } from './Pages/UpdateUserPage';
 import { UserListPage } from './Pages/UserListPage';
 import Protected from './Protected';
-import React from 'react';
+import CheckAdmin from './CheckAdmin';
 import ReactLoading from 'react-loading';
+import React from 'react';
 import './App.css'
 
 
@@ -19,15 +20,23 @@ import './App.css'
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   
   const checkUserAuthentication = () => {
     const token = localStorage.getItem('token');
     return !!token;
   }
 
+  const checkAdminCredentials = () => {
+    const role = localStorage.getItem('role');
+    return !!role;
+  }
+
   useEffect(() => {
     const isAuthenticated = checkUserAuthentication(); 
+    const confirmedAdmin = checkAdminCredentials();
     setIsLoggedIn(isAuthenticated);
+    setIsAdmin(confirmedAdmin);
     setLoading(false);
   }, []);
 
@@ -38,36 +47,46 @@ export default function App() {
   return (
       <Routes>
         <Route path='/' element={<LoginPage />} />
-        <Route path='admin' element={
+        <Route path='/admin' element={
           <Protected isLoggedIn={isLoggedIn}>
-            <AdminPage />
+            <CheckAdmin isAdmin={isAdmin}>
+              <AdminPage />
+            </CheckAdmin>
           </Protected>
         } />
-        <Route path='courses' element={<CoursesPage />} />
-        <Route path='usercourses' element={
+        <Route path='/courses' element={
+          <Protected isLoggedIn={isLoggedIn}>
+            <CoursesPage /> 
+          </Protected>
+        } />
+        <Route path='/usercourses' element={
           <Protected isLoggedIn={isLoggedIn}>
             <UserCoursesPage />
           </Protected>
         } />
-                <Route path='admincourses' element={
+        <Route path='/admincourses' element={
           <Protected isLoggedIn={isLoggedIn}>
-            <AdminCoursesPage />
+            <CheckAdmin isAdmin={isAdmin}>
+              <AdminCoursesPage />
+            </CheckAdmin>
           </Protected>
         } />
-        <Route path='registration' element={<RegistrationPage />} />
-        <Route path='student' element={
+        <Route path='/registration' element={<RegistrationPage />} />
+        <Route path='/student' element={
           <Protected isLoggedIn={isLoggedIn}>
-            <StudentPage />
+              <StudentPage />
           </Protected>
         } />
-        <Route path='updateuser' element={
+        <Route path='/updateuser' element={
           <Protected isLoggedIn={isLoggedIn}>
             <UpdateUserPage />
           </Protected>
         } />
-        <Route path='userlist' element={
+        <Route path='/userlist' element={
           <Protected isLoggedIn={isLoggedIn}>
-            <UserListPage />
+            <CheckAdmin isAdmin={isAdmin}>
+              <UserListPage />
+            </CheckAdmin>
           </Protected>
         } />
       </Routes>

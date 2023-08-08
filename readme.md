@@ -5,7 +5,7 @@ Code Structure
 + Code is easy to navigate
 + Code is easy to read
 + Code is easy to understand
-+ Code is correctly partitioned
++ Code is correctly partitioned 
 20 pts
 Full Marks
 0 pts
@@ -53,6 +53,7 @@ Authentication System
 + client-side admin routes are guarded against non-admin users
 + server-side routes are guarded against users that are not logged in
 + server-side admin routes are guarded against non-admin users
+
 20 pts
 Full Marks
 0 pts
@@ -77,7 +78,9 @@ Administrator Pages
 + Data is stored and retrieved correctly
 + Administrators can create, edit, and delete users successfully
 + Administrators can create, edit, and delete courses successfully
-+ Administrators can register/unregister any user for any course
+
+            <<<<<<<+ Administrators can register/unregister any user for any course>>>>>>>
+
 20 pts
 Full Marks
 0 pts
@@ -88,7 +91,9 @@ Course Pages
 + Correctly displays information for all courses.
 + Includes a search/filter feature
 + Students can correctly register courses
-+ Students cannot register for courses that are full, or that they are already registered for.
+
+                <<<<<<<+ Students cannot register for courses that are full, or that they are already registered for.>>>>>>>
+
 20 pts
 Full Marks
 0 pts
@@ -99,9 +104,13 @@ Profile Pages
 + Profile page is easy to use
 + Data is stored and retrieved correctly
 + User can update information successfully
-+ Correctly displays users schedule
-+ Correctly displays users total tuition fees.
-+ Correctly displays users total credit hours
+
+                <<<<<<<+ Correctly displays users schedule>>>>>>>
+
+                <<<<<<<+ Correctly displays users total tuition fees.>>>>>>>
+
+                <<<<<<<+ Correctly displays users total credit hours>>>>>>>>
+
 20 pts
 Full Marks
 0 pts
