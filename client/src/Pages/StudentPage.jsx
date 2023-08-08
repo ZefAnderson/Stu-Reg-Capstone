@@ -48,7 +48,7 @@ export function StudentPage() {
             <div>
                 {userData}
                 <button>
-                    <NavLink to='/updateuserpage'>Edit Profile</NavLink>
+                    <NavLink to='/updateuser'>Edit Profile</NavLink>
                 </button>
             </div>
             <div>
@@ -57,7 +57,6 @@ export function StudentPage() {
                 </button>
             </div>
             <div>
-                {/* {userData} */}
                 <button>
                     <NavLink to='/courses'>Choose Courses</NavLink>
                 </button>
@@ -66,7 +65,6 @@ export function StudentPage() {
                 <h3>tuition detail</h3>
             </div>
             <div>
-                <button>link to calendar</button>
                 <button onClick={handleLogout}>
                     Log Out
                 </button>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { NavLink } from "react-router-dom";
 
 export function UserCoursesPage() {
     const [courseData, setCourseData] = useState([]);
@@ -38,13 +39,12 @@ export function UserCoursesPage() {
             return;
         }
         let parsedData = await response.json();
-        // console.log(parsedData);
         setCourseData(parsedData);
     }
 
     let courseRows = courseData.map((data) => {
         return (
-            <tr>
+            <tr key={data.courseid}>
                 <td>
                     <button onClick={() => handleDrop(data.course_id)}>
                         Drop
@@ -55,7 +55,6 @@ export function UserCoursesPage() {
                 <td>{data.description}</td>
                 <td>{data.schedule}</td>
                 <td>{data.classroom_number}</td>
-                <td>{data.maximum_capacity}</td>
                 <td>{data.credit_hours}</td>
                 <td>{data.tuition_cost}</td>
             </tr>
@@ -74,13 +73,16 @@ export function UserCoursesPage() {
                         <th>Description</th>
                         <th>Schedule</th>
                         <th>Room Number</th>
-                        <th>Capacity</th>
-                        <th>Credits</th>
+                        <th>Credit Hours</th>
                         <th>Tuition</th>
                     </tr>
                     {courseRows}
                 </tbody>
             </table>
+            <button>
+                <NavLink to='/student'>Return to Profile</NavLink>
+            </button>
+
         </>
     )
 }
