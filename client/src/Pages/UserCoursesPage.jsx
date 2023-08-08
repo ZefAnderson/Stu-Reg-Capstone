@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 export function UserCoursesPage() {
     const [courseData, setCourseData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [totalCreditHours, setTotalCreditHours] = useState(0);
+    const [totalTuitionCost, setTotalTuitionCost] = useState(0);
 
 
     useEffect(() => {
@@ -26,7 +28,7 @@ export function UserCoursesPage() {
         fetchUserCourses();
     }, []);
 
-    const handleDrop = async (courseid) => {
+    const handleDrop = async (courseid, credit_hours, tuition_cost) => {
         const response = await fetch('/api/dropcourse', {
             method: 'DELETE',
             headers: {
@@ -42,13 +44,23 @@ export function UserCoursesPage() {
         }
         let parsedData = await response.json();
         setCourseData(parsedData);
+        const droppedCourse = courseData.find(course => course.courseid === courseid);
+        setTotalCreditHours(totalCreditHours - credit_hours);
+        setTotalTuitionCost(totalTuitionCost - parseFloat(droppedCourse.tuition_cost.replace(/[^0-9.-]+/g, '')));
     }
+
+    useEffect(() => {
+        const initialCreditHours = courseData.reduce((total, course) => total + course.credit_hours, 0);
+        const initialTuitionCost = courseData.reduce((total, course) => total + parseFloat(course.tuition_cost.replace(/[^0-9.-]+/g, '')), 0);
+        setTotalCreditHours(initialCreditHours);
+        setTotalTuitionCost(initialTuitionCost);
+    }, [courseData]);    
 
     let courseRows = courseData.map((data) => {
         return (
             <tr key={data.courseid}>
                 <td>
-                    <button onClick={() => handleDrop(data.courseid)}>
+                    <button onClick={() => handleDrop(data.courseid, data.credit_hours, data.tuition_cost)}>
                         Drop
                     </button>
                 </td>
@@ -114,6 +126,10 @@ export function UserCoursesPage() {
                     {courseRows}
                 </tbody>
             </table>
+            <div>
+                <p>Total Credit Hours Enrolled: {totalCreditHours}</p>
+                <p>Total Tuition Cost: ${totalTuitionCost}</p>
+            </div>
             <button>
                 <NavLink to='/student'>Return to Profile</NavLink>
             </button>

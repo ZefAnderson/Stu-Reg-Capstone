@@ -62,9 +62,6 @@ export function StudentPage() {
                 </button>
             </div>
             <div>
-                <h3>tuition detail</h3>
-            </div>
-            <div>
                 <button onClick={handleLogout}>
                     Log Out
                 </button>

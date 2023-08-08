@@ -107,9 +107,8 @@ Profile Pages
 
                 <<<<<<<+ Correctly displays users schedule>>>>>>>
 
-                <<<<<<<+ Correctly displays users total tuition fees.>>>>>>>
-
-                <<<<<<<+ Correctly displays users total credit hours>>>>>>>>
++ Correctly displays users total tuition fees.
++ Correctly displays users total credit hours
 
 20 pts
 Full Marks
