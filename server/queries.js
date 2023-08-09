@@ -95,6 +95,23 @@ const getUser = (req, res) => {
     });
 };
 
+const getUserId = (req, res) => {
+    const text = 'select userid from users where firstname = $1 and lastname = $2';
+    const values = [
+        req.query.firstname, req.query.lastname
+    ]
+    console.log(values);
+
+    pool.query(text, values, (err, results) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while getting the userid.' });
+        } else {
+            res.status(200).json(results.rows)
+        }
+    })
+}
+
 const getUserList = (req, res) => {
     pool.query('select * from users', (err, results) => {
         if (err) {
@@ -305,6 +322,7 @@ module.exports = {
     addUser,
     addCourse,
     getUser,
+    getUserId,
     getCourse,
     displayCourses,
     updateUser,

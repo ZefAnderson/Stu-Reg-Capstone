@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 export default function EnrollmentModal ({onClose, course}) {
     const [studentList, setStudentList] = useState([]);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
     const handleUnenroll = async (course, student) => {
         const response = await fetch('/api/admindrop', {
@@ -16,11 +18,38 @@ export default function EnrollmentModal ({onClose, course}) {
                 console.error('Error dropping course:', response.statusText);
                 return;
         }
-        console.log(student);
         const updatedStudentList = studentList.filter(s => s.userid !== student.userid);
         setStudentList(updatedStudentList);
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await fetch(`/api/getuserid?firstname=${firstName}&lastname=${lastName}`);
+        const data = await response.json();
+        if (!response.ok || data.length === 0) {
+            alert('Error: Student not found in the database.');
+            return;
+        }        
+        const userid = data[0].userid; 
+    
+        const enrollmentResponse = await fetch('/api/registerforcourse', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({ courseid: course.courseid, userid: userid })
+        });
+        if (!enrollmentResponse.ok) {
+            console.error('Error enrolling student:', enrollmentResponse.statusText);
+            return;
+        }
+        const students = await fetch(`/api/getstudents?courseid=${course.courseid}`);
+        const parsedData = await students.json();
+        setStudentList(parsedData);
+        setFirstName('');
+        setLastName('');
+    }
+    
     useEffect(() => {
         const fetchStudents = async () => {
             if (course) {
@@ -56,6 +85,24 @@ export default function EnrollmentModal ({onClose, course}) {
                 <ul>
                     {studentElements}
                 </ul>
+                <p>Enroll Another Student</p>
+                <form onSubmit={handleSubmit}>
+                    <label> First Name
+                        <input
+                            type="text"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                    </label>
+                    <label> Last Name
+                        <input
+                            type="text"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                    </label>
+                    <button type="submit">Enroll</button>
+                </form>
                 <button onClick={onClose}>Done</button>
             </div>
         </div>

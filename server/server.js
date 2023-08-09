@@ -47,7 +47,9 @@ app.post("/api/courseupdate", query.updateCourse);
 
 app.post("/api/adminupdate", query.updatePerAdmin);
 
-app.get("/api/getstudents", query.getStudentsInCourse)
+app.get("/api/getstudents", query.getStudentsInCourse);
+
+app.get("/api/getuserid", query.getUserId)
 
 app.post("/api/registerforcourse", query.registerUserForCourse);
 
