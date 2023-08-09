@@ -92,7 +92,8 @@ Course Pages
 + Includes a search/filter feature
 + Students can correctly register courses
 
-                <<<<<<<+ Students cannot register for courses that are full, or that they are already registered for.>>>>>>>
+                <<<<<<<+ Students cannot register for courses that are full>>>>>>>
++ Students cannot register for courses that they are already registered for
 
 20 pts
 Full Marks

@@ -9,6 +9,7 @@ import { RegistrationPage } from './Pages/RegistrationPage';
 import { StudentPage } from './Pages/StudentPage';
 import { UpdateUserPage } from './Pages/UpdateUserPage';
 import { UserListPage } from './Pages/UserListPage';
+import { RegistrationManagementPage } from './Pages/RegistrationManagementPage';
 import Protected from './Protected';
 import CheckAdmin from './CheckAdmin';
 import ReactLoading from 'react-loading';
@@ -71,6 +72,14 @@ export default function App() {
             </CheckAdmin>
           </Protected>
         } />
+        <Route path='/registrationmanagement' element={
+          <Protected isLoggedIn={isLoggedIn}>
+            <CheckAdmin isAdmin={isAdmin}>
+              <RegistrationManagementPage />
+            </CheckAdmin>
+          </Protected>
+        } />
+
         <Route path='/registration' element={<RegistrationPage />} />
         <Route path='/student' element={
           <Protected isLoggedIn={isLoggedIn}>

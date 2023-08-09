@@ -6,26 +6,12 @@ import AddCourseModal from "../Modals/AddCourseModal";
 export function AdminCoursesPage() {
     const [courseList, setCourseList] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState(null);
-    // const [userCourses, setUserCourses] = useState([]);
-    // const [userList, setUserList] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [editModal, setEditModal] = useState(false);
     const [addModal, setAddModal] = useState(false);
 
 
     useEffect(() => {
-        // const fetchUserCourses = async () => {
-        //     const userCourseData = await fetch('/api/coursesadmin');
-        //     let userCourseParsedData = await userCourseData.json();
-        //     setUserCourses(userCourseParsedData);
-        // }
-        // fetchUserCourses();
-        // const fetchUserData = async () => {
-        //     const userData = await fetch('/api/userlist');
-        //     let userParsedData = await userData.json();
-        //     setUserList(userParsedData);
-        // }
-        // fetchUserData();
         const fetchCourseList = async () => {
             const courseData = await fetch('/api/courses');
             let courseParsedData = await courseData.json();

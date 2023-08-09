@@ -200,6 +200,21 @@ const displayCourses = (req, res) => {
     })
 }
 
+const getStudentsInCourse = (req, res) => {
+    const text = 'SELECT firstname, lastname FROM users WHERE users.userid IN (SELECT user_id FROM users_courses WHERE course_id = $1)';
+    const values = [req.query.courseid];
+
+    pool.query(text, values, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: 'An error occurred while getting users.' });
+        } else {
+            console.log(dbRes.rows);
+            res.status(200).json(dbRes.rows);
+        }
+    });
+}
+
 const registerUserForCourse = (req, res) => {
     const text = 'insert into users_courses(user_id, course_id) values ($1, $2) returning *'
 
@@ -219,7 +234,6 @@ const registerUserForCourse = (req, res) => {
 }
 
 const getUserCourses = (req, res) => {
-    // console.log(`getUserCourses for ${req.auth.userid}`);
     const text =
         'SELECT ' +
             'courseid, ' +
@@ -235,16 +249,11 @@ const getUserCourses = (req, res) => {
             'FROM users_courses ' +
             `WHERE user_id = '${req.auth.userid}');`
 
-    // console.log(`query: ${text}`);
-
-//    const text = `select course_id from users_courses where user_id = '${req.auth.userid}'`;
     pool.query(text, (err, dbRes) => {
         if (err) {
-            // console.log(dbRes);
             console.error(err.stack);
             res.status(500).json({ error: `An error occurred while getting the user's course list.` });
         } else {
-            // console.log(dbRes.rows);
             res.status(200).json(dbRes.rows);
         }
     });
@@ -289,6 +298,7 @@ module.exports = {
     updatePerAdmin,
     deleteUser,
     deleteCourse,
+    getStudentsInCourse,
     registerUserForCourse,
     getUserCourses,
     getAdminCourses,
