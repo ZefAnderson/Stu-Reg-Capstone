@@ -201,7 +201,7 @@ const displayCourses = (req, res) => {
 }
 
 const getStudentsInCourse = (req, res) => {
-    const text = 'SELECT firstname, lastname FROM users WHERE users.userid IN (SELECT user_id FROM users_courses WHERE course_id = $1)';
+    const text = 'SELECT firstname, lastname, userid FROM users WHERE users.userid IN (SELECT user_id FROM users_courses WHERE course_id = $1)';
     const values = [req.query.courseid];
 
     pool.query(text, values, (err, dbRes) => {
@@ -272,16 +272,30 @@ const getAdminCourses = (req, res) => {
 }
 
 const dropUserCourse = (req, res) => {
-    // console.log(`dropping course ${req.body.course_id} for user ${req.auth.userid} `);
-    const text = `delete from users_courses where user_id = '${req.auth.userid}' and course_id = '${req.body.course_id}'`;
-    pool.query(text, (err, dbRes) => {
+    const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
+    const values = [req.auth.userid, req.body.course_id];
+    
+    pool.query(text, values, (err, dbRes) => {
         if (err) {
             console.error(err.stack);
             res.status(500).json({ error: `An error occurred while dropping a course.` });
         } else {
-            // console.log(dbRes.rows);
             getUserCourses(req, res);
-//            res.status(200).json(dbRes.rows);
+        }
+    });
+}
+
+const adminDropCourse = (req, res) => {
+    const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
+    const values = [req.body.userid, req.body.courseid];
+    console.log(values);
+    
+    pool.query(text, values, (err, dbRes) => {
+        if (err) {
+            console.error(err.stack);
+            res.status(500).json({ error: `An error occurred while dropping a course.` });
+        } else {
+            res.status(200).json(dbRes.rows);
         }
     });
 }
@@ -303,5 +317,6 @@ module.exports = {
     getUserCourses,
     getAdminCourses,
     dropUserCourse,
-    getUserList
+    getUserList,
+    adminDropCourse
 }

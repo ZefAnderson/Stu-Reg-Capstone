@@ -63,6 +63,8 @@ app.post("/api/coursedelete", query.deleteCourse);
 
 app.delete("/api/dropcourse", auth, query.dropUserCourse);
 
+app.delete("/api/admindrop", query.adminDropCourse);
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
