@@ -20,19 +20,6 @@ export function StudentPage() {
         fetchData();
     }, []);
 
-    const userData = user?.map( (user) => {
-        return (
-        <ul key={user.userid}>User Summary
-            <li key={user.username}>{user.username}</li>
-            <li key={user.firstname}>{user.firstname}</li>
-            <li key={user.lastname}>{user.lastname}</li>
-            <li key={user.email}>{user.email}</li>
-            <li key={user.telephone}>{user.telephone}</li>
-            <li key={user.address}>{user.address}</li>
-        </ul>
-        )
-    })
-
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -46,7 +33,15 @@ export function StudentPage() {
                 Welcome, {user[0]?.firstname}!
             </header>
             <div>
-                {userData}
+                <p>User Summary</p>
+                <ul>
+                    <li>Username: {user[0]?.username}</li>
+                    <li>First Name: {user[0]?.firstname}</li>
+                    <li>Last Name: {user[0]?.lastname}</li>
+                    <li>Email: {user[0]?.email}</li>
+                    <li>Telephone: {user[0]?.telephone}</li>
+                    <li>Address: {user[0]?.address}</li>
+                </ul>
                 <button>
                     <NavLink to='/updateuser'>Edit Profile</NavLink>
                 </button>
@@ -54,11 +49,6 @@ export function StudentPage() {
             <div>
                 <button>
                     <NavLink to='/usercourses'>My Courses</NavLink>
-                </button>
-            </div>
-            <div>
-                <button>
-                    <NavLink to='/courses'>Choose Courses</NavLink>
                 </button>
             </div>
             <div>

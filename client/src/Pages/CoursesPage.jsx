@@ -153,6 +153,9 @@ export function CoursesPage() {
                 <CourseFullModal onClose={() => setCourseFullModal(false)} />
             }
             <button>
+                <NavLink to='/usercourses'>Return to Courses</NavLink>
+            </button>
+            <button>
                 <NavLink to='/student'>Return to Profile</NavLink>
             </button>
         </div>

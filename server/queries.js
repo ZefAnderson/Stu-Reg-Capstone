@@ -111,7 +111,7 @@ const getUser = async (req, res) => {
         res.status(200).json(results.rows);
     } catch (error) {
         console.error(error.stack);
-        res.status(500).json({ error: 'An error occurred while adding the user.' });
+        res.status(500).json({ error: 'An error occurred while getting the user.' });
     }
 };
 

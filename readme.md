@@ -103,9 +103,7 @@ Profile Pages
 + Profile page is easy to use
 + Data is stored and retrieved correctly
 + User can update information successfully
-
-                                                                    <<<<<<<+ Correctly displays users schedule>>>>>>>
-
++ Correctly displays users schedule
 + Correctly displays users total tuition fees.
 + Correctly displays users total credit hours
 

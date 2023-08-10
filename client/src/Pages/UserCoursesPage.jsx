@@ -128,6 +128,11 @@ export function UserCoursesPage() {
                 </tbody>
             </table>
             <div>
+                <button>
+                    <NavLink to='/courses'>Register For Another Course</NavLink>
+                </button>
+            </div>
+            <div>
                 <p>Total Credit Hours Enrolled: {totalCreditHours}</p>
                 <p>Total Tuition Cost: ${totalTuitionCost}</p>
             </div>
