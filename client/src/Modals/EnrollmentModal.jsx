@@ -24,30 +24,34 @@ export default function EnrollmentModal ({onClose, course}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch(`/api/getuserid?firstname=${firstName}&lastname=${lastName}`);
-        const data = await response.json();
-        if (!response.ok || data.length === 0) {
-            alert('Error: Student not found in the database.');
-            return;
-        }        
-        const userid = data[0].userid; 
-    
-        const enrollmentResponse = await fetch('/api/registerforcourse', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify({ courseid: course.courseid, userid: userid })
-        });
-        if (!enrollmentResponse.ok) {
-            console.error('Error enrolling student:', enrollmentResponse.statusText);
-            return;
+        if(course.maximum_capacity === course.enrolledCount){
+            alert('Selected course is full')
+        } else {
+            const response = await fetch(`/api/getuserid?firstname=${firstName}&lastname=${lastName}`);
+            const data = await response.json();
+            if (!response.ok || data.length === 0) {
+                alert('Error: Student not found in the database.');
+                return;
+            }        
+            const userid = data[0].userid; 
+        
+            const enrollmentResponse = await fetch('/api/registerforcourse', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({ courseid: course.courseid, userid: userid })
+            });
+            if (!enrollmentResponse.ok) {
+                console.error('Error enrolling student:', enrollmentResponse.statusText);
+                return;
+            }
+            const students = await fetch(`/api/getstudents?courseid=${course.courseid}`);
+            const parsedData = await students.json();
+            setStudentList(parsedData);
+            setFirstName('');
+            setLastName('');
         }
-        const students = await fetch(`/api/getstudents?courseid=${course.courseid}`);
-        const parsedData = await students.json();
-        setStudentList(parsedData);
-        setFirstName('');
-        setLastName('');
     }
     
     useEffect(() => {

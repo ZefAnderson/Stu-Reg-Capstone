@@ -1,9 +1,9 @@
-export default function RegisterCourseModal ({onClose}) {
+export default function CourseFullModal ({onClose}) {
 
-    return (
+    return(
         <div className="modalBackground">
             <div className="modalContent">
-                <p>Registration Success!  This course has been added to your schedule</p>
+                <p>The selected course is full</p>
                 <button onClick={onClose}>Done</button>
             </div>
         </div>

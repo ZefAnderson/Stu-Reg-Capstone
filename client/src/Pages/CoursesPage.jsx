@@ -2,15 +2,17 @@ import { useState, useEffect } from "react"
 import { NavLink, useNavigate } from "react-router-dom";
 import RegisterCourseModal from "../Modals/RegisterCourseModal";
 import CourseRegisterErrorModal from "../Modals/CourseRegisterErrorModal";
+import CourseFullModal from "../Modals/CourseFullModal";
 
 export function CoursesPage() {
     const [courseData, setCourseData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [modalData, setModalData] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
+    const [courseFullModal, setCourseFullModal] = useState(false);
 
 
-    useEffect(() => {
+    useEffect(() => {  
         const fetchData = async () => {
             const data = await fetch('/api/courses');
             let parsedData = await data.json();
@@ -21,32 +23,45 @@ export function CoursesPage() {
     }, []);
 
     const navigate = useNavigate();
+        
 
     async function handleRegister(courseid) {
-        const token = localStorage.getItem('token');
-        const tokenParts = token.split('.');
-        const encodedPayload = tokenParts[1];
-        const decodedPayload = atob(encodedPayload);
-        const payload = JSON.parse(decodedPayload);
-
-        const userId = payload.userid;
-        console.log(`userId: ${userId}`);
-
-        const response = await fetch('/api/registerforcourse', {
-            method: 'POST',
-            body: JSON.stringify({ userid: userId, courseid: courseid }),
-            headers: {
-                'Content-type': 'application/json'
+        const data = await fetch(`/api/getstudents?courseid=${courseid}`);
+        const list = await data.json();
+        const updatedCourseData = courseData.map(course => {
+            if (course.courseid === courseid) {
+                return { ...course, enrolledCount: list.length };
             }
+            return course;
         });
-        if (!response.ok) {
-            console.error('Error updating user data:', response.statusText);
-            setErrorModal(true);
-            return;
-        }
-        setModalData(true);
-        navigate("/courses");
 
+        if(courseData.maximum_capacity === courseid.enrolledCount){
+            setCourseFullModal(true);
+        } else {
+            const token = localStorage.getItem('token');
+            const tokenParts = token.split('.');
+            const encodedPayload = tokenParts[1];
+            const decodedPayload = atob(encodedPayload);
+            const payload = JSON.parse(decodedPayload);
+
+            const userId = payload.userid;
+            console.log(`userId: ${userId}`);
+
+            const response = await fetch('/api/registerforcourse', {
+                method: 'POST',
+                body: JSON.stringify({ userid: userId, courseid: courseid }),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                console.error('Error updating user data:', response.statusText);
+                setErrorModal(true);
+                return;
+            }
+            setModalData(true);
+            navigate("/courses");
+        }
     }
 
     let coursesTable = courseData.map((data) => {
@@ -133,7 +148,9 @@ export function CoursesPage() {
             {errorModal &&
                 <CourseRegisterErrorModal onClose={() => setErrorModal(false)} />
             }
-
+            {courseFullModal &&
+                <CourseFullModal onClose={() => setCourseFullModal(false)} />
+            }
             <button>
                 <NavLink to='/student'>Return to Profile</NavLink>
             </button>

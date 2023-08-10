@@ -57,7 +57,7 @@ export function RegistrationManagementPage() {
                 <tr key={data.courseid}>
                     <td>{data.title}</td>
                     <td>{data.maximum_capacity}</td>
-                    <td>#</td>
+                    <td>{data.enrolledCount}</td>
                     <td>
                         <button onClick={() => handleManager(data)}>
                             Manage Enrollment
