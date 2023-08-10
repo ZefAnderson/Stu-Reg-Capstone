@@ -6,7 +6,11 @@ const { v4: uuidv4 } = require('uuid');
 const pool = new Pool({
     connectionString,
 });
-const { SECRET } = process.env;
+const fs = require('fs');
+
+const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
+const secrets = JSON.parse(secretContents);
+const SECRET = secrets.SECRET_KEY;
 
 pool.connect();
 
@@ -25,6 +29,9 @@ const login = (req, res) => {
                 if (validUser) {
                     console.log('user verified')
                     let { username, email, isadmin, firstname, lastname, telephone, address, userid } = dbRes.rows[0];
+                    const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
+                    const secrets = JSON.parse(secretContents);
+                    const SECRET = secrets.SECRET_KEY;
                     let token = jwt.sign({
                         username, email, isadmin, firstname, lastname, telephone, address, userid
                     }, SECRET, {
