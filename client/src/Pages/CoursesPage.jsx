@@ -35,7 +35,8 @@ export function CoursesPage() {
             return course;
         });
 
-        if(courseData.maximum_capacity === courseid.enrolledCount){
+        const course = updatedCourseData.find(course => course.courseid === courseid);
+        if(course.maximum_capacity === course.enrolledCount){
             setCourseFullModal(true);
         } else {
             const token = localStorage.getItem('token');
