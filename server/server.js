@@ -6,6 +6,12 @@ const query = require("./queries")
 const {expressjwt} = require('express-jwt')
 const morgan = require('morgan');
 const winston = require('winston');
+const { EventEmitter } = require('events');
+
+const bus = new EventEmitter();
+
+bus.setMaxListeners(15); 
+
 
 const auth = expressjwt({
   secret: process.env.SECRET,

@@ -78,8 +78,7 @@ Administrator Pages
 + Data is stored and retrieved correctly
 + Administrators can create, edit, and delete users successfully
 + Administrators can create, edit, and delete courses successfully
-
-            <<<<<<<+ Administrators can register/unregister any user for any course>>>>>>>
++ Administrators can register/unregister any user for any course
 
 20 pts
 Full Marks

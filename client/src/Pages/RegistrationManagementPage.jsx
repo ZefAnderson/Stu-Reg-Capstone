@@ -12,6 +12,11 @@ export function RegistrationManagementPage() {
         const fetchData = async () => {
             const data = await fetch('/api/courses');
             let parsedData = await data.json();
+            for (const course of parsedData) {
+                const data = await fetch(`/api/getstudents?courseid=${course.courseid}`);
+                const list = await data.json();
+                course.enrolledCount = list.length;
+            }
             setCourseList(parsedData);
         }
         fetchData();
@@ -27,7 +32,7 @@ export function RegistrationManagementPage() {
             <tr key={course.courseid}>
                 <td>{course.title}</td>
                 <td>{course.maximum_capacity}</td>
-                <td>#</td>
+                <td>{course.enrolledCount}</td>
                 <td>
                     <button onClick={() => handleManager(course)}>
                         Manage Enrollment
