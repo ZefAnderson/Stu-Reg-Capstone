@@ -7,7 +7,6 @@ export function LoginPage() {
     const [password, setPassword] = useState('');
     const [modalData, setModalData] = useState(false);
 
-
     const navigate = useNavigate()
     
     const handleLogin = async (e) => {

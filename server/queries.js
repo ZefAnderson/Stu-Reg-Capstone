@@ -26,7 +26,15 @@ const login = async (req, res) => {
             
             if (validUser) {
                 console.log('user verified');
-                const { username, email, isadmin, firstname, lastname, telephone, address, userid } = dbRes.rows[0];
+                const { username, 
+                        email, 
+                        isadmin, 
+                        firstname, 
+                        lastname, 
+                        telephone, 
+                        address, 
+                        userid 
+                    } = dbRes.rows[0];
                 const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
                 const secrets = JSON.parse(secretContents);
                 const SECRET = secrets.SECRET_KEY;
@@ -71,7 +79,15 @@ const addUser = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
     const values = [
-        req.body.username, req.body.email, hashedPassword, false, req.body.fname, req.body.lname, req.body.phone, req.body.address, new Date(), uuidv4()
+        req.body.username, 
+        req.body.email, 
+        hashedPassword, 
+        false, 
+        req.body.fname, 
+        req.body.lname, 
+        req.body.phone, 
+        req.body.address, 
+        new Date(), uuidv4()
     ]
 
     try {
@@ -88,7 +104,14 @@ const addCourse = async (req, res) => {
     try {
         const text = 'insert into course(courseid, title, description, schedule, classroom_number, maximum_capacity, credit_hours, tuition_cost) values ($1, $2, $3, $4, $5, $6, $7, $8)';
         const values = [
-            req.body.courseid, req.body.title, req.body.description, req.body.schedule, req.body.classroom, req.body.capacity, req.body.creditHours, req.body.tuition
+            req.body.courseid, 
+            req.body.title, 
+            req.body.description, 
+            req.body.schedule, 
+            req.body.classroom, 
+            req.body.capacity, 
+            req.body.creditHours, 
+            req.body.tuition
         ];
 
         const dbRes = await pool.query(text, values);
@@ -104,9 +127,9 @@ const addCourse = async (req, res) => {
 const getUser = async (req, res) => {
     try {
         const text = 'select username, firstname, lastname, email, telephone, address, userid from users where userid = $1';
-        const id = req.auth.userid;
+        const id = [req.auth.userid];
 
-        const results = await pool.query(text, [id]);
+        const results = await pool.query(text, id);
 
         res.status(200).json(results.rows);
     } catch (error) {
@@ -144,7 +167,13 @@ const updateUser = async (req, res) => {
     try {
         const text = 'update users set username = $1, email = $2, firstname = $3, lastname = $4, telephone = $5, address = $6 where userid = $7 returning *';
         const values = [
-            req.body.username, req.body.email, req.body.fname, req.body.lname, req.body.phone, req.body.address, req.auth.userid
+            req.body.username, 
+            req.body.email, 
+            req.body.fname, 
+            req.body.lname, 
+            req.body.phone, 
+            req.body.address, 
+            req.auth.userid
         ];
 
         const dbRes = await pool.query(text, values);
@@ -161,7 +190,15 @@ const updateCourse = async (req, res) => {
     try {
         const text = 'update course set courseid = $1, title = $2, description = $3, schedule = $4, classroom_number = $5, maximum_capacity = $6, credit_hours = $7, tuition_cost = $8 where courseid = $9';
         const values = [
-            req.body.courseid, req.body.title, req.body.description, req.body.schedule, req.body.classroom, req.body.capacity, req.body.creditHours, req.body.tuition, req.body.currid
+            req.body.courseid, 
+            req.body.title, 
+            req.body.description, 
+            req.body.schedule, 
+            req.body.classroom, 
+            req.body.capacity, 
+            req.body.creditHours, 
+            req.body.tuition, 
+            req.body.currid
         ];
 
         const dbRes = await pool.query(text, values);
@@ -178,7 +215,14 @@ const updatePerAdmin = async (req, res) => {
     try {
         const text = 'update users set username = $1, firstname = $2, lastname = $3, email = $4, isadmin = $5, telephone = $6, address = $7 where userid = $8 returning *';
         const values = [
-            req.body.username, req.body.fname, req.body.lname, req.body.email, req.body.isadmin, req.body.phone, req.body.address, req.body.userid
+            req.body.username, 
+            req.body.fname, 
+            req.body.lname, 
+            req.body.email, 
+            req.body.isadmin, 
+            req.body.phone, 
+            req.body.address, 
+            req.body.userid
         ];
 
         const dbRes = await pool.query(text, values);
@@ -259,7 +303,8 @@ const registerUserForCourse = async (req, res) => {
     try {
         const text = 'insert into users_courses(user_id, course_id) values ($1, $2) returning *';
         const values = [
-            req.body.userid, req.body.courseid
+            req.body.userid, 
+            req.body.courseid
         ];
 
         const dbRes = await pool.query(text, values);
@@ -299,7 +344,10 @@ const getAdminCourses = async (req, res) => {
 const dropUserCourse = async (req, res) => {
     try {
         const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
-        const values = [req.auth.userid, req.body.course_id];
+        const values = [
+            req.auth.userid, 
+            req.body.course_id
+        ];
 
         await pool.query(text, values);
 
@@ -313,7 +361,10 @@ const dropUserCourse = async (req, res) => {
 const adminDropCourse = async (req, res) => {
     try {
         const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
-        const values = [req.body.userid, req.body.courseid];
+        const values = [
+            req.body.userid, 
+            req.body.courseid
+        ];
 
         await pool.query(text, values);
 
@@ -344,4 +395,4 @@ module.exports = {
     dropUserCourse,
     getUserList,
     adminDropCourse
-}
+};

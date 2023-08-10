@@ -1,5 +1,7 @@
+import React from 'react';
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom';
+import ReactLoading from 'react-loading';
 import { LoginPage } from './Pages/LoginPage';
 import { AdminPage } from './Pages/AdminPage';
 import { CoursesPage } from './Pages/CoursesPage';
@@ -12,8 +14,6 @@ import { UserListPage } from './Pages/UserListPage';
 import { RegistrationManagementPage } from './Pages/RegistrationManagementPage';
 import Protected from './Protected';
 import CheckAdmin from './CheckAdmin';
-import ReactLoading from 'react-loading';
-import React from 'react';
 import './App.css'
 
 

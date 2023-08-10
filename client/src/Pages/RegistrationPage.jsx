@@ -12,15 +12,20 @@ export function RegistrationPage() {
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        fetch('/api/registration', {
-            method: 'POST',
-            body: JSON.stringify({ username: username, email: email, password: password, fname: fname, lname: lname, phone: phone, address: address }),
-            headers: {
-                'Content-type': 'application/json'
-            }
-        });
+        try{
+            const response = await fetch('/api/registration', {
+                method: 'POST',
+                body: JSON.stringify({ username: username, email: email, password: password, fname: fname, lname: lname, phone: phone, address: address }),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+        } catch (error) {
+            console.log("error registering a new user")
+        }
+
         setModalData(true);
         setUsername('');
         setEmail('');

@@ -101,7 +101,7 @@ export function UserCoursesPage() {
     }
 
     return (
-        <>
+        <div>
             <header>User Courses</header>
             <form>
                 <label> Search by Course Title
@@ -136,10 +136,11 @@ export function UserCoursesPage() {
                 <p>Total Credit Hours Enrolled: {totalCreditHours}</p>
                 <p>Total Tuition Cost: ${totalTuitionCost}</p>
             </div>
-            <button>
-                <NavLink to='/student'>Return to Profile</NavLink>
-            </button>
-
-        </>
+            <div>
+                <button>
+                    <NavLink to='/student'>Return to Profile</NavLink>
+                </button>
+            </div>
+        </div>
     )
 }

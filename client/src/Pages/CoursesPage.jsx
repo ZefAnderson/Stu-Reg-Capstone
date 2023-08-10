@@ -25,7 +25,7 @@ export function CoursesPage() {
     const navigate = useNavigate();
         
 
-    async function handleRegister(courseid) {
+    const handleRegister = async (courseid) => {
         const data = await fetch(`/api/getstudents?courseid=${courseid}`);
         const list = await data.json();
         const updatedCourseData = courseData.map(course => {
