@@ -14,45 +14,58 @@ const SECRET = secrets.SECRET_KEY;
 
 pool.connect();
 
-const login = (req, res) => {
-    const userName = [req.body.username];
-    const queryStr = 'select * from users where username = $1'
-
-    pool.query(queryStr, userName, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'A server error occurred while logging in.' });
-        } else {
-            console.log(dbRes.rows[0]);
-            if (dbRes.rows.length) {
-                let validUser = bcrypt.compareSync(req.body.password, dbRes.rows[0].hash)
-                if (validUser) {
-                    console.log('user verified')
-                    let { username, email, isadmin, firstname, lastname, telephone, address, userid } = dbRes.rows[0];
-                    const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
-                    const secrets = JSON.parse(secretContents);
-                    const SECRET = secrets.SECRET_KEY;
-                    let token = jwt.sign({
-                        username, email, isadmin, firstname, lastname, telephone, address, userid
-                    }, SECRET, {
+const login = async (req, res) => {
+    try {
+        const userName = [req.body.username];
+        const queryStr = 'select * from users where username = $1';
+        
+        const dbRes = await pool.query(queryStr, userName);
+        
+        if (dbRes.rows.length) {
+            const validUser = bcrypt.compareSync(req.body.password, dbRes.rows[0].hash);
+            
+            if (validUser) {
+                console.log('user verified');
+                const { username, email, isadmin, firstname, lastname, telephone, address, userid } = dbRes.rows[0];
+                const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
+                const secrets = JSON.parse(secretContents);
+                const SECRET = secrets.SECRET_KEY;
+                
+                const token = jwt.sign(
+                    {
+                        username,
+                        email,
+                        isadmin,
+                        firstname,
+                        lastname,
+                        telephone,
+                        address,
+                        userid
+                    },
+                    SECRET,
+                    {
                         algorithm: 'HS256',
                         expiresIn: '30d'
-                    })
-                    res.status(200).json({
-                        isadmin: isadmin,
-                        token: token
-                    })
-                } else {
-                    res.status(404).send('incorrect username or password');
-                }
+                    }
+                );
+                
+                res.status(200).json({
+                    isadmin: isadmin,
+                    token: token
+                });
             } else {
                 res.status(404).send('incorrect username or password');
             }
+        } else {
+            res.status(404).send('incorrect username or password');
         }
-    });
-}
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'A server error occurred while logging in.' });
+    }
+};
 
-const addUser = (req, res) => {
+const addUser = async (req, res) => {
     const text = 'insert into users(username, email, hash, isadmin, firstname, lastname, telephone, address, createdate, userid) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *';
 
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
@@ -60,269 +73,256 @@ const addUser = (req, res) => {
     const values = [
         req.body.username, req.body.email, hashedPassword, false, req.body.fname, req.body.lname, req.body.phone, req.body.address, new Date(), uuidv4()
     ]
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
+
+    try {
+        const dbRes = await pool.query(text, values);
+        console.log(dbRes.rows[0]);
+        res.status(200).json(dbRes.rows[0]);
+    } catch (error) {
             console.error(err.stack);
             res.status(500).json({ error: 'An error occurred while adding the user.' });
-        } else {
-            console.log(dbRes.rows[0]);
-            res.status(200).json(dbRes.rows[0]);
         }
-    });
 }
 
-const addCourse = (req, res) => {
-    const text = 'insert into course(courseid, title, description, schedule, classroom_number, maximum_capacity, credit_hours, tuition_cost) values ($1, $2, $3, $4, $5, $6, $7, $8)';
-    const values = [
-        req.body.courseid, req.body.title, req.body.description, req.body.schedule, req.body.classroom, req.body.capacity, req.body.creditHours, req.body.tuition
-    ]
+const addCourse = async (req, res) => {
+    try {
+        const text = 'insert into course(courseid, title, description, schedule, classroom_number, maximum_capacity, credit_hours, tuition_cost) values ($1, $2, $3, $4, $5, $6, $7, $8)';
+        const values = [
+            req.body.courseid, req.body.title, req.body.description, req.body.schedule, req.body.classroom, req.body.capacity, req.body.creditHours, req.body.tuition
+        ];
 
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while adding the course.' });
-        } else {
-            console.log(dbRes.rows);
-            res.status(200).json(dbRes.rows);
-        }
-    });
-}
+        const dbRes = await pool.query(text, values);
 
-const getUser = (req, res) => {
-    const text = 'select username, firstname, lastname, email, telephone, address, userid from users where userid = $1';
-    const id = req.auth.userid;
-
-    pool.query(text, [id], (err, results) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while adding the user.' });
-        } else {
-            res.status(200).json(results.rows)
-        }
-    });
+        console.log(dbRes.rows);
+        res.status(200).json(dbRes.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while adding the course.' });
+    }
 };
 
-const getUserId = (req, res) => {
-    const text = 'select userid from users where firstname = $1 and lastname = $2';
-    const values = [
-        req.query.firstname, req.query.lastname
-    ]
-    console.log(values);
+const getUser = async (req, res) => {
+    try {
+        const text = 'select username, firstname, lastname, email, telephone, address, userid from users where userid = $1';
+        const id = req.auth.userid;
 
-    pool.query(text, values, (err, results) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while getting the userid.' });
-        } else {
-            res.status(200).json(results.rows)
-        }
-    })
-}
+        const results = await pool.query(text, [id]);
 
-const getUserList = (req, res) => {
-    pool.query('select * from users', (err, results) => {
-        if (err) {
-            throw error;
-        }
-        res.status(200).json(results.rows)
-    })
-}
+        res.status(200).json(results.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while adding the user.' });
+    }
+};
 
-const updateUser = (req, res) => {
-    const text = 'update users set username = $1, email = $2, firstname = $3, lastname = $4, telephone = $5, address = $6 where userid = $7 returning *'
-    const values = [
-        req.body.username, req.body.email, req.body.fname, req.body.lname, req.body.phone, req.body.address, req.auth.userid
-    ]
+const getUserId = async (req, res) => {
+    try {
+        const text = 'select userid from users where firstname = $1 and lastname = $2';
+        const values = [req.query.firstname, req.query.lastname];
+        console.log(values);
 
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while updating the user.' });
-        } else {
-            console.log(dbRes.rows[0]);
-            res.status(200).json(dbRes.rows[0]);
-        }
-    });
-}
+        const results = await pool.query(text, values);
 
-const updateCourse = (req, res) => {
-    const text = 'update course set courseid = $1, title = $2, description = $3, schedule = $4, classroom_number = $5, maximum_capacity = $6, credit_hours = $7, tuition_cost = $8 where courseid = $9'
-    const values = [
-        req.body.courseid, req.body.title, req.body.description, req.body.schedule, req.body.classroom, req.body.capacity, req.body.creditHours, req.body.tuition, req.body.currid
-    ]
+        res.status(200).json(results.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while getting the userid.' });
+    }
+};
 
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while updating the course.' });
-        } else {
-            console.log(dbRes.rows);
-            res.status(200).json(dbRes.rows);
-        }
-    });
-}
+const getUserList = async (req, res) => {
+    try {
+        const results = await pool.query('select * from users');
+        res.status(200).json(results.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while getting the user list.' });
+    }
+};
 
-const updatePerAdmin = (req, res) => {
-    const text = 'update users set username = $1, firstname = $2, lastname = $3, email = $4, isadmin = $5, telephone = $6, address = $7 where userid = $8 returning *';
-    const values = [
-        req.body.username, req.body.fname, req.body.lname, req.body.email, req.body.isadmin, req.body.phone, req.body.address, req.body.userid
-    ]
+const updateUser = async (req, res) => {
+    try {
+        const text = 'update users set username = $1, email = $2, firstname = $3, lastname = $4, telephone = $5, address = $6 where userid = $7 returning *';
+        const values = [
+            req.body.username, req.body.email, req.body.fname, req.body.lname, req.body.phone, req.body.address, req.auth.userid
+        ];
 
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while updating the user.' });
-        } else {
-            console.log(dbRes.rows[0]);
-            res.status(200).json(dbRes.rows[0]);
-        }
-    })
-}
+        const dbRes = await pool.query(text, values);
 
-const deleteUser = (req, res) => {
-    const text = 'delete from users where userid = $1';
-    const value = [req.body.userid]
-
-    pool.query(text, value, (err, dbRes) => {
-        if (err) {
-            res.status(500).json({ error: 'An error occurred while deleting the user.' });
-        } else
+        console.log(dbRes.rows[0]);
         res.status(200).json(dbRes.rows[0]);
-    })
-}
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while updating the user.' });
+    }
+};
 
-const deleteCourse = (req, res) => {
-    const text = 'delete from course where courseid = $1';
-    const value = [req.body.courseid];
+const updateCourse = async (req, res) => {
+    try {
+        const text = 'update course set courseid = $1, title = $2, description = $3, schedule = $4, classroom_number = $5, maximum_capacity = $6, credit_hours = $7, tuition_cost = $8 where courseid = $9';
+        const values = [
+            req.body.courseid, req.body.title, req.body.description, req.body.schedule, req.body.classroom, req.body.capacity, req.body.creditHours, req.body.tuition, req.body.currid
+        ];
 
-    pool.query(text, value, (err, dbRes) => {
-        if (err) {
-            res.status(500).json({ error: 'An error occurred while deleting the course.' });
-        } else
+        const dbRes = await pool.query(text, values);
+
+        console.log(dbRes.rows);
         res.status(200).json(dbRes.rows);
-    })
-}
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while updating the course.' });
+    }
+};
 
-const getCourse = (req, res) => {
-    console.log(`db getCourse`);
-    pool.query('select courseid from course', (err, results) => {
-        if (err) {
-            throw error;
-        }
-        res.status(200).json(results.rows)
-    })
-}
+const updatePerAdmin = async (req, res) => {
+    try {
+        const text = 'update users set username = $1, firstname = $2, lastname = $3, email = $4, isadmin = $5, telephone = $6, address = $7 where userid = $8 returning *';
+        const values = [
+            req.body.username, req.body.fname, req.body.lname, req.body.email, req.body.isadmin, req.body.phone, req.body.address, req.body.userid
+        ];
 
-const displayCourses = (req, res) => {
-    pool.query('select * from course', (err, results) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while adding the user.' });
-        } else {
-            res.status(200).json(results.rows)
-        }
-    })
-}
+        const dbRes = await pool.query(text, values);
 
-const getStudentsInCourse = (req, res) => {
-    const text = 'SELECT firstname, lastname, userid FROM users WHERE users.userid IN (SELECT user_id FROM users_courses WHERE course_id = $1)';
-    const values = [req.query.courseid];
+        console.log(dbRes.rows[0]);
+        res.status(200).json(dbRes.rows[0]);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while updating the user.' });
+    }
+};
 
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while getting users.' });
-        } else {
-            console.log(dbRes.rows);
-            res.status(200).json(dbRes.rows);
-        }
-    });
-}
+const deleteUser = async (req, res) => {
+    try {
+        const text = 'delete from users where userid = $1';
+        const value = [req.body.userid];
 
-const registerUserForCourse = (req, res) => {
-    const text = 'insert into users_courses(user_id, course_id) values ($1, $2) returning *'
+        const dbRes = await pool.query(text, value);
 
-    const values = [
-        req.body.userid, req.body.courseid
-    ]
-    console.log(`values: ${values}`);
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred while adding the user.' });
-        } else {
-            console.log(dbRes.rows[0]);
-            res.status(200).json(dbRes.rows[0]);
-        }
-    });
-}
+        res.status(200).json(dbRes.rows[0]);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while deleting the user.' });
+    }
+};
 
-const getUserCourses = (req, res) => {
-    const text =
-        'SELECT ' +
-            'courseid, ' +
-            'title, ' +
-            'description, ' +
-            'schedule, ' +
-            'classroom_number, ' +
-            'maximum_capacity, ' +
-            'credit_hours, ' +
-            'tuition_cost ' +
-        'FROM course ' +
-        'WHERE course.courseid in (SELECT course_id ' +
-            'FROM users_courses ' +
-            `WHERE user_id = '${req.auth.userid}');`
+const deleteCourse = async (req, res) => {
+    try {
+        const text = 'delete from course where courseid = $1';
+        const value = [req.body.courseid];
 
-    pool.query(text, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: `An error occurred while getting the user's course list.` });
-        } else {
-            res.status(200).json(dbRes.rows);
-        }
-    });
-}
+        const dbRes = await pool.query(text, value);
 
-const getAdminCourses = (req, res) => {
-    pool.query('select * from users_courses', (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: 'An error occurred' });
-        } else {
-            console.log(dbRes.rows);
-            res.status(200).json(dbRes.rows);
-        }
-    })
-}
+        res.status(200).json(dbRes.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while deleting the course.' });
+    }
+};
 
-const dropUserCourse = (req, res) => {
-    const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
-    const values = [req.auth.userid, req.body.course_id];
-    
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: `An error occurred while dropping a course.` });
-        } else {
-            getUserCourses(req, res);
-        }
-    });
-}
+const getCourse = async (req, res) => {
+    try {
+        console.log(`db getCourse`);
+        const results = await pool.query('select courseid from course');
+        res.status(200).json(results.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while getting courses.' });
+    }
+};
 
-const adminDropCourse = (req, res) => {
-    const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
-    const values = [req.body.userid, req.body.courseid];
-    console.log(values);
-    
-    pool.query(text, values, (err, dbRes) => {
-        if (err) {
-            console.error(err.stack);
-            res.status(500).json({ error: `An error occurred while dropping a course.` });
-        } else {
-            res.status(200).json(dbRes.rows);
-        }
-    });
-}
+const displayCourses = async (req, res) => {
+    try {
+        const results = await pool.query('select * from course');
+        res.status(200).json(results.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while displaying courses.' });
+    }
+};
+
+const getStudentsInCourse = async (req, res) => {
+    try {
+        const text = 'SELECT firstname, lastname, userid FROM users WHERE users.userid IN (SELECT user_id FROM users_courses WHERE course_id = $1)';
+        const values = [req.query.courseid];
+
+        const dbRes = await pool.query(text, values);
+
+        console.log(dbRes.rows);
+        res.status(200).json(dbRes.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while getting users.' });
+    }
+};
+
+const registerUserForCourse = async (req, res) => {
+    try {
+        const text = 'insert into users_courses(user_id, course_id) values ($1, $2) returning *';
+        const values = [
+            req.body.userid, req.body.courseid
+        ];
+
+        const dbRes = await pool.query(text, values);
+
+        console.log(dbRes.rows[0]);
+        res.status(200).json(dbRes.rows[0]);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while registering the user for the course.' });
+    }
+};
+
+const getUserCourses = async (req, res) => {
+    try {
+        const text = 'SELECT courseid, title, description, schedule, classroom_number, maximum_capacity, credit_hours, tuition_cost FROM course WHERE course.courseid in (SELECT course_id FROM users_courses WHERE user_id = $1);';
+        
+        const dbRes = await pool.query(text, [req.auth.userid]);
+
+        res.status(200).json(dbRes.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while getting the user\'s course list.' });
+    }
+};
+
+const getAdminCourses = async (req, res) => {
+    try {
+        const results = await pool.query('select * from users_courses');
+        console.log(results.rows);
+        res.status(200).json(results.rows);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while getting admin courses.' });
+    }
+};
+
+const dropUserCourse = async (req, res) => {
+    try {
+        const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
+        const values = [req.auth.userid, req.body.course_id];
+
+        await pool.query(text, values);
+
+        await getUserCourses(req, res);
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while dropping a course.' });
+    }
+};
+
+const adminDropCourse = async (req, res) => {
+    try {
+        const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
+        const values = [req.body.userid, req.body.courseid];
+
+        await pool.query(text, values);
+
+        res.status(200).json({ message: 'Course dropped successfully.' });
+    } catch (error) {
+        console.error(error.stack);
+        res.status(500).json({ error: 'An error occurred while dropping a course.' });
+    }
+};
 
 module.exports = {
     login,
