@@ -45,6 +45,8 @@ ul {
   list-style-type: none;
 }
 
+/* this allows for the blurred background and no interactivity behind modal
+don't make any changes to modalbackground */
 .modalBackground {
   display: flex;
   justify-content: center; 
@@ -59,6 +61,8 @@ ul {
   backdrop-filter: blur(10px);
 }
 
+/* The important parts here are display, align-items, and flex-direction
+You can change, remove, or add anything else to modal content */
 .modalContent {
   display: flex;
   align-items: center;
