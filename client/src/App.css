@@ -1,6 +1,8 @@
 body {
+  /* <a href="https://www.freepik.com/free-vector/education-technology-futuristic-background-vector-gradient-blue-digital-remix_16311844.htm#query=educationtechnology&position=5&from_view=keyword&track=ais?log-in=google">Image by rawpixel.com</a>on Freepik */
   background-image: url("/background.avif");
-background-size: 100% 100%}
+  background-size: 100% 100%
+}
 
 
 #root {
