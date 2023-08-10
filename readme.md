@@ -18,7 +18,7 @@ UX/UI Design
 + Navigation is intuitive
 + Overall design is user-friendly
 + Includes responsive design
-                                                                            <<<<<+ Includes loading icon>>>>>
++ Includes loading icon
 20 pts
 Full Marks
 0 pts
