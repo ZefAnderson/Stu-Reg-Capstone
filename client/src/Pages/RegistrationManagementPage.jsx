@@ -9,22 +9,28 @@ export function RegistrationManagementPage() {
     const [selectedCourse, setSelectedCourse] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await fetch('/api/courses');
-            let parsedData = await data.json();
-            for (const course of parsedData) {
-                const data = await fetch(`/api/getstudents?courseid=${course.courseid}`);
-                const list = await data.json();
-                course.enrolledCount = list.length;
-            }
-            setCourseList(parsedData);
-        }
         fetchData();
     }, []);
+
+    const fetchData = async () => {
+        const data = await fetch('/api/courses');
+        let parsedData = await data.json();
+        for (const course of parsedData) {
+            const data = await fetch(`/api/getstudents?courseid=${course.courseid}`);
+            const list = await data.json();
+            course.enrolledCount = list.length;
+        }
+        setCourseList(parsedData);
+    }
 
     const handleManager = (course) => {
         setSelectedCourse(course);
         setModalData(true);
+    }
+
+    const handleClose = () => {
+        setModalData(false);
+        fetchData();
     }
 
     let coursesTable = courseList.map((course) => {
@@ -97,7 +103,7 @@ export function RegistrationManagementPage() {
             </table>
             {modalData &&
                 <EnrollmentModal 
-                    onClose={() => setModalData(false)} 
+                    onClose={handleClose} 
                     course={selectedCourse}
                 />
             }

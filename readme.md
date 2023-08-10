@@ -18,7 +18,7 @@ UX/UI Design
 + Navigation is intuitive
 + Overall design is user-friendly
 + Includes responsive design
-+ Includes loading icon
+                                                                            <<<<<+ Includes loading icon>>>>>
 20 pts
 Full Marks
 0 pts
@@ -91,7 +91,8 @@ Course Pages
 + Includes a search/filter feature
 + Students can correctly register courses
 
-                <<<<<<<+ Students cannot register for courses that are full>>>>>>>
+                                                            <<<<<<<+ Students cannot register for courses that are full>>>>>>>
+
 + Students cannot register for courses that they are already registered for
 
 20 pts
@@ -105,7 +106,7 @@ Profile Pages
 + Data is stored and retrieved correctly
 + User can update information successfully
 
-                <<<<<<<+ Correctly displays users schedule>>>>>>>
+                                                                    <<<<<<<+ Correctly displays users schedule>>>>>>>
 
 + Correctly displays users total tuition fees.
 + Correctly displays users total credit hours
