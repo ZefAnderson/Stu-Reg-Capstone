@@ -7,16 +7,19 @@ const {expressjwt} = require('express-jwt')
 const morgan = require('morgan');
 const winston = require('winston');
 const { EventEmitter } = require('events');
-
 const bus = new EventEmitter();
+const fs = require('fs');
 
-bus.setMaxListeners(15); 
-
+const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
+const secrets = JSON.parse(secretContents);
+const secretKey = secrets.SECRET_KEY;
 
 const auth = expressjwt({
-  secret: process.env.SECRET,
+  secret: secretKey,
   algorithms: ['HS256']
 });
+
+bus.setMaxListeners(15); 
 
 const logger = winston.createLogger({
   level: 'info',
