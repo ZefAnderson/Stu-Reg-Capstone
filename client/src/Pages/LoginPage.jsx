@@ -19,10 +19,10 @@ export function LoginPage() {
                     "Content-type": "application/json"
                 }
             })
-            if (response.status === 200){
+            if (response.status === 200) {
                 const data = await response.json();
                 window.localStorage.setItem('token', data.token);
-                if(data.isadmin) {
+                if (data.isadmin) {
                     window.localStorage.setItem('role', 'admin')
                 }
                 const route = data.isadmin ? "/admin" : "/student";
@@ -37,30 +37,39 @@ export function LoginPage() {
 
     return (
         <div>
-            <header>
-                Login
-            </header>
-            <form>
-                <label>Username:
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <br />
-                </label>
-                <label>Password:
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <br />
-                </label>
-                <button type="submit" onClick={handleLogin}>Login</button>
-                <button>
-                    <NavLink to='/registration'>Register a New User</NavLink>
-                </button>
+            <form className="input-form">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label>Username:<br /></label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Password:<br /></label>                          </td>
+                            <td>
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr />
+                <div className="actions">
+                    <button><NavLink to='/registration'>Register...</NavLink></button>
+                    <button type="submit" onClick={handleLogin}>Login</button>
+                </div>
 
                 {modalData &&
                     <LoginModal onClose={() => setModalData(false)} />

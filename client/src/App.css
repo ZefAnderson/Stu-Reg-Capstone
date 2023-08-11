@@ -60,7 +60,14 @@ form {
   border-radius: 3%;
   color: white;
   font-weight: 800;
+}
 
+form.input-form {
+  background-color: rgba(13, 41, 65, .8);
+  border-radius: 3%;
+  padding: .5em;
+  color: white;
+  font-weight: 800;
 }
 
 td.label {
@@ -70,7 +77,12 @@ td.label {
 input[type="text"],
 input[type="password"],
 input[type="email"] {
-  background-color: #0D2941;
+  background-color: rgba(13, 41, 65, 0.3);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
 }
 
 .modalBackground {
@@ -91,11 +103,31 @@ input[type="email"] {
   align-items: center;
   flex-direction: column;
   border-style: solid;
-  border-color: rgb(89,102,130);
+  border-color: rgb(89, 102, 130);
   border-radius: 1em;
   padding: 1em;
-  background-color:rgb(0,28,52);
-  box-shadow: rgb(39,57,103) 0px 14px 28px, rgb(67,85,127) 0px 10px 10px;
+  background-color: rgb(0, 28, 52);
+  box-shadow: rgb(39, 57, 103) 0px 14px 28px, rgb(67, 85, 127) 0px 10px 10px;
+}
+
+table.data-table>* {
+  border: 1px solid rgb(69, 79, 136);
+  background-color: rgb(1, 26, 50);
+}
+
+header {
+  font-weight: bolder;
+  font-size: 2em;
+}
+
+table.data-table>* {
+  border: 1px solid rgb(69, 79, 136);
+  background-color: rgb(1, 26, 50);
+}
+
+header {
+  font-weight: bolder;
+  font-size: 2em;
 }
 
 table, th, td {

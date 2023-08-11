@@ -12,7 +12,7 @@ export function CoursesPage() {
     const [courseFullModal, setCourseFullModal] = useState(false);
 
 
-    useEffect(() => {  
+    useEffect(() => {
         const fetchData = async () => {
             const data = await fetch('/api/courses');
             let parsedData = await data.json();
@@ -23,7 +23,7 @@ export function CoursesPage() {
     }, []);
 
     const navigate = useNavigate();
-        
+
 
     const handleRegister = async (courseid) => {
         const data = await fetch(`/api/getstudents?courseid=${courseid}`);
@@ -125,7 +125,7 @@ export function CoursesPage() {
                     />
                 </label>
             </form>
-            <table>
+            <table className="data-table">
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -139,7 +139,7 @@ export function CoursesPage() {
                         <th>Tuition</th>
                     </tr>
                 </thead>
-                <tbody>                    
+                <tbody>
                     {coursesTable}
                 </tbody>
             </table>
