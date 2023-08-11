@@ -78,14 +78,6 @@ export default function CourseListModal ({onClose, course}) {
                         />
                     </label>
                     <br />
-                    <label>Description: 
-                        <input 
-                            type="text" 
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </label>
-                    <br />
                     <label>Schedule: 
                         <input 
                             type="text" 
@@ -125,6 +117,16 @@ export default function CourseListModal ({onClose, course}) {
                             onChange={(e) => setTuition(e.target.value)}
                         />
                     </label>
+                    <br />
+                    <br />
+                    <div id="description">
+                        <label>Description:</label>
+                        <textarea 
+                            rows="4"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
                     <br />
                     <button type="submit">Update</button>
                 </form>

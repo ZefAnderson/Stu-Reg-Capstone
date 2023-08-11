@@ -63,8 +63,7 @@ export default function AddCourseModal ({onClose}) {
                     </label>
                     <br />
                     <label>Description: 
-                        <input 
-                            type="text" 
+                        <textarea 
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
