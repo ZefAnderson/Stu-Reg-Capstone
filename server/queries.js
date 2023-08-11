@@ -6,7 +6,6 @@ const { v4: uuidv4 } = require('uuid');
 const pool = new Pool({
     connectionString,
 });
-const fs = require('fs');
 
 const secretKey = process.env.SECRET_KEY;
 

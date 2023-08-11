@@ -7,7 +7,6 @@ const { expressjwt } = require('express-jwt')
 const morgan = require('morgan');
 const winston = require('winston');
 const { EventEmitter } = require('events');
-const bus = new EventEmitter();
 require('dotenv').config();
 
 const secretKey = process.env.SECRET_KEY;
@@ -17,7 +16,6 @@ const authConfig = {
   algorithms: ['HS256']
 };
 const auth = expressjwt(authConfig);
-bus.setMaxListeners(15);
 
 const logger = winston.createLogger({
   level: 'info',
