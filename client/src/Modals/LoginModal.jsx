@@ -4,7 +4,7 @@ export default function LoginModal ({onClose}) {
         <div className="modalBackground">
             <div className="modalContent">
                 <p>Username or Password is Incorrect</p>
-                <button onClick={onClose}>Done</button>
+                <button onClick={onClose}>Try Again</button>
             </div>
         </div>
     )
