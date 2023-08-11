@@ -8,9 +8,12 @@ const pool = new Pool({
 });
 const fs = require('fs');
 
-const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
+let secretKey = '';
+const JWT_SECRET_FILENAME = 'jwt-secret.json';
+
+const secretContents = fs.readFileSync(JWT_SECRET_FILENAME, 'utf8');
 const secrets = JSON.parse(secretContents);
-const SECRET = secrets.SECRET_KEY;
+secretKey = secrets.SECRET_KEY || process.env.SECRET_KEY;
 
 pool.connect();
 
@@ -18,27 +21,27 @@ const login = async (req, res) => {
     try {
         const userName = [req.body.username];
         const queryStr = 'select * from users where username = $1';
-        
+
         const dbRes = await pool.query(queryStr, userName);
-        
+
         if (dbRes.rows.length) {
             const validUser = bcrypt.compareSync(req.body.password, dbRes.rows[0].hash);
-            
+
             if (validUser) {
                 console.log('user verified');
-                const { username, 
-                        email, 
-                        isadmin, 
-                        firstname, 
-                        lastname, 
-                        telephone, 
-                        address, 
-                        userid 
+                const { username,
+                        email,
+                        isadmin,
+                        firstname,
+                        lastname,
+                        telephone,
+                        address,
+                        userid
                     } = dbRes.rows[0];
                 const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
                 const secrets = JSON.parse(secretContents);
                 const SECRET = secrets.SECRET_KEY;
-                
+
                 const token = jwt.sign(
                     {
                         username,
@@ -56,7 +59,7 @@ const login = async (req, res) => {
                         expiresIn: '30d'
                     }
                 );
-                
+
                 res.status(200).json({
                     isadmin: isadmin,
                     token: token
@@ -79,14 +82,14 @@ const addUser = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
     const values = [
-        req.body.username, 
-        req.body.email, 
-        hashedPassword, 
-        false, 
-        req.body.fname, 
-        req.body.lname, 
-        req.body.phone, 
-        req.body.address, 
+        req.body.username,
+        req.body.email,
+        hashedPassword,
+        false,
+        req.body.fname,
+        req.body.lname,
+        req.body.phone,
+        req.body.address,
         new Date(), uuidv4()
     ]
 
@@ -104,13 +107,13 @@ const addCourse = async (req, res) => {
     try {
         const text = 'insert into course(courseid, title, description, schedule, classroom_number, maximum_capacity, credit_hours, tuition_cost) values ($1, $2, $3, $4, $5, $6, $7, $8)';
         const values = [
-            req.body.courseid, 
-            req.body.title, 
-            req.body.description, 
-            req.body.schedule, 
-            req.body.classroom, 
-            req.body.capacity, 
-            req.body.creditHours, 
+            req.body.courseid,
+            req.body.title,
+            req.body.description,
+            req.body.schedule,
+            req.body.classroom,
+            req.body.capacity,
+            req.body.creditHours,
             req.body.tuition
         ];
 
@@ -167,12 +170,12 @@ const updateUser = async (req, res) => {
     try {
         const text = 'update users set username = $1, email = $2, firstname = $3, lastname = $4, telephone = $5, address = $6 where userid = $7 returning *';
         const values = [
-            req.body.username, 
-            req.body.email, 
-            req.body.fname, 
-            req.body.lname, 
-            req.body.phone, 
-            req.body.address, 
+            req.body.username,
+            req.body.email,
+            req.body.fname,
+            req.body.lname,
+            req.body.phone,
+            req.body.address,
             req.auth.userid
         ];
 
@@ -190,14 +193,14 @@ const updateCourse = async (req, res) => {
     try {
         const text = 'update course set courseid = $1, title = $2, description = $3, schedule = $4, classroom_number = $5, maximum_capacity = $6, credit_hours = $7, tuition_cost = $8 where courseid = $9';
         const values = [
-            req.body.courseid, 
-            req.body.title, 
-            req.body.description, 
-            req.body.schedule, 
-            req.body.classroom, 
-            req.body.capacity, 
-            req.body.creditHours, 
-            req.body.tuition, 
+            req.body.courseid,
+            req.body.title,
+            req.body.description,
+            req.body.schedule,
+            req.body.classroom,
+            req.body.capacity,
+            req.body.creditHours,
+            req.body.tuition,
             req.body.currid
         ];
 
@@ -215,13 +218,13 @@ const updatePerAdmin = async (req, res) => {
     try {
         const text = 'update users set username = $1, firstname = $2, lastname = $3, email = $4, isadmin = $5, telephone = $6, address = $7 where userid = $8 returning *';
         const values = [
-            req.body.username, 
-            req.body.fname, 
-            req.body.lname, 
-            req.body.email, 
-            req.body.isadmin, 
-            req.body.phone, 
-            req.body.address, 
+            req.body.username,
+            req.body.fname,
+            req.body.lname,
+            req.body.email,
+            req.body.isadmin,
+            req.body.phone,
+            req.body.address,
             req.body.userid
         ];
 
@@ -303,7 +306,7 @@ const registerUserForCourse = async (req, res) => {
     try {
         const text = 'insert into users_courses(user_id, course_id) values ($1, $2) returning *';
         const values = [
-            req.body.userid, 
+            req.body.userid,
             req.body.courseid
         ];
 
@@ -320,7 +323,7 @@ const registerUserForCourse = async (req, res) => {
 const getUserCourses = async (req, res) => {
     try {
         const text = 'SELECT courseid, title, description, schedule, classroom_number, maximum_capacity, credit_hours, tuition_cost FROM course WHERE course.courseid in (SELECT course_id FROM users_courses WHERE user_id = $1);';
-        
+
         const dbRes = await pool.query(text, [req.auth.userid]);
 
         res.status(200).json(dbRes.rows);
@@ -345,7 +348,7 @@ const dropUserCourse = async (req, res) => {
     try {
         const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
         const values = [
-            req.auth.userid, 
+            req.auth.userid,
             req.body.course_id
         ];
 
@@ -362,7 +365,7 @@ const adminDropCourse = async (req, res) => {
     try {
         const text = 'DELETE FROM users_courses WHERE user_id = $1 AND course_id = $2';
         const values = [
-            req.body.userid, 
+            req.body.userid,
             req.body.courseid
         ];
 
