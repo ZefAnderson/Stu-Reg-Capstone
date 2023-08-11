@@ -1,3 +1,5 @@
+dist
 node_modules
+
 api.http
-server/.env
+.env
