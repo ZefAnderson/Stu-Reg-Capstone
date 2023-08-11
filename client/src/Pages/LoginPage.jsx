@@ -8,7 +8,7 @@ export function LoginPage() {
     const [modalData, setModalData] = useState(false);
 
     const navigate = useNavigate()
-    
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -26,7 +26,7 @@ export function LoginPage() {
                     window.localStorage.setItem('role', 'admin')
                 }
                 const route = data.isadmin ? "/admin" : "/student";
-                navigate(route);            
+                navigate(route);
             } else {
                 setModalData(true);
             }

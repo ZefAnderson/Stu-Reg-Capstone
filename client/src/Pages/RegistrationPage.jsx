@@ -14,7 +14,7 @@ export function RegistrationPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const response = await fetch('/api/registration', {
                 method: 'POST',
                 body: JSON.stringify({ username: username, email: email, password: password, fname: fname, lname: lname, phone: phone, address: address }),
@@ -42,62 +42,73 @@ export function RegistrationPage() {
                 Register New User
             </header>
             <form id="myForm" onSubmit={handleSubmit}>
-                <label>Username: 
-                    <input 
-                        type="text" 
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Email: 
-                    <input 
-                        type="email" 
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Password: 
-                    <input 
-                        type="password" 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>First Name: 
-                    <input 
-                        type="text" 
-                        value={fname}
-                        onChange={(e) => setFname(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Last Name: 
-                    <input 
-                        type="text" 
-                        value={lname}
-                        onChange={(e) => setLname(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Phone Number: 
-                    <input 
-                        type="text"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Address: 
-                    <input 
-                        type="text" 
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                </label>
-                <br />
+                <table>
+                    <tbody>
+                        <tr><td className="label"><label>First Name:</label></td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={fname}
+                                    onChange={(e) => setFname(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr><td className="label"><label>Last Name:</label></td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={lname}
+                                    onChange={(e) => setLname(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr><td className="label"><label>Email:</label></td>
+                            <td>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr><td className="label"><label>Username:</label></td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr><td className="label"><label>Password:</label></td>
+                            <td>
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr><td className="label"><label>Phone Number:</label></td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr><td className="label"><label>Address:</label></td>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 <button type="submit">Register</button>
             </form>
             {modalData &&

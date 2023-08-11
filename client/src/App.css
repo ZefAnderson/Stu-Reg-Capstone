@@ -55,6 +55,25 @@ ul {
   list-style-type: none;
 }
 
+form {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3%;
+  color: white;
+  font-weight: 800;
+
+}
+
+td.label {
+  text-align: right;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  background-color: #0D2941;
+}
+
+/* background-color:  */
 /* this allows for the blurred background and no interactivity behind modal
 don't make any changes to modalbackground */
 .modalBackground {
@@ -67,7 +86,7 @@ don't make any changes to modalbackground */
   left: 0%;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, ff, 0.4);
+  /* background-color: rgba(0d, 29, 41, 0.4); */
   backdrop-filter: blur(10px);
 }
 
@@ -81,5 +100,5 @@ You can change, remove, or add anything else to modal content */
   border-color: white;
   border-radius: 1em;
   padding: 1em;
-  background-color: midnightblue;
+  background-color: #0D2941;
 }
