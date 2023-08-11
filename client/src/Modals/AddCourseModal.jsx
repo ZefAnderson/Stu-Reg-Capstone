@@ -41,7 +41,7 @@ export default function AddCourseModal ({onClose}) {
         <div className="modalBackground">
             <div className="modalContent">
                 <header>
-                    Add new Course
+                    Add New Course
                 </header>
                 <form id="myForm"
                     onSubmit={handleSubmit}
