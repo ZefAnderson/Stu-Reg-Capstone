@@ -73,9 +73,6 @@ input[type="email"] {
   background-color: #0D2941;
 }
 
-/* background-color:  */
-/* this allows for the blurred background and no interactivity behind modal
-don't make any changes to modalbackground */
 .modalBackground {
   display: flex;
   justify-content: center;
@@ -86,12 +83,9 @@ don't make any changes to modalbackground */
   left: 0%;
   height: 100vh;
   width: 100vw;
-  /* background-color: rgba(0d, 29, 41, 0.4); */
   backdrop-filter: blur(10px);
 }
 
-/* The important parts here are display, align-items, and flex-direction
-You can change, remove, or add anything else to modal content */
 .modalContent {
   display: flex;
   align-items: center;

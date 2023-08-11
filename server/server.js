@@ -8,14 +8,9 @@ const morgan = require('morgan');
 const winston = require('winston');
 const { EventEmitter } = require('events');
 const bus = new EventEmitter();
-const fs = require('fs');
+require('dotenv').config();
 
-let secretKey = '';
-const JWT_SECRET_FILENAME = 'jwt-secret.json';
-
-const secretContents = fs.readFileSync(JWT_SECRET_FILENAME, 'utf8');
-const secrets = JSON.parse(secretContents);
-secretKey = secrets.SECRET_KEY || process.env.SECRET_KEY;
+const secretKey = process.env.SECRET_KEY;
 
 const authConfig = {
   secret: secretKey,
