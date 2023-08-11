@@ -38,13 +38,11 @@ export function RegistrationPage() {
 
     return (
         <div>
-            <header>
-                Register New User
-            </header>
-            <form id="myForm" onSubmit={handleSubmit}>
-                <table>
-                    <tbody>
-                        <tr><td className="label"><label>First Name:</label></td>
+            <form id="myForm" className="input-form" onSubmit={handleSubmit}>
+                <table className="form-table">
+                   <tbody>
+                        <tr>
+                            <td className="label"><label>First Name:</label></td>
                             <td>
                                 <input
                                     type="text"
@@ -53,7 +51,8 @@ export function RegistrationPage() {
                                 />
                             </td>
                         </tr>
-                        <tr><td className="label"><label>Last Name:</label></td>
+                        <tr>
+                            <td className="label"><label>Last Name:</label></td>
                             <td>
                                 <input
                                     type="text"
@@ -62,7 +61,8 @@ export function RegistrationPage() {
                                 />
                             </td>
                         </tr>
-                        <tr><td className="label"><label>Email:</label></td>
+                        <tr>
+                            <td className="label"><label>Email:</label></td>
                             <td>
                                 <input
                                     type="email"
@@ -71,7 +71,8 @@ export function RegistrationPage() {
                                 />
                             </td>
                         </tr>
-                        <tr><td className="label"><label>Username:</label></td>
+                        <tr>
+                            <td className="label"><label>Username:</label></td>
                             <td>
                                 <input
                                     type="text"
@@ -80,7 +81,8 @@ export function RegistrationPage() {
                                 />
                             </td>
                         </tr>
-                        <tr><td className="label"><label>Password:</label></td>
+                        <tr>
+                            <td className="label"><label>Password:</label></td>
                             <td>
                                 <input
                                     type="password"
@@ -89,7 +91,8 @@ export function RegistrationPage() {
                                 />
                             </td>
                         </tr>
-                        <tr><td className="label"><label>Phone Number:</label></td>
+                        <tr>
+                            <td className="label"><label>Phone Number:</label></td>
                             <td>
                                 <input
                                     type="text"
@@ -98,7 +101,8 @@ export function RegistrationPage() {
                                 />
                             </td>
                         </tr>
-                        <tr><td className="label"><label>Address:</label></td>
+                        <tr>
+                            <td className="label"><label>Address:</label></td>
                             <td>
                                 <input
                                     type="text"
@@ -109,14 +113,17 @@ export function RegistrationPage() {
                         </tr>
                     </tbody>
                 </table>
-                <button type="submit">Register</button>
+                <hr />
+                <div className="actions">
+                    <button>
+                        <NavLink to='/'>Return to Login Page...</NavLink>
+                    </button>
+                    <button type="submit">Register</button>
+                </div>
             </form>
             {modalData &&
                 <RegistrationModal onClose={() => setModalData(false)} />
             }
-            <button>
-                <NavLink to='/'>Return to Login Page</NavLink>
-            </button>
         </div>
     )
 }

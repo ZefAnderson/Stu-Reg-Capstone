@@ -65,8 +65,8 @@ export function RegistrationManagementPage() {
                     </td>
                 </tr>
             )
-        })      
-    }          
+        })
+    }
 
     return(
         <div>
@@ -82,7 +82,7 @@ export function RegistrationManagementPage() {
                     />
                 </label>
             </form>
-            <table>
+            <table className="data-table">
                 <thead>
                     <tr>
                         <th>
@@ -102,8 +102,8 @@ export function RegistrationManagementPage() {
                 </tbody>
             </table>
             {modalData &&
-                <EnrollmentModal 
-                    onClose={handleClose} 
+                <EnrollmentModal
+                    onClose={handleClose}
                     course={selectedCourse}
                 />
             }
