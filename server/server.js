@@ -3,23 +3,26 @@ const path = require("path");
 const PORT = process.env.PORT || 3002;
 const app = express();
 const query = require("./queries")
-const {expressjwt} = require('express-jwt')
+const { expressjwt } = require('express-jwt')
 const morgan = require('morgan');
 const winston = require('winston');
 const { EventEmitter } = require('events');
 const bus = new EventEmitter();
 const fs = require('fs');
 
-const secretContents = fs.readFileSync('jwt-secret.json', 'utf8');
-const secrets = JSON.parse(secretContents);
-const secretKey = secrets.SECRET_KEY;
+let secretKey = '';
+const JWT_SECRET_FILENAME = 'jwt-secret.json';
 
-const auth = expressjwt({
+const secretContents = fs.readFileSync(JWT_SECRET_FILENAME, 'utf8');
+const secrets = JSON.parse(secretContents);
+secretKey = secrets.SECRET_KEY || process.env.SECRET_KEY;
+
+const authConfig = {
   secret: secretKey,
   algorithms: ['HS256']
-});
-
-bus.setMaxListeners(15); 
+};
+const auth = expressjwt(authConfig);
+bus.setMaxListeners(15);
 
 const logger = winston.createLogger({
   level: 'info',

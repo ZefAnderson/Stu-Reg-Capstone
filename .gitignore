@@ -2,3 +2,4 @@ node_modules
 api.http
 jwt-secret.json
 /server/jwt-secret.json
+/server/serverjwt-secret.json
