@@ -111,7 +111,7 @@ export function AdminCoursesPage() {
                     />
                 </label>
             </form>
-            <table>
+            <table className="data-table">
                 <thead>
                     <tr>
                         <th></th>

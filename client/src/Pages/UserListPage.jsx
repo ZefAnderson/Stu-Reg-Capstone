@@ -53,8 +53,8 @@ export function UserListPage() {
         let createDate = new Date(data.createdate);
         let month = String(createDate.getMonth() + 1).padStart(2, '0');
         let day = String(createDate.getDate()).padStart(2, '0');
-        let year = String(createDate.getFullYear()); 
-        let mmddyyyy = month + '/' + day + '/' + year;  
+        let year = String(createDate.getFullYear());
+        let mmddyyyy = month + '/' + day + '/' + year;
 
         return (
             <tr key={userid}>
@@ -65,7 +65,7 @@ export function UserListPage() {
                 <td>{data.firstname}</td>
                 <td>{data.lastname}</td>
                 <td>{data.email}</td>
-                <td>{data.isadmin? 'Yes' : 'No'}</td>
+                <td>{data.isadmin ? 'Yes' : 'No'}</td>
                 <td>{data.telephone}</td>
                 <td>{data.address}</td>
                 <td>{mmddyyyy}</td>
@@ -84,9 +84,9 @@ export function UserListPage() {
                 let createDate = new Date(data.createdate);
                 let month = String(createDate.getMonth() + 1).padStart(2, '0');
                 let day = String(createDate.getDate()).padStart(2, '0');
-                let year = String(createDate.getFullYear()); 
-                let mmddyyyy = month + '/' + day + '/' + year;  
-        
+                let year = String(createDate.getFullYear());
+                let mmddyyyy = month + '/' + day + '/' + year;
+
                 return (
                     <tr key={userid}>
                         <td>
@@ -96,7 +96,7 @@ export function UserListPage() {
                         <td>{data.firstname}</td>
                         <td>{data.lastname}</td>
                         <td>{data.email}</td>
-                        <td>{data.isadmin? 'Yes' : 'No'}</td>
+                        <td>{data.isadmin ? 'Yes' : 'No'}</td>
                         <td>{data.telephone}</td>
                         <td>{data.address}</td>
                         <td>{mmddyyyy}</td>
@@ -123,7 +123,7 @@ export function UserListPage() {
                     />
                 </label>
             </form>
-            <table>
+            <table className="data-table">
                 <thead>
                     <tr>
                         <th></th>
@@ -146,9 +146,9 @@ export function UserListPage() {
                 Return to Profile
             </button>
             {modalData &&
-                <UserListModal 
-                user = {selectedUser}
-                onClose={() => setModalData(false)} />
+                <UserListModal
+                    user={selectedUser}
+                    onClose={() => setModalData(false)} />
             }
         </div>
     )

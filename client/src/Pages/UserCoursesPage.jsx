@@ -54,7 +54,7 @@ export function UserCoursesPage() {
         const initialTuitionCost = courseData.reduce((total, course) => total + parseFloat(course.tuition_cost.replace(/[^0-9.-]+/g, '')), 0);
         setTotalCreditHours(initialCreditHours);
         setTotalTuitionCost(initialTuitionCost);
-    }, [courseData]);    
+    }, [courseData]);
 
     let courseRows = courseData.map((data) => {
         return (
@@ -112,7 +112,7 @@ export function UserCoursesPage() {
                     />
                 </label>
             </form>
-            <table>
+            <table className="data-table">
                 <tbody>
                     <tr>
                         <th>Action</th>
