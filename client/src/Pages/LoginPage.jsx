@@ -68,7 +68,7 @@ export function LoginPage() {
                 <hr />
                 <div className="actions">
                     <button><NavLink to='/registration'>Register...</NavLink></button>
-                    <button type="submit" onClick={handleLogin}>Login</button>
+                    <button class='ui-button' type="submit" onClick={handleLogin}>Login</button>
                 </div>
 
                 {modalData &&
