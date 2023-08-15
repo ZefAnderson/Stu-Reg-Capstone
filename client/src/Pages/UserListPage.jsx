@@ -58,8 +58,11 @@ export function UserListPage() {
 
         return (
             <tr key={userid}>
-                <td>
+                <td className="admin-button-cell">
                     <button onClick={() => handleEdit(data)}>Edit</button>
+                </td>
+                <td className="admin-button-cell">
+                    <button onClick={() => handleDelete(userid)}>Delete</button>
                 </td>
                 <td>{data.username}</td>
                 <td>{data.firstname}</td>
@@ -69,9 +72,6 @@ export function UserListPage() {
                 <td>{data.telephone}</td>
                 <td>{data.address}</td>
                 <td>{mmddyyyy}</td>
-                <td>
-                    <button onClick={() => handleDelete(userid)}>Delete</button>
-                </td>
             </tr>
         )
     })
