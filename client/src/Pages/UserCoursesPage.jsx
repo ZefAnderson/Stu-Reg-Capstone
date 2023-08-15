@@ -59,7 +59,7 @@ export function UserCoursesPage() {
     let courseRows = courseData.map((data) => {
         return (
             <tr key={data.courseid}>
-                <td>
+                <td className="admin-button-cell">
                     <button onClick={() => handleDrop(data.courseid, data.credit_hours, data.tuition_cost)}>
                         Drop
                     </button>
