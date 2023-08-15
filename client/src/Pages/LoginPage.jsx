@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginModal from "../Modals/LoginModal";
 
 export function LoginPage() {
@@ -37,7 +37,7 @@ export function LoginPage() {
 
     return (
         <div>
-            <form className="input-form">
+            <form className="input-form" onSubmit={handleLogin}>
                 <table>
                     <tbody>
                         <tr>
@@ -67,15 +67,15 @@ export function LoginPage() {
                 </table>
                 <hr />
                 <div className="actions">
-                    <button><NavLink to='/registration'>Register...</NavLink></button>
-                    <button class='ui-button' type="submit" onClick={handleLogin}>Login</button>
+                    <button>
+                        <Link to='/registration'>Register...</Link>
+                    </button>
+                    <button className='ui-button' type="submit">Login</button>
                 </div>
-
-                {modalData &&
-                    <LoginModal onClose={() => setModalData(false)} />
-                }
-
             </form>
+            {modalData &&
+                <LoginModal onClose={() => setModalData(false)} />
+            }
         </div >
     )
 }

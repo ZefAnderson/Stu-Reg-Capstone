@@ -9,14 +9,11 @@ const pool = new Pool({
 
 const secretKey = process.env.SECRET_KEY;
 
-// pool.connect();
-
 const login = async (req, res) => {
     try {
-        const userName = [req.body.username];
-        const queryStr = 'select * from users where username = $1';
-
-        const dbRes = await pool.query(queryStr, userName);
+        const text = 'SELECT * FROM users WHERE username = $1 AND password = $2'
+        const values = [req.body.username, req.body.password];
+        const dbRes = await pool.query(text, values);
 
         if (dbRes.rows.length) {
             const validUser = bcrypt.compareSync(req.body.password, dbRes.rows[0].hash);
@@ -236,7 +233,7 @@ const deleteUser = async (req, res) => {
 
         const dbRes = await pool.query(text, value);
 
-        res.status(200).json(dbRes.rows[0]);
+        res.status(200).json(dbRes.rows);
     } catch (error) {
         console.error(error.stack);
         res.status(500).json({ error: 'An error occurred while deleting the user.' });
