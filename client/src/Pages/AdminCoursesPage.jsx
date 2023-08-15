@@ -58,8 +58,11 @@ export function AdminCoursesPage() {
 
         return (
             <tr key={courseid}>
-                <td>
+                <td className="admin-button-cell">
                     <button onClick={() => handleEdit(data)}>Edit</button>
+                </td>
+                <td className="admin-button-cell">
+                    <button onClick={() => handleDelete(courseid)}>Delete</button>
                 </td>
                 <td>{data.title}</td>
                 <td>{data.description}</td>
@@ -67,34 +70,33 @@ export function AdminCoursesPage() {
                 <td>{data.maximum_capacity}</td>
                 <td>{data.tuition_cost}</td>
                 <td>
-                <button onClick={() => handleDelete(courseid)}>Delete</button>
                 </td>
             </tr>
         )
     })
 
-    if(searchTerm) {
+    if (searchTerm) {
         courseTable = courseList
-        .filter(course => course.title.toLowerCase().includes(searchTerm.toLowerCase()))
-        .map((data) => {
-            let courseid = data.courseid;
+            .filter(course => course.title.toLowerCase().includes(searchTerm.toLowerCase()))
+            .map((data) => {
+                let courseid = data.courseid;
 
-            return (
-                <tr key={courseid}>
-                    <td>
-                        <button onClick={() => handleEdit(data)}>Edit</button>
-                    </td>
-                    <td>{data.title}</td>
-                    <td>{data.description}</td>
-                    <td>{data.schedule}</td>
-                    <td>{data.maximum_capacity}</td>
-                    <td>{data.tuition_cost}</td>
-                    <td>
-                    <button onClick={() => handleDelete(courseid)}>Delete</button>
-                    </td>
-                </tr>
-            )
-        })
+                return (
+                    <tr key={courseid}>
+                        <td>
+                            <button onClick={() => handleEdit(data)}>Edit</button>
+                        </td>
+                        <td>{data.title}</td>
+                        <td>{data.description}</td>
+                        <td>{data.schedule}</td>
+                        <td>{data.maximum_capacity}</td>
+                        <td>{data.tuition_cost}</td>
+                        <td>
+                            <button onClick={() => handleDelete(courseid)}>Delete</button>
+                        </td>
+                    </tr>
+                )
+            })
     }
 
     return (
@@ -137,12 +139,12 @@ export function AdminCoursesPage() {
             </div>
             {editModal &&
                 <CourseListModal
-                course = {selectedCourse}
-                onClose = {handleClose} />
+                    course={selectedCourse}
+                    onClose={handleClose} />
             }
             {addModal &&
                 <AddCourseModal
-                onClose = {handleClose} />
+                    onClose={handleClose} />
             }
 
         </div>

@@ -20,6 +20,20 @@ export function StudentPage() {
         fetchData();
     }, []);
 
+    const userData = user?.map((user) => {
+        return (
+
+            <>
+                <tr key={user.firstname}><td className="label">First Name:</td><td className="value">{user.firstname}</td></tr>
+                <tr key={user.lastname}><td className="label">Last Name:</td><td className="value">{user.lastname}</td></tr>
+                <tr key={user.email}><td className="label">Email:</td><td className="value">{user.email}</td></tr>
+                <tr key={user.username}><td className="label">Username:</td><td className="value">{user.username}</td></tr>
+                <tr key={user.telephone}><td className="label">Telephone:</td><td className="value">{user.telephone}</td></tr>
+                <tr key={user.address}><td className="label">Address:</td><td className="value">{user.address}</td></tr>
+            </>
+        )
+    })
+
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -32,30 +46,29 @@ export function StudentPage() {
             <header>
                 Welcome, {user[0]?.firstname}!
             </header>
-            <div>
-                <p>User Summary</p>
-                <ul>
-                    <li>Username: {user[0]?.username}</li>
-                    <li>First Name: {user[0]?.firstname}</li>
-                    <li>Last Name: {user[0]?.lastname}</li>
-                    <li>Email: {user[0]?.email}</li>
-                    <li>Telephone: {user[0]?.telephone}</li>
-                    <li>Address: {user[0]?.address}</li>
-                </ul>
-                <button>
-                    <NavLink to='/updateuser'>Edit Profile</NavLink>
-                </button>
+            <form className="profile-form">
+            <div className="user-profile">
+
+                <div className="center-contents">
+                    <table class="profile-table">
+                        <thead>
+                            <tr><td colspan='2'>
+                                <form>
+                                    <label>Student User Summary</label>
+                                </form>
+                            </td></tr>
+                        </thead>
+                        <tbody>
+                            {userData}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="profile-buttons">
+                    <button onClick={handleLogout}>Log Out</button>
+                    <button><NavLink to='/usercourses'>My Courses</NavLink></button>
+                </div>
             </div>
-            <div>
-                <button>
-                    <NavLink to='/usercourses'>My Courses</NavLink>
-                </button>
-            </div>
-            <div>
-                <button onClick={handleLogout}>
-                    Log Out
-                </button>
-            </div>
+            </form>
         </div>
     )
 }

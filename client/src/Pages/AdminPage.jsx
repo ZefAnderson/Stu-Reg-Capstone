@@ -20,16 +20,17 @@ export function AdminPage() {
         fetchData();
     }, []);
 
-    const userData = user?.map( (user) => {
+    const userData = user?.map((user) => {
         return (
-        <ul key={user.userid}>User Summary
-            <li key={user.username}>{user.username}</li>
-            <li key={user.firstname}>{user.firstname}</li>
-            <li key={user.lastname}>{user.lastname}</li>
-            <li key={user.email}>{user.email}</li>
-            <li key={user.telephone}>{user.telephone}</li>
-            <li key={user.address}>{user.address}</li>
-        </ul>
+
+            <>
+                <tr key={user.firstname}><td className="label">First Name:</td><td className="value">{user.firstname}</td></tr>
+                <tr key={user.lastname}><td className="label">Last Name:</td><td className="value">{user.lastname}</td></tr>
+                <tr key={user.email}><td className="label">Email:</td><td className="value">{user.email}</td></tr>
+                <tr key={user.username}><td className="label">Username:</td><td className="value">{user.username}</td></tr>
+                <tr key={user.telephone}><td className="label">Telephone:</td><td className="value">{user.telephone}</td></tr>
+                <tr key={user.address}><td className="label">Address:</td><td className="value">{user.address}</td></tr>
+            </>
         )
     })
 
@@ -43,10 +44,24 @@ export function AdminPage() {
     return (
         <div>
             <header>
-            Welcome, {user[0]?.firstname}!
+                Welcome, {user[0]?.firstname}!
             </header>
-            <div>
-                {userData}
+
+            <div className="center-contents">
+                <form className="profile-form">
+                <table class="profile-table">
+                    <thead>
+                        <tr><td colspan='2'>
+                            <form>
+                                <label>Admin User Summary</label>
+                            </form>
+                        </td></tr>
+                    </thead>
+                    <tbody>
+                        {userData}
+                    </tbody>
+                </table>
+            </form>
             </div>
             <button>
                 <NavLink to='/updateuser'>Update Profile</NavLink>
@@ -62,8 +77,8 @@ export function AdminPage() {
             </button>
 
             <button onClick={handleLogout}>
-                    Log Out
-                </button>
+                Log Out
+            </button>
         </div>
     )
 }

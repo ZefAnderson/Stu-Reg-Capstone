@@ -46,12 +46,12 @@ export function UpdateUserPage() {
         e.preventDefault();
         try {
             const token = window.localStorage.getItem('token');
-    
+
             if (!token) {
-              console.error('No token found in local storage');
-              return;
+                console.error('No token found in local storage');
+                return;
             }
-        
+
             const isUserAdmin = isTokenAdmin(token);
 
             const response = await fetch('/api/updateuser', {
@@ -67,8 +67,8 @@ export function UpdateUserPage() {
                 return;
             }
             const route = isUserAdmin ? "/admin" : "/student";
-            navigate(route);            
-    } catch (error) {
+            navigate(route);
+        } catch (error) {
             console.error('Error updating user data:', error);
         }
     };
@@ -77,21 +77,21 @@ export function UpdateUserPage() {
         const token = window.localStorage.getItem('token');
         const isUserAdmin = isTokenAdmin(token);
         const route = isUserAdmin ? "/admin" : "/student";
-        navigate(route);            
+        navigate(route);
     }
 
     const isTokenAdmin = (token) => {
         try {
-          const tokenPayloadBase64 = token.split('.')[1];
-          const tokenPayloadJSON = atob(tokenPayloadBase64);
-          const tokenPayload = JSON.parse(tokenPayloadJSON);
-          return tokenPayload?.isadmin || false;
+            const tokenPayloadBase64 = token.split('.')[1];
+            const tokenPayloadJSON = atob(tokenPayloadBase64);
+            const tokenPayload = JSON.parse(tokenPayloadJSON);
+            return tokenPayload?.isadmin || false;
         } catch (error) {
-          console.error('Error parsing token:', error);
-          return false;
+            console.error('Error parsing token:', error);
+            return false;
         }
-      };
-      
+    };
+
 
     return (
         <div>
@@ -99,59 +99,79 @@ export function UpdateUserPage() {
                 Update User Info
             </header>
             <form id="myForm" onSubmit={handleSubmit}>
-                <label>Username: 
-                    <input 
-                        type="text" 
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>First Name: 
-                    <input 
-                        type="text" 
-                        value={fname}
-                        onChange={(e) => setFname(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Last Name: 
-                    <input 
-                        type="text" 
-                        value={lname}
-                        onChange={(e) => setLname(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Email: 
-                    <input 
-                        type="email" 
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Phone Number: 
-                    <input 
-                        type="text"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>Address: 
-                    <input 
-                        type="text" 
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                </label>
-                <br />
-                <button type="submit">Update</button>
-                <button onClick={handleReturn}>
-                    Go Back
-                </button>
-            </form>
-        </div>
+                <div className="form-inputs">
+                    <div className="labels">
+                        <div className="label">
+                            <label>First Name:</label>
+                        </div>
+                        <div className="label">
+                            <label>Last Name:</label>
+                        </div>
+                        <div className="label">
+                            <label >Email:</label>
+                        </div>
+                        <div className="label">
+                            <label>Username:</label>
+                        </div>
+                        <div className="label">
+                            <label>Phone Number:</label>
+                        </div>
+                        <div className="label">
+                            <label>Address:</label>
+                        </div>
+                    </div>
+                    <div classname="inputs">
+                        <div className="input">
+                            <input
+                                type="text"
+                                value={fname}
+                                onChange={(e) => setFname(e.target.value)}
+                            />
+                        </div>
+                        <div className="input">
+                            <input
+                                type="text"
+                                value={lname}
+                                onChange={(e) => setLname(e.target.value)}
+                            />
+                        </div>
+                        <div className="input">
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                        <div className="input">
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
+                        <div className="input">
+                            <input
+                                type="text"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
+                        </div>
+                        <div className="input">
+                            <input
+                                type="text"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="profile-buttons">
+                    <button onClick={handleReturn}>
+                        Go Back
+                    </button>
+                    <button type="submit">Update</button>
+                </div>
+            </form >
+        </div >
     )
 }

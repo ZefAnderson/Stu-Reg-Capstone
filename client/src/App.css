@@ -55,6 +55,39 @@ ul {
   list-style-type: none;
 }
 
+div.center-contents {
+  display: flex;
+  justify-content: center;
+}
+
+div.form-inputs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: .5em;
+}
+
+div.labels {
+  display: flex;
+  flex-direction: column;
+}
+
+div.label {
+  display:flex;
+  justify-content: right;
+  padding-right: .3em;
+}
+
+div.inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+div.profile-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 form {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 3%;
@@ -70,9 +103,26 @@ form.input-form {
   font-weight: 800;
 }
 
+form.profile-form {
+  padding: 5px;
+}
+
 table.data-table>* {
   border: 1px solid rgb(69, 79, 136);
   background-color: rgb(1, 26, 50);
+}
+
+table.profile-table>* {
+  border: 1px solid rgb(69, 79, 136);
+  background-color: rgb(1, 26, 50);
+}
+
+.profile-table td.label {
+  text-align: right;
+}
+
+.profile-table td.value {
+  text-align: center;
 }
 
 td.label {
@@ -92,6 +142,10 @@ input[type="email"] {
 
 html button {
   background-color: #081F33;
+}
+
+td.admin-button-cell {
+  background-color: #0E3750;
 }
 
 .modalBackground {
@@ -115,7 +169,7 @@ html button {
   border-color: rgb(89, 102, 130);
   border-radius: 1em;
   padding: 1em;
-  background-color: rgb(0, 28, 52);
+  background-color: rgb(35, 60, 82);
   box-shadow: rgb(39, 57, 103) 0px 14px 28px, rgb(67, 85, 127) 0px 10px 10px;
 }
 
