@@ -9,7 +9,7 @@ const pool = new Pool({
 
 const secretKey = process.env.SECRET_KEY;
 
-pool.connect();
+// pool.connect();
 
 const login = async (req, res) => {
     try {
