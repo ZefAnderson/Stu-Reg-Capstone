@@ -68,7 +68,7 @@ export function CoursesPage() {
     let coursesTable = courseData.map((data) => {
         return (
             <tr key={data.courseid}>
-                <td>
+                <td className="admin-button-cell">
                     <button onClick={() => handleRegister(data.courseid)}>
                         Register
                     </button>
