@@ -120,7 +120,7 @@ export function UpdateUserPage() {
                             <label>Address:</label>
                         </div>
                     </div>
-                    <div classname="inputs">
+                    <div className="inputs">
                         <div className="input">
                             <input
                                 type="text"

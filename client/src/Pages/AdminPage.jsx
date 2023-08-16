@@ -22,17 +22,34 @@ export function AdminPage() {
 
     const userData = user?.map((user) => {
         return (
-
-            <>
-                <tr key={user.firstname}><td className="label">First Name:</td><td className="value">{user.firstname}</td></tr>
-                <tr key={user.lastname}><td className="label">Last Name:</td><td className="value">{user.lastname}</td></tr>
-                <tr key={user.email}><td className="label">Email:</td><td className="value">{user.email}</td></tr>
-                <tr key={user.username}><td className="label">Username:</td><td className="value">{user.username}</td></tr>
-                <tr key={user.telephone}><td className="label">Telephone:</td><td className="value">{user.telephone}</td></tr>
-                <tr key={user.address}><td className="label">Address:</td><td className="value">{user.address}</td></tr>
-            </>
+            <tbody key={user.userid}>
+                <tr key={user.firstname}>
+                    <td className="label">First Name:</td>
+                    <td className="value">{user.firstname}</td>
+                </tr>
+                <tr key={user.lastname}>
+                    <td className="label">Last Name:</td>
+                    <td className="value">{user.lastname}</td>
+                </tr>
+                <tr key={user.email}>
+                    <td className="label">Email:</td>
+                    <td className="value">{user.email}</td>
+                </tr>
+                <tr key={user.username}>
+                    <td className="label">Username:</td>
+                    <td className="value">{user.username}</td>
+                </tr>
+                <tr key={user.telephone}>
+                    <td className="label">Telephone:</td>
+                    <td className="value">{user.telephone}</td>
+                </tr>
+                <tr key={user.address}>
+                    <td className="label">Address:</td>
+                    <td className="value">{user.address}</td>
+                </tr>
+            </tbody>
         )
-    })
+    });
 
     const navigate = useNavigate();
 
@@ -46,22 +63,19 @@ export function AdminPage() {
             <header>
                 Welcome, {user[0]?.firstname}!
             </header>
-
             <div className="center-contents">
                 <form className="profile-form">
-                <table class="profile-table">
-                    <thead>
-                        <tr><td colspan='2'>
-                            <form>
-                                <label>Admin User Summary</label>
-                            </form>
-                        </td></tr>
-                    </thead>
-                    <tbody>
+                    <table className="profile-table">
+                        <thead>
+                            <tr>
+                                <td colSpan='2'>
+                                    <label>Admin User Summary</label>
+                                </td>
+                            </tr>
+                        </thead>
                         {userData}
-                    </tbody>
-                </table>
-            </form>
+                    </table>
+                </form>
             </div>
             <button>
                 <NavLink to='/updateuser'>Update Profile</NavLink>
@@ -75,7 +89,6 @@ export function AdminPage() {
             <button>
                 <NavLink to='/registrationmanagement'>Manage Registration</NavLink>
             </button>
-
             <button onClick={handleLogout}>
                 Log Out
             </button>

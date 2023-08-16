@@ -11,8 +11,8 @@ const secretKey = process.env.SECRET_KEY;
 
 const login = async (req, res) => {
     try {
-        const text = 'SELECT * FROM users WHERE username = $1 AND password = $2'
-        const values = [req.body.username, req.body.password];
+        const text = 'SELECT * FROM users WHERE username = $1'
+        const values = [req.body.username];
         const dbRes = await pool.query(text, values);
 
         if (dbRes.rows.length) {
